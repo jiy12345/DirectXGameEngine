@@ -2,7 +2,7 @@
 
 - [Creational pattern](#Creational-pattern)
     - [Singleton](#Singleton)
-    - [Factory Method](Factory-Method)
+    - [Factory Method](#Factory-Method)
 
 # Creational pattern
 ## Singleton
