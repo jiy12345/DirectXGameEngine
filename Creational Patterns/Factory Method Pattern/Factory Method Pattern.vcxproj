@@ -18,29 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ConcreteCreators\ConcreteCreator2.h" />
-    <ClInclude Include="ConcreteCreators\ConcreteCreator1.h" />
-    <ClInclude Include="ConcreteProducts\ConcreteProduct2.h" />
-    <ClInclude Include="ConcreteProducts\ConcreteProduct1.h" />
-    <ClInclude Include="Creator\Creator.h" />
-    <ClInclude Include="Product\Product.h" />
-    <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ConcreteProducts\ConcreteProduct2.cpp" />
-    <ClCompile Include="ConcreteProducts\ConcreteProduct1.cpp" />
-    <ClCompile Include="Creator\Creator.cpp" />
-    <ClCompile Include="Product\Product.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="test.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{35465d8a-2e5e-47d0-83b0-beb3a6a81bcc}</ProjectGuid>
+    <ProjectGuid>{6f744af9-e58a-4491-9929-4ece5c7f81de}</ProjectGuid>
     <RootNamespace>FactoryMethodPattern</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -137,12 +118,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,6 +140,25 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConcreteProducts\ConcreteProduct1.cpp" />
+    <ClCompile Include="ConcreteProducts\ConcreteProduct2.cpp" />
+    <ClCompile Include="Creator\Creator.cpp" />
+    <ClCompile Include="Product\Product.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConcreteCreators\ConcreteCreator1.h" />
+    <ClInclude Include="ConcreteCreators\ConcreteCreator2.h" />
+    <ClInclude Include="ConcreteProducts\ConcreteProduct1.h" />
+    <ClInclude Include="ConcreteProducts\ConcreteProduct2.h" />
+    <ClInclude Include="Creator\Creator.h" />
+    <ClInclude Include="Product\Product.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
