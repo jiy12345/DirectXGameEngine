@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Thread-unsafe singleton", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Thread-safe singleton", "Creational Patterns\Singleton Pattern\Thread-safe singleton\Thread-safe singleton.vcxproj", "{74EBE98A-F464-4612-AC3B-C8DACBB98938}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Factory Method Pattern", "Factory Method Pattern", "{F909DF56-750A-4E64-9D84-160E012BEEF3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Factory Method Pattern", "Creational Patterns\Factory Method Pattern\Factory Method Pattern\Factory Method Pattern.vcxproj", "{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,6 +39,14 @@ Global
 		{74EBE98A-F464-4612-AC3B-C8DACBB98938}.Release|x64.Build.0 = Release|x64
 		{74EBE98A-F464-4612-AC3B-C8DACBB98938}.Release|x86.ActiveCfg = Release|Win32
 		{74EBE98A-F464-4612-AC3B-C8DACBB98938}.Release|x86.Build.0 = Release|Win32
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Debug|x64.ActiveCfg = Debug|x64
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Debug|x64.Build.0 = Debug|x64
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Debug|x86.ActiveCfg = Debug|Win32
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Debug|x86.Build.0 = Debug|Win32
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Release|x64.ActiveCfg = Release|x64
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Release|x64.Build.0 = Release|x64
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Release|x86.ActiveCfg = Release|Win32
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +55,8 @@ Global
 		{3DFD7C1B-3328-49FC-81D2-2BCAC6FCD669} = {043D6ED0-B9AE-4817-93CE-276A86DC7005}
 		{14DF9F56-CC38-43B2-A20C-4C1BB1AF9B09} = {3DFD7C1B-3328-49FC-81D2-2BCAC6FCD669}
 		{74EBE98A-F464-4612-AC3B-C8DACBB98938} = {3DFD7C1B-3328-49FC-81D2-2BCAC6FCD669}
+		{F909DF56-750A-4E64-9D84-160E012BEEF3} = {043D6ED0-B9AE-4817-93CE-276A86DC7005}
+		{35465D8A-2E5E-47D0-83B0-BEB3A6A81BCC} = {F909DF56-750A-4E64-9D84-160E012BEEF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F1E1EFA-6510-4AAD-A64B-A230766D54B3}
