@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Product/Product.h"
 #include "Creator.h"
 
 std::string Creator::SomeOperation() const {
