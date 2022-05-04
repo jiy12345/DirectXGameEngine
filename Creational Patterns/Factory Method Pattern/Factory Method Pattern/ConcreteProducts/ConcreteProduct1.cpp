@@ -3,5 +3,5 @@
 
 
 std::string ConcreteProduct1::Operation() const {
-	return "ConcreteProduct2";
+	return "ConcreteProduct1";
 }
