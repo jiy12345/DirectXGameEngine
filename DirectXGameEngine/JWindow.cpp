@@ -30,7 +30,7 @@ ATOM JWindow::registerWNDClass()
 	wcex.lpszClassName = L"â";
 	wcex.lpfnWndProc = WndProc;
 	wcex.hCursor = LoadCursor(nullptr, IDC_UPARROW);
-	return ATOM();
+	return RegisterClassEx(&wcex);
 }
 
 BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
