@@ -1,20 +1,20 @@
-# DirectX·Î ±¸¼ºÇÑ °ÔÀÓ ¿£Áø
+# DirectXë¡œ êµ¬ì„±í•œ ê²Œì„ ì—”ì§„
 
 - [v1.0](#v1.0)
-    - [ÁÖ¿ä ±â´É](#ÁÖ¿ä-±â´É)
-        - [Ã¢ »ı¼º](#Ã¢-»ı¼º)
-        - [¸Ş½ÃÁö Ã³¸® ·çÇÁ](#¸Ş½ÃÁö-Ã³¸®-·çÇÁ)
-    - [¹®Á¦Á¡](#¹®Á¦Á¡)
-		- [Àü¿ªº¯¼öÀÇ »ç¿ë](#Àü¿ªº¯¼öÀÇ-»ç¿ë)
-    - [Å¬·¡½º ´ÙÀÌ¾î±×·¥](#Ã¢-¶ç¿ì±â)
-    - [½ÇÇà ¿¹½Ã](#½ÇÇà-¿¹½Ã)
+    - [ì£¼ìš” ê¸°ëŠ¥](#ì£¼ìš”-ê¸°ëŠ¥)
+        - [ì°½ ìƒì„±](#ì°½-ìƒì„±)
+        - [ë©”ì‹œì§€ ì²˜ë¦¬ ë£¨í”„](#ë©”ì‹œì§€-ì²˜ë¦¬-ë£¨í”„)
+    - [ë¬¸ì œì ](#ë¬¸ì œì )
+		- [ì „ì—­ë³€ìˆ˜ì˜ ì‚¬ìš©](#ì „ì—­ë³€ìˆ˜ì˜-ì‚¬ìš©)
+    - [í´ë˜ìŠ¤ ë‹¤ì´ì–´ê·¸ë¨](#ì°½-ë„ìš°ê¸°)
+    - [ì‹¤í–‰ ì˜ˆì‹œ](#ì‹¤í–‰-ì˜ˆì‹œ)
 
 
 ## v1.0
-[¼Ò½º ÄÚµå](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
-### ÁÖ¿ä ±â´É
-#### Ã¢ »ı¼º
-- »ı¼ºµÉ Ã¢ÀÇ ¿©·¯ ¼³Á¤°ª ÁöÁ¤À» À§ÇÑ <u>Ã¢ Å¬·¡½º »ı¼º</u>
+[ì†ŒìŠ¤ ì½”ë“œ](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
+### ì£¼ìš” ê¸°ëŠ¥
+#### ì°½ ìƒì„±
+- ìƒì„±ë  ì°½ì˜ ì—¬ëŸ¬ ì„¤ì •ê°’ ì§€ì •ì„ ìœ„í•œ <u>ì°½ í´ë˜ìŠ¤ ìƒì„±</u>
 ```C++
 ATOM JWindow::registerWNDClass()
 {
@@ -25,18 +25,18 @@ ATOM JWindow::registerWNDClass()
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
 	wcex.hInstance = m_hInstance;
 	wcex.hbrBackground = CreateSolidBrush(RGB(7, 77, 7));
-	wcex.lpszClassName = L"Ã¢";
+	wcex.lpszClassName = L"ì°½";
 	wcex.lpfnWndProc = WndProc;
 	wcex.hCursor = LoadCursor(nullptr, IDC_UPARROW);
 	return RegisterClassEx(&wcex);
 }
 ```
-Ã¢ÀÇ »ö»ó, Ã¢¿¡¼­ »ç¿ëµÉ ¸Ş½ÃÁö Ã³¸®ÇÔ¼ö, Ã¢ À§¿¡¼­ÀÇ Ä¿¼­ µî ´Ù¾çÇÑ ¼³Á¤À» ÇÒ ¼ö ÀÖ´Ù.
+ì°½ì˜ ìƒ‰ìƒ, ì°½ì—ì„œ ì‚¬ìš©ë  ë©”ì‹œì§€ ì²˜ë¦¬í•¨ìˆ˜, ì°½ ìœ„ì—ì„œì˜ ì»¤ì„œ ë“± ë‹¤ì–‘í•œ ì„¤ì •ì„ í•  ìˆ˜ ìˆë‹¤.
 
-- »ı¼ºµÈ Ã¢ Å¬·¡½º¸¦ È°¿ëÇÏ¿© <u>Ã¢ »ı¼º</u>
+- ìƒì„±ëœ ì°½ í´ë˜ìŠ¤ë¥¼ í™œìš©í•˜ì—¬ <u>ì°½ ìƒì„±</u>
 ```C++
 	HWND hWnd = CreateWindowW(
-		L"Ã¢",
+		L"ì°½",
 		szTitle,
 		m_csStyle,
 		0, 0,
@@ -45,9 +45,9 @@ ATOM JWindow::registerWNDClass()
 		nullptr, nullptr,
 		m_hInstance, nullptr);
 ```
-»ı¼ºµÈ Ã¢ Å¬·¡½º´Â ÀÌ¸§À» ÅëÇØ ½Äº°µÇ¹Ç·Î, ¹İµå½Ã <u>¾Õ¼­ »ı¼ºµÈ Ã¢ Å¬·¡½ºÀÇ ÀÌ¸§</u>À» ³Ö¾î¾ß ÇÑ´Ù!
+ìƒì„±ëœ ì°½ í´ë˜ìŠ¤ëŠ” ì´ë¦„ì„ í†µí•´ ì‹ë³„ë˜ë¯€ë¡œ, ë°˜ë“œì‹œ <u>ì•ì„œ ìƒì„±ëœ ì°½ í´ë˜ìŠ¤ì˜ ì´ë¦„</u>ì„ ë„£ì–´ì•¼ í•œë‹¤!
 
-#### ¸Ş½ÃÁö Ã³¸® ·çÇÁ
+#### ë©”ì‹œì§€ ì²˜ë¦¬ ë£¨í”„
 ```C++
 	MSG msg = { 0, };
 	while (WM_QUIT != msg.message)
@@ -64,10 +64,11 @@ ATOM JWindow::registerWNDClass()
 		}
 	}
 ```
-- ¸Ş½ÃÁö Ã³¸® Áß¿¡ ´Ù¸¥ ¸Ş½ÃÁöÀÇ Ã³¸®°¡ °¡´ÉÇÏµµ·Ï PeekMessage()ÇÔ¼ö »ç¿ë (Âü°í: [À©µµ¿ì ±â¹İ ÇÁ·Î±×·¥ÀÇ ¸Ş½ÃÁö Ã³¸® °úÁ¤ ºñ±³: GetMessage vs PeekMessage](https://blog.naver.com/jiy12345/222649736315))
-- ¸Ş½ÃÁö°¡ µé¾î¿ÀÁö ¾Ê¾ÒÀ» °æ¿ì frame, render ÇÔ¼ö¸¦ È£ÃâÇÏµµ·Ï ÇÏ¿©, frame, render ÇÔ¼ö¸¦ ±¸ÇöÇÏ¸é °ÔÀÓÀÌ ±¸¼ºµÉ ¼ö ÀÖµµ·Ï ÇÔ
-### ¹®Á¦Á¡
-#### [Àü¿ªº¯¼öÀÇ »ç¿ë](https://github.com/jiy12345/DirectXGameEngine/issues/1)
-### Å¬·¡½º ´ÙÀÌ¾î±×·¥
-
-### ½ÇÇà ¿¹½Ã
+- ë©”ì‹œì§€ ì²˜ë¦¬ ì¤‘ì— ë‹¤ë¥¸ ë©”ì‹œì§€ì˜ ì²˜ë¦¬ê°€ ê°€ëŠ¥í•˜ë„ë¡ PeekMessage()í•¨ìˆ˜ ì‚¬ìš© (ì°¸ê³ : [ìœˆë„ìš° ê¸°ë°˜ í”„ë¡œê·¸ë¨ì˜ ë©”ì‹œì§€ ì²˜ë¦¬ ê³¼ì • ë¹„êµ: GetMessage vs PeekMessage](https://blog.naver.com/jiy12345/222649736315))
+- ë©”ì‹œì§€ê°€ ë“¤ì–´ì˜¤ì§€ ì•Šì•˜ì„ ê²½ìš° frame, render í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ë„ë¡ í•˜ì—¬, frame, render í•¨ìˆ˜ë¥¼ êµ¬í˜„í•˜ë©´ ê²Œì„ì´ êµ¬ì„±ë  ìˆ˜ ìˆë„ë¡ í•¨
+### ë¬¸ì œì 
+#### [ì „ì—­ë³€ìˆ˜ì˜ ì‚¬ìš©](https://github.com/jiy12345/DirectXGameEngine/issues/1)
+### í´ë˜ìŠ¤ ë‹¤ì´ì–´ê·¸ë¨
+![class diagram](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram.png)
+### ì‹¤í–‰ ì˜ˆì‹œ
+![result image](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/v1.0%20result%20image.png)
