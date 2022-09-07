@@ -3,7 +3,7 @@
 
 #define WINDOW_SIZE_X 1024
 #define WINDOW_SIZE_Y 768
-#define WINDOW_NAME L"P2_CreateWidnow2"
+#define WINDOW_NAME L"DirectXGameEngine"
 
 int APIENTRY wWinMain(
 	HINSTANCE	hInstance,
