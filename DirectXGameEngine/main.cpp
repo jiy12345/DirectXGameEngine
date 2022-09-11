@@ -11,8 +11,8 @@ int APIENTRY wWinMain(
 	LPWSTR		lpCmdLine,
 	int			nCmdShow) {
 
-	JWindow demo;
-	demo.setWindow(hInstance, WINDOW_NAME, WINDOW_SIZE_X, WINDOW_SIZE_Y);
-	demo.run();
-	return 1;
+	I_Window.setWindow(hInstance, WINDOW_NAME, WINDOW_SIZE_X, WINDOW_SIZE_Y);
+	I_Window.run();
+
+	return 0;
 }
