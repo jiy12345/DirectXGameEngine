@@ -4,3 +4,5 @@
 #include <list>
 #include <set>
 #include <string>
+
+#include "JSingleton.h"
