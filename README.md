@@ -1,24 +1,24 @@
 # DirectX로 구성한 게임 엔진
 
 - [v1 창 띄우기](#v1-창-띄우기)
-  - [v1.0](#v1&#46;0) 
-    - [주요 기능](#1&#46;0-주요-기능)
+  - [v1.0](#v1-0) 
+    - [주요 기능](#1-0-주요-기능)
       - [창 생성](#창-생성)
       - [메시지 처리 루프](#메시지-처리-루프)
-    - [문제점](#1&#46;0-문제점)
+    - [문제점](#1-0-문제점)
       - [전역변수의 사용](#전역변수의-사용)
-    - [클래스 다이어그램](#1&#46;0-클래스-다이어그램)
-    - [실행 예시](#1&#46;0-실행-예시)
-  - [v1.1](#v-1&#46;1)
-	- [해결된 문제](#1&#46;1-해결된-문제)
+    - [클래스 다이어그램](#1-0-클래스-다이어그램)
+    - [실행 예시](#1-0-실행-예시)
+  - [v1.1](#v1-1)
+	- [해결된 문제](#1-0-해결된-문제)
       - [전역변수의 사용](#전역변수의-사용)
-    - [추가된 기능](#1&#46;1-추가된-기능)
+    - [추가된 기능](#1-0-추가된-기능)
 
 
 # v1 창 띄우기
-## v1.0
+## v1 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
-### 1.0 주요 기능
+### 1 0 주요 기능
 #### 창 생성
 - 생성될 창의 여러 설정값 지정을 위한 <u>창 클래스 생성</u>
 ```C++
@@ -72,17 +72,17 @@ ATOM JWindow::registerWNDClass()
 ```
 - 메시지 처리 중에 다른 메시지의 처리가 가능하도록 PeekMessage()함수 사용 (참고: [윈도우 기반 프로그램의 메시지 처리 과정 비교: GetMessage vs PeekMessage](https://blog.naver.com/jiy12345/222649736315))
 - 메시지가 들어오지 않았을 경우 frame, render 함수를 호출하도록 하여, frame, render 함수를 구현하면 게임이 구성될 수 있도록 함
-### 1.0 문제점
+### 1 0 문제점
 #### [전역변수의 사용](https://github.com/jiy12345/DirectXGameEngine/issues/1)
-### 1.0 클래스 다이어그램
+### 1 0 클래스 다이어그램
 ![class diagram](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram.png)
-### 1.0 실행 예시
+### 1 0 실행 예시
 ![result image](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/v1.0%20result%20image.png)
 
-## v1.1
-### 1.1 해결된 문제
+## v1 1
+### 1 1 해결된 문제
 #### [전역변수의 사용](https://github.com/jiy12345/DirectXGameEngine/issues/1)
 - Windows 클래스를 [싱글톤 패턴](https://github.com/jiy12345/DesiginPatterns_In_CPlusPlus/tree/master/Creational%20Patterns/Singleton%20Pattern)으로 구현하여 클래스에 대한 전역적인 접근을 GetInstance 함수를 통해 가능하도록 하였다.
 - Windows 클래스에 대한 전역적인 접근점을 Getinstance 함수가 제공해주기 때문에 전역변수가 필요 없어졌고, 따라서 삭제하였다.
-### 1.1 추가된 기능
+### 1 1 추가된 기능
 - 생성된 창을 가운데로 전체 화면의 가운데로 옮겨주는 createWindow 함수를 구현하였다.
