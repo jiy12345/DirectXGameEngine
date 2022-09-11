@@ -1,15 +1,21 @@
 # DirectX로 구성한 게임 엔진
 
-- [v1.0](#v1.0)
+- [v1 창 띄우기](#v1-창-띄우기)
+  - [v1.0](v1.0) 
     - [주요 기능](#주요-기능)
-        - [창 생성](#창-생성)
-        - [메시지 처리 루프](#메시지-처리-루프)
+      - [창 생성](#창-생성)
+      - [메시지 처리 루프](#메시지-처리-루프)
     - [문제점](#문제점)
-		- [전역변수의 사용](#전역변수의-사용)
+      - [전역변수의 사용](#전역변수의-사용)
     - [클래스 다이어그램](#클래스-다이어그램)
     - [실행 예시](#실행-예시)
+  - [v1.1](v1.1)
+	- [해결된 문제](#해결된-문제)
+      - [전역변수의 사용](#전역변수의-사용)
+    - [추가된 기능](#추가된-기능)
 
 
+# v1 창 띄우기
 ## v1.0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
 ### 주요 기능
@@ -72,3 +78,11 @@ ATOM JWindow::registerWNDClass()
 ![class diagram](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram.png)
 ### 실행 예시
 ![result image](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/v1.0%20result%20image.png)
+
+## v1.1
+### 해결된 문제
+#### [전역변수의 사용](https://github.com/jiy12345/DirectXGameEngine/issues/1)
+- Windows 클래스를 [싱글톤 패턴](https://github.com/jiy12345/DesiginPatterns_In_CPlusPlus/tree/master/Creational%20Patterns/Singleton%20Pattern)으로 구현하여 클래스에 대한 전역적인 접근을 GetInstance 함수를 통해 가능하도록 하였다.
+- Windows 클래스에 대한 전역적인 접근점을 Getinstance 함수가 제공해주기 때문에 전역변수가 필요 없어졌고, 따라서 삭제하였다.
+### 추가된 기능
+- 생성된 창을 가운데로 전체 화면의 가운데로 옮겨주는 createWindow 함수를 구현하였다.
