@@ -1,13 +1,12 @@
 #include "JWindow.h"
-JWindow* g_pWindow = nullptr;
 LRESULT CALLBACK WndProc(
 	HWND hWnd,
 	UINT message,
 	WPARAM wParam,
 	LPARAM lParam)
 {
-	_ASSERT(g_pWindow);
-	return g_pWindow->msgProc(hWnd, message, wParam, lParam);
+	_ASSERT(&I_Window);
+	return I_Window.msgProc(hWnd, message, wParam, lParam);
 }
 
 bool JWindow::setWindow(HINSTANCE hInst, const WCHAR* szTitle, UINT iWidth, UINT iHeight)
@@ -80,6 +79,15 @@ bool JWindow::run()
 
 void JWindow::centerWindow()
 {
+	UINT iScreenWidht = GetSystemMetrics(SM_CXFULLSCREEN);
+	UINT iScreenHieght = GetSystemMetrics(SM_CYFULLSCREEN);
+	UINT cx, cy;
+	cx = (iScreenWidht - (m_rtWindow.right - m_rtWindow.left)) * 0.5f;
+	cy = (iScreenHieght - (m_rtWindow.bottom - m_rtWindow.top)) * 0.5f;
+	MoveWindow(m_hWnd, cx, cy,
+		m_rtWindow.right - m_rtWindow.left,
+		m_rtWindow.bottom - m_rtWindow.top,
+		true);
 }
 
 bool JWindow::init()
@@ -111,9 +119,4 @@ LRESULT JWindow::msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return  DefWindowProc(hWnd, message, wParam, lParam);
-}
-
-JWindow::JWindow()
-{
-	g_pWindow = this;
 }

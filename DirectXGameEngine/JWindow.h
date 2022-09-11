@@ -1,7 +1,7 @@
 #pragma once
 #include"stdafx.h"
 
-class JWindow
+class JWindow : public JSingleton<JWindow>
 {
 public:
 	HINSTANCE			m_hInstance;
@@ -21,6 +21,10 @@ public:
 	virtual bool		release();
 	virtual LRESULT		msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
-	JWindow();
+	JWindow() {};
+	~JWindow() = default;
+	JWindow(const JWindow&) = delete;
+	JWindow& operator=(const JWindow&) = delete;
 };
+#define I_Window JWindow::GetInstance()
 

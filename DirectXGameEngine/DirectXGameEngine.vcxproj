@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JWindow.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
