@@ -56,25 +56,21 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 
 bool JWindow::run()
 {
-	init();
-
 	MSG msg = { 0, };
 	while (WM_QUIT != msg.message)
 	{
+		// 장점 : 메세지큐에 메세지가 없어도 반환됨.
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&msg); 
-			DispatchMessage(&msg);
+			TranslateMessage(&msg); // 메세지 번역
+			DispatchMessage(&msg);  // 메세지 프로시져에 전달한다.
 		}
 		else
 		{
-			frame();
-			render();
+			return true;
 		}
 	}
-	release();
-
-	return true;
+	return false;
 }
 
 void JWindow::centerWindow()

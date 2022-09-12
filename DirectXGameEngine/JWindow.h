@@ -3,6 +3,7 @@
 
 class JWindow : public JSingleton<JWindow>
 {
+	friend class JSingleton<JWindow>;
 public:
 	HINSTANCE			m_hInstance;
 	HWND				m_hWnd;
@@ -20,7 +21,7 @@ public:
 	virtual bool		render();
 	virtual bool		release();
 	virtual LRESULT		msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-public:
+private:
 	JWindow() {};
 	~JWindow() = default;
 	JWindow(const JWindow&) = delete;
