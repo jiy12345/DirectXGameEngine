@@ -1,5 +1,6 @@
 #pragma once
-#include"stdafx.h"
+#include "JSingleton.h"
+#include <windows.h>
 
 class JWindow : public JSingleton<JWindow>
 {
@@ -8,6 +9,7 @@ public:
 	HINSTANCE			m_hInstance;
 	HWND				m_hWnd;
 	RECT				m_rtWindow;
+	RECT				m_rtClient;
 	DWORD				m_csStyle;
 public:
 	bool				setWindow(HINSTANCE hInst, const WCHAR* szTitle, UINT iWidth = 1024, UINT iHeight = 768);

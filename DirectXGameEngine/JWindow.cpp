@@ -5,7 +5,6 @@ LRESULT CALLBACK WndProc(
 	WPARAM wParam,
 	LPARAM lParam)
 {
-	_ASSERT(&I_Window);
 	return I_Window.msgProc(hWnd, message, wParam, lParam);
 }
 
@@ -51,6 +50,10 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 
 	if (!hWnd) return FALSE;
 	ShowWindow(hWnd, SW_SHOW);
+
+	GetWindowRect(hWnd, &m_rtWindow);
+	GetClientRect(hWnd, &m_rtClient);
+
 	return TRUE;
 }
 

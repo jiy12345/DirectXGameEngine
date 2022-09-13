@@ -1,5 +1,5 @@
 #pragma once
-#include"JWindow.h"
+#include"stdafx.h"
 
 class JGameEngine: public JSingleton<JGameEngine>
 {
