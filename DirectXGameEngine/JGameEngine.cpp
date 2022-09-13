@@ -2,6 +2,7 @@
 
 bool JGameEngine::engineInit()
 {
+    I_Window.init();
     I_Device.init();
     return true;
 }
@@ -13,16 +14,15 @@ bool JGameEngine::engineFrame()
 
 bool JGameEngine::engineRender()
 {
-    I_Device.m_pImmediateContext->OMSetRenderTargets(1, &I_Device.m_pRTV, NULL);
-    float color[4] = { 0.34324f,0.52342f,0.798320f,1.0f };
-    I_Device.m_pImmediateContext->ClearRenderTargetView(I_Device.m_pRTV, color);
-    I_Device.m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    I_Device.render();
+    I_Device.m_pSwapChain->Present(0, 0);
     return false;
 }
 
 bool JGameEngine::engineRelease()
 {
     I_Device.release();
+    I_Window.release();
     return true;
 }
 

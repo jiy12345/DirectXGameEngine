@@ -38,7 +38,7 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 	RECT rc = { 0,0,iWidth , iHeight };
 	AdjustWindowRect(&rc, m_csStyle, FALSE);
 
-	HWND hWnd = CreateWindowW(
+	m_hWnd = CreateWindowW(
 		L"â",
 		szTitle,
 		m_csStyle,
@@ -48,11 +48,11 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 		nullptr, nullptr,
 		m_hInstance, nullptr);
 
-	if (!hWnd) return FALSE;
-	ShowWindow(hWnd, SW_SHOW);
+	if (!m_hWnd) return FALSE;
+	ShowWindow(m_hWnd, SW_SHOW);
 
-	GetWindowRect(hWnd, &m_rtWindow);
-	GetClientRect(hWnd, &m_rtClient);
+	GetWindowRect(m_hWnd, &m_rtWindow);
+	GetClientRect(m_hWnd, &m_rtClient);
 
 	return TRUE;
 }
@@ -62,11 +62,10 @@ bool JWindow::run()
 	MSG msg = { 0, };
 	while (WM_QUIT != msg.message)
 	{
-		// 장점 : 메세지큐에 메세지가 없어도 반환됨.
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&msg); // 메세지 번역
-			DispatchMessage(&msg);  // 메세지 프로시져에 전달한다.
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 		else
 		{

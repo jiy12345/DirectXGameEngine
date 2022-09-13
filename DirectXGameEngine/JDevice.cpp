@@ -103,7 +103,11 @@ bool JDevice::frame()
 
 bool JDevice::render()
 {
-	return false;
+    m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);
+    float color[4] = { 0.34324f,0.52342f,0.798320f,1.0f };
+    m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);
+    m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	return true;
 }
 
 bool JDevice::release()
