@@ -5,6 +5,7 @@ bool JGameEngine::engineInit()
     I_Window.init();
     I_Device.init();
     I_Timer.init();
+    I_Input.init();
 
     m_Writer.init();
     IDXGISurface1* m_pBackBuffer;
@@ -18,6 +19,7 @@ bool JGameEngine::engineInit()
 bool JGameEngine::engineFrame()
 {
     I_Timer.frame();
+    I_Input.frame();
     m_Writer.frame();
     return frame();
 }
@@ -27,6 +29,7 @@ bool JGameEngine::engineRender()
     I_Device.render();
     render();
     I_Timer.render();
+    I_Input.render();
     m_Writer.render();
     I_Device.m_pSwapChain->Present(0, 0);
     return true;
@@ -36,6 +39,7 @@ bool JGameEngine::engineRelease()
 {
     release();
     m_Writer.release();
+    I_Input.release();
     I_Timer.release();
     I_Device.release();
     I_Window.release();

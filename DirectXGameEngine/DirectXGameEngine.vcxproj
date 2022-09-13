@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="JDevice.h" />
     <ClInclude Include="JGameEngine.h" />
+    <ClInclude Include="JInput.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JTimer.h" />
     <ClInclude Include="JWindow.h" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="JDevice.cpp" />
     <ClCompile Include="JGameEngine.cpp" />
+    <ClCompile Include="JInput.cpp" />
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
     <ClCompile Include="JWriter.cpp" />

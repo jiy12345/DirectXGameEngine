@@ -2,6 +2,7 @@
 #include"stdafx.h"
 #include "JTimer.h"
 #include "JWriter.h"
+#include "JInput.h"
 
 class JGameEngine
 {
