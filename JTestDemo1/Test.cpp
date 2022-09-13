@@ -1,7 +1,4 @@
 #include "Test.h"
-#include "stdafx.h"
-#include "JGameEngine.h"
-#include "JTimer.h"
 
 #define WINDOW_SIZE_X 1024
 #define WINDOW_SIZE_Y 768
@@ -22,24 +19,20 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	I_Timer.init();
 	return true;
 }
 
 bool Test::frame()
 {
-	I_Timer.frame();
 	return true;
 }
 
 bool Test::render()
 {
-	I_Timer.render();
 	return true;
 }
 
 bool Test::release()
 {
-	I_Timer.release();
 	return true;
 }
