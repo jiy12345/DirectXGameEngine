@@ -19,6 +19,7 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
+	
 	return true;
 }
 
