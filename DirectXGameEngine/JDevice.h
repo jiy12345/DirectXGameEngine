@@ -10,6 +10,7 @@
 
 class JDevice : public JSingleton<JDevice>
 {
+	friend class JSingleton<JDevice>;
 public:
 	ID3D11Device*			m_pd3dDevice = nullptr;
 	ID3D11DeviceContext*	m_pImmediateContext = nullptr;
