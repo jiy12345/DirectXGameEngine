@@ -1,3 +1,4 @@
+#include "Test.h"
 #include "stdafx.h"
 #include "JGameEngine.h"
 
@@ -12,7 +13,28 @@ int APIENTRY wWinMain(
 	int			nCmdShow) {
 
 	I_Window.setWindow(hInstance, WINDOW_NAME, WINDOW_SIZE_X, WINDOW_SIZE_Y);
-	I_GameEngine.run();
-	
+	Test test;
+	test.run();
+
 	return 0;
+}
+
+bool Test::init()
+{
+	return false;
+}
+
+bool Test::frame()
+{
+	return false;
+}
+
+bool Test::render()
+{
+	return false;
+}
+
+bool Test::release()
+{
+	return false;
 }
