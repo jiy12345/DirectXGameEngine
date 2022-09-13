@@ -45,6 +45,7 @@ bool JGameEngine::engineRelease()
 bool JGameEngine::run()
 {
     engineInit();
+    I_Window.centerWindow();
     while (m_bGameRun) {
         if (I_Window.run() == true) {
             engineFrame();

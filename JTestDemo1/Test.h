@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "JGameEngine.h"
+#include "JInput.h"
 
 class Test : public JGameEngine
 {

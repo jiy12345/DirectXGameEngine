@@ -9,15 +9,16 @@ enum KeyState
 };
 class JInput : public JSingleton<JInput>
 {
+	friend class JSingleton<JInput>;
 private:
 	DWORD		m_dwKeyState[256];
 public:
 	POINT		m_ptPos;
 public:
-	virtual bool		Init();
-	virtual bool		Frame();
-	virtual bool		Render();
-	virtual bool		Release();
+	virtual bool		init();
+	virtual bool		frame();
+	virtual bool		render();
+	virtual bool		release();
 public:
 	DWORD  GetKey(DWORD dwKey);
 private:

@@ -19,21 +19,24 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	
+	I_Input.init();
 	return true;
 }
 
 bool Test::frame()
 {
+	I_Input.frame();
 	return true;
 }
 
 bool Test::render()
 {
+	I_Input.render();
 	return true;
 }
 
 bool Test::release()
 {
+	I_Input.release();
 	return true;
 }
