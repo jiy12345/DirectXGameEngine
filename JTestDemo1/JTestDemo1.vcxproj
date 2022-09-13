@@ -149,9 +149,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="JWriter.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="JWriter.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
