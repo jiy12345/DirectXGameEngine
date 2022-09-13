@@ -1,9 +1,8 @@
 #pragma once
 #include"stdafx.h"
 
-class JGameEngine: public JSingleton<JGameEngine>
+class JGameEngine
 {
-	friend class JSingleton<JGameEngine>;
 public:
 	bool m_bGameRun = true;
 private:
@@ -13,10 +12,5 @@ private:
 	bool engineRelease();
 public:
 	bool run();
-private:
-	JGameEngine() {};
-	~JGameEngine() = default;
-	JGameEngine(const JGameEngine&) = delete;
-	JGameEngine& operator=(const JGameEngine&) = delete;
 };
 #define I_GameEngine JGameEngine::GetInstance()
