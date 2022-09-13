@@ -13,7 +13,15 @@
 	- [해결된 문제](#1-1-해결된-문제)
       - [전역변수의 사용](#전역변수의-사용)
     - [추가된 기능](#1-1-추가된-기능)
-
+- [v2 쉐이더를 제외한 간단한 렌더링 파이프라인 구성하기](#v2-쉐이더를-제외한-간단한-렌더링-파이프라인-구성하기)
+  - [v2.0](#v2-0) 
+    - [주요 기능](#2-0-주요-기능)
+      - [게임 엔진 파일 분리](#게임-엔진-파일-분리)
+      - [렌더링 파이프라인에 필요한 주요 자원들 생성 및 초기화](#렌더링-파이프라인에-필요한-주요-자원들-생성-및-초기화)
+      - [렌더 타겟을 특정 색으로 초기화 하여 출력](#렌더-타겟을-특정-색으로-초기화-하여-출력)
+    - [문제점](#2-0-문제점)
+    - [클래스 다이어그램](#2-0-클래스-다이어그램)
+    - [실행 예시](#2-0-실행-예시)
 
 # v1 창 띄우기
 ## v1 0
@@ -75,9 +83,9 @@ ATOM JWindow::registerWNDClass()
 ### 1 0 문제점
 #### [전역변수의 사용](https://github.com/jiy12345/DirectXGameEngine/issues/1)
 ### 1 0 클래스 다이어그램
-![class diagram](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram.png)
+![class diagram1.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram1.0.png)
 ### 1 0 실행 예시
-![result image](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/v1.0%20result%20image.png)
+![result image1.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image1.0.png)
 
 ## v1 1
 ### 1 1 해결된 문제
@@ -86,3 +94,26 @@ ATOM JWindow::registerWNDClass()
 - Windows 클래스에 대한 전역적인 접근점을 Getinstance 함수가 제공해주기 때문에 전역변수가 필요 없어졌고, 따라서 삭제하였다.
 ### 1 1 추가된 기능
 - 생성된 창을 가운데로 전체 화면의 가운데로 옮겨주는 createWindow 함수를 구현하였다.
+# v2 쉐이더를 제외한 간단한 렌더링 파이프라인 구성하기
+## v2 0 
+### 2 0 주요 기능
+#### 게임 엔진 파일 분리
+- 게임 엔진이라는 상위 개념의 파일을 따로 두어 하위 개념들인 Window, Device가 GameEngine 내부에서 활용되도록 하였다.
+#### 렌더링 파이프라인에 필요한 주요 자원들 생성 및 초기화
+- Device, Factory, Swapchain, RenderTargetView, Viewport등 화면을 출력하는데 필요한 렌더링 파이프라인의 최소한의 구성요소를 생성, 초기화 하였다.
+#### 렌더 타겟을 특정 색으로 초기화 하여 출력
+```C++
+    m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);
+    float color[4] = { 0.34324f,0.52342f,0.798320f,1.0f };
+    m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);
+```
+위와 같은 코드를 통해 렌더 타겟 뷰를 렌더링 파이프라인에 연결하고, 렌더 타겟 뷰를 설정한 색으로 초기화하였고, 
+```C++
+I_Device.m_pSwapChain->Present(0, 0);
+```
+스왑체인의 Present 함수를 호출하여 백버퍼와 프론트 버퍼를 교체하고, 앞서 초기화한 색의 화면이 출력될 수 있도록 하였다.
+### 2 0 문제점
+### 2 0 클래스 다이어그램
+![class diagram2.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram2.0.png)
+### 2 0 실행 예시
+![result image2.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image2.0.png)
