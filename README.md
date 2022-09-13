@@ -22,6 +22,9 @@
     - [문제점](#2-0-문제점)
     - [클래스 다이어그램](#2-0-클래스-다이어그램)
     - [실행 예시](#2-0-실행-예시)
+  - [v2.1](#v2-1)
+	- [해결된 문제](#2-1-해결된-문제)
+    - [추가된 기능](#2-1-추가된-기능)
 
 # v1 창 띄우기
 ## v1 0
@@ -117,3 +120,8 @@ I_Device.m_pSwapChain->Present(0, 0);
 ![class diagram2.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram2.0.png)
 ### 2 0 실행 예시
 ![result image2.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image2.0.png)
+## v2 1
+### 2 1 해결된 문제
+### 2 1 추가된 기능
+- 게임 엔진 프로젝트를 라이브러리화 하여 외부 프로젝트에서 가져와 쓸 수있도록 하였다.
+- 게임 엔진에 재정의 가능한 함수를 추가하여 해당 함수가 게임의 주요 루프인 run() 함수에서 호출되도록 하였다. 이 라이브러리를 활용하여 게임을 생성할 시 해당 함수들을 재정의 하여 구현하도록 하였다.
