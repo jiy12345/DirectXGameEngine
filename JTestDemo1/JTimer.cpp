@@ -1,6 +1,6 @@
 #include "JTimer.h"
 
-bool JTimer::Init()
+bool JTimer::init()
 {
     m_fGameTimer = 0.0f;
     m_fElapseTimer = 10.0f;
@@ -8,7 +8,7 @@ bool JTimer::Init()
     return true;
 }
 
-bool JTimer::Frame()
+bool JTimer::frame()
 {
     DWORD dwCurrentTime = timeGetTime();
     DWORD dwElapseTime = dwCurrentTime - m_dwBeforeTime;
@@ -30,9 +30,11 @@ bool JTimer::Frame()
 
 }
 
-bool JTimer::Render()
+bool JTimer::render()
 {
     m_szTimer = std::to_wstring(m_fGameTimer);
+    m_szTimer += L"   ";
+    m_szTimer += std::to_wstring(m_fElapseTimer);
     m_szTimer += L"   ";
     m_szTimer += std::to_wstring(m_iFPS);
     m_szTimer += L"\n";
@@ -40,7 +42,7 @@ bool JTimer::Render()
     return true;
 }
 
-bool JTimer::Release()
+bool JTimer::release()
 {
     return true;
 }
