@@ -11,6 +11,11 @@ private:
 	bool engineRender();
 	bool engineRelease();
 public:
+	virtual bool init() { return true; };
+	virtual bool frame() { return true; };
+	virtual bool render() { return true; };
+	virtual bool release() { return true; };
+public:
 	bool run();
 };
 #define I_GameEngine JGameEngine::GetInstance()

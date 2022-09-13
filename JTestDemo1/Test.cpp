@@ -18,3 +18,23 @@ int APIENTRY wWinMain(
 
 	return 0;
 }
+
+bool Test::init()
+{
+	return false;
+}
+
+bool Test::frame()
+{
+	return false;
+}
+
+bool Test::render()
+{
+	return false;
+}
+
+bool Test::release()
+{
+	return false;
+}
