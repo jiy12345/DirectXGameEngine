@@ -4,23 +4,25 @@ bool JGameEngine::engineInit()
 {
     I_Window.init();
     I_Device.init();
-    return true;
+    return init();
 }
 
 bool JGameEngine::engineFrame()
 {
-    return true;
+    return frame();
 }
 
 bool JGameEngine::engineRender()
 {
     I_Device.render();
+    render();
     I_Device.m_pSwapChain->Present(0, 0);
-    return false;
+    return true;
 }
 
 bool JGameEngine::engineRelease()
 {
+    release();
     I_Device.release();
     I_Window.release();
     return true;
