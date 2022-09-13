@@ -19,28 +19,20 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_Writer.init();
-	IDXGISurface1* m_pBackBuffer;
-	I_Device.m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1),
-		(void**)&m_pBackBuffer);
-	m_Writer.set(m_pBackBuffer);
 	return true;
 }
 
 bool Test::frame()
 {
-	m_Writer.frame();
 	return true;
 }
 
 bool Test::render()
 {
-	m_Writer.render();
 	return true;
 }
 
 bool Test::release()
 {
-	m_Writer.release();
 	return true;
 }

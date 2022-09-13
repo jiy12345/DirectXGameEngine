@@ -151,6 +151,7 @@
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JTimer.h" />
     <ClInclude Include="JWindow.h" />
+    <ClInclude Include="JWriter.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
+    <ClCompile Include="JWriter.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
