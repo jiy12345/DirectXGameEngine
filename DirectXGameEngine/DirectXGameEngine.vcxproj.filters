@@ -24,6 +24,12 @@
     <ClInclude Include="JSingleton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="JGameEngine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="JDevice.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -35,11 +41,15 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="JGameEngine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="JDevice.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md">
-      <Filter>소스 파일</Filter>
-    </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

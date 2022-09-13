@@ -5,7 +5,6 @@ LRESULT CALLBACK WndProc(
 	WPARAM wParam,
 	LPARAM lParam)
 {
-	_ASSERT(&I_Window);
 	return I_Window.msgProc(hWnd, message, wParam, lParam);
 }
 
@@ -39,7 +38,7 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 	RECT rc = { 0,0,iWidth , iHeight };
 	AdjustWindowRect(&rc, m_csStyle, FALSE);
 
-	HWND hWnd = CreateWindowW(
+	m_hWnd = CreateWindowW(
 		L"â",
 		szTitle,
 		m_csStyle,
@@ -49,32 +48,31 @@ BOOL JWindow::initInstance(const WCHAR* szTitle, UINT iWidth, UINT iHeight)
 		nullptr, nullptr,
 		m_hInstance, nullptr);
 
-	if (!hWnd) return FALSE;
-	ShowWindow(hWnd, SW_SHOW);
+	if (!m_hWnd) return FALSE;
+	ShowWindow(m_hWnd, SW_SHOW);
+
+	GetWindowRect(m_hWnd, &m_rtWindow);
+	GetClientRect(m_hWnd, &m_rtClient);
+
 	return TRUE;
 }
 
 bool JWindow::run()
 {
-	init();
-
 	MSG msg = { 0, };
 	while (WM_QUIT != msg.message)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&msg); 
+			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 		else
 		{
-			frame();
-			render();
+			return true;
 		}
 	}
-	release();
-
-	return true;
+	return false;
 }
 
 void JWindow::centerWindow()

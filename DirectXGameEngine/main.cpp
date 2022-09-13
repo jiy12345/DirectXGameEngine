@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "JWindow.h"
+#include "JGameEngine.h"
 
 #define WINDOW_SIZE_X 1024
 #define WINDOW_SIZE_Y 768
@@ -12,7 +12,7 @@ int APIENTRY wWinMain(
 	int			nCmdShow) {
 
 	I_Window.setWindow(hInstance, WINDOW_NAME, WINDOW_SIZE_X, WINDOW_SIZE_Y);
-	I_Window.run();
-
+	I_GameEngine.run();
+	
 	return 0;
 }
