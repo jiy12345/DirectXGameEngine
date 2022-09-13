@@ -38,9 +38,6 @@
     <ClCompile Include="JWindow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="JGameEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
