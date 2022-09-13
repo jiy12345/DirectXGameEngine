@@ -27,5 +27,10 @@ public:
 	virtual bool frame();
 	virtual bool render();
 	virtual bool release();
+private:
+	JDevice() {};
+	~JDevice() = default;
+	JDevice(const JDevice&) = delete;
+	JDevice& operator=(const JDevice&) = delete;
 };
 #define I_Device JDevice::GetInstance()
