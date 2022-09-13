@@ -30,7 +30,7 @@ bool JWriter::frame()
 
 bool JWriter::render()
 {
-	draw(0, 0, m_szDefaultText, { 1,0,0,1 });
+	draw(0, 0, m_szDefaultText, { 0,1,1,1 });
 	return true;
 }
 

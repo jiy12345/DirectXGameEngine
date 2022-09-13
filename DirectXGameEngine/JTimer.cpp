@@ -34,8 +34,6 @@ bool JTimer::render()
 {
     m_szTimer = std::to_wstring(m_fGameTimer);
     m_szTimer += L"   ";
-    m_szTimer += std::to_wstring(m_fElapseTimer);
-    m_szTimer += L"   ";
     m_szTimer += std::to_wstring(m_iFPS);
     m_szTimer += L"\n";
     OutputDebugString(m_szTimer.c_str());
