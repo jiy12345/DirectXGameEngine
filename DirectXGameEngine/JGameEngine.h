@@ -1,10 +1,14 @@
 #pragma once
 #include"stdafx.h"
+#include "JTimer.h"
+#include "JWriter.h"
+#include "JInput.h"
 
 class JGameEngine
 {
 public:
-	bool m_bGameRun = true;
+	JWriter m_Writer;
+	bool	m_bGameRun = true;
 private:
 	bool engineInit();
 	bool engineFrame();
