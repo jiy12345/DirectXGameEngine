@@ -1,15 +1,15 @@
 #include "JShader.h"
 void    JShader::setVertexData() {
     m_VertexList.resize(4);
-    m_VertexList[0].p = { -1.0f, 1.0f, 0.0f };
-    m_VertexList[1].p = { +1.0f, 1.0f,  0.0f };
-    m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
-    m_VertexList[3].p = { 1.0f, -1.0f, 0.0f };
+    m_VertexList[0].p = { -0.5f, 0.5f, 0.0f };
+    m_VertexList[1].p = { +0.5f, 0.5f,  0.0f };
+    m_VertexList[2].p = { -0.5f, -0.5f, 0.0f };
+    m_VertexList[3].p = { 0.5f, -0.5f, 0.0f };
 
-    m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-    m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-    m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-    m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+    m_VertexList[0].c = { 1.0f, 0.0f, 1.0f, 1.0f };
+    m_VertexList[1].c = { 0.0f, 1.0f, 1.0f, 1.0f };
+    m_VertexList[2].c = { 1.0f, 1.0f, 0.0f, 1.0f };
+    m_VertexList[3].c = { 1.0f, 0.0f, 0.0f, 1.0f };
 
     m_VertexList[0].t = { 0.0f, 0.0f };
     m_VertexList[1].t = { 1.0f, 0.0f };
@@ -25,7 +25,50 @@ void    JShader::setIndexData() {
     m_IndexList[4] = 1;
     m_IndexList[5] = 3;
 }
+
+HRESULT JShader::createVertexBuffer() {
+    HRESULT hr;
+    setVertexData();
+    D3D11_BUFFER_DESC       bd;
+    ZeroMemory(&bd, sizeof(bd));
+    bd.ByteWidth = sizeof(SimpleVertex) * m_VertexList.size();
+    // GPU 메모리에 할당
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+    D3D11_SUBRESOURCE_DATA  sd;
+    ZeroMemory(&sd, sizeof(sd));
+    sd.pSysMem = &m_VertexList.at(0);
+    hr = I_Device.m_pd3dDevice->CreateBuffer(
+        &bd,
+        &sd,
+        &m_pVertexBuffer);
+    return hr;
+}
+HRESULT JShader::createIndexBuffer() {
+    HRESULT hr;
+
+    setIndexData();
+
+    D3D11_BUFFER_DESC       bd;
+    ZeroMemory(&bd, sizeof(bd));
+    bd.ByteWidth = sizeof(DWORD) * m_IndexList.size();
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+    D3D11_SUBRESOURCE_DATA  sd;
+    ZeroMemory(&sd, sizeof(sd));
+    sd.pSysMem = &m_IndexList.at(0);
+    hr = I_Device.m_pd3dDevice->CreateBuffer(
+        &bd,
+        &sd,
+        &m_pIndexBuffer);
+    return hr;
+}
+
 bool	JShader::init() {
+    createVertexBuffer();
+    createIndexBuffer();
     return true;
 }
 bool	JShader::frame() {

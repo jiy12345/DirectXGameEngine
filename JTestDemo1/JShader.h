@@ -28,5 +28,7 @@ public:
 public:
 	void	setVertexData();
 	void	setIndexData();
+	HRESULT createVertexBuffer();
+	HRESULT createIndexBuffer();
 	HRESULT load(std::wstring name);
 };
