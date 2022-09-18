@@ -1,5 +1,30 @@
 #include "JShader.h"
-#include "JShader.h"
+void    JShader::setVertexData() {
+    m_VertexList.resize(4);
+    m_VertexList[0].p = { -1.0f, 1.0f, 0.0f };
+    m_VertexList[1].p = { +1.0f, 1.0f,  0.0f };
+    m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
+    m_VertexList[3].p = { 1.0f, -1.0f, 0.0f };
+
+    m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+    m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+    m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+    m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    m_VertexList[0].t = { 0.0f, 0.0f };
+    m_VertexList[1].t = { 1.0f, 0.0f };
+    m_VertexList[2].t = { 0.0f, 1.0f };
+    m_VertexList[3].t = { 1.0f, 1.0f };
+}
+void    JShader::setIndexData() {
+    m_IndexList.resize(6);
+    m_IndexList[0] = 0;
+    m_IndexList[1] = 1;
+    m_IndexList[2] = 2;
+    m_IndexList[3] = 2;
+    m_IndexList[4] = 1;
+    m_IndexList[5] = 3;
+}
 bool	JShader::init() {
     return true;
 }
@@ -7,6 +32,20 @@ bool	JShader::frame() {
     return true;
 }
 bool	JShader::render() {
+    I_Device.m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
+    I_Device.m_pImmediateContext->VSSetShader(m_pVS, NULL, 0);
+    I_Device.m_pImmediateContext->PSSetShader(m_pPS, NULL, 0);
+    UINT stride = sizeof(SimpleVertex);
+    UINT offset = 0;
+    I_Device.m_pImmediateContext->IASetVertexBuffers(0, 1,
+        &m_pVertexBuffer, &stride, &offset);
+    I_Device.m_pImmediateContext->IASetIndexBuffer(m_pIndexBuffer,
+        DXGI_FORMAT_R32_UINT, 0);
+
+    if (m_pIndexBuffer == nullptr)
+        I_Device.m_pImmediateContext->Draw(m_VertexList.size(), 0);
+    else
+        I_Device.m_pImmediateContext->DrawIndexed(m_IndexList.size(), 0, 0);
     return true;
 }
 bool	JShader::release() {
@@ -14,11 +53,9 @@ bool	JShader::release() {
     if (m_pPS) m_pPS->Release();
     if (m_pVSCode) m_pVSCode->Release();
     if (m_pPSCode) m_pPSCode->Release();
-
-    m_pVS = nullptr;
-    m_pPS = nullptr;
-    m_pVSCode = nullptr;
-    m_pPSCode = nullptr;
+    if (m_pVertexBuffer) m_pVertexBuffer->Release();
+    if (m_pIndexBuffer) m_pIndexBuffer->Release();
+    if (m_pVertexLayout) m_pVertexLayout->Release();
     return true;
 }
 HRESULT JShader::load(std::wstring filename) {
