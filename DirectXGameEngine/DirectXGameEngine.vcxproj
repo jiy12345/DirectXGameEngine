@@ -161,7 +161,6 @@
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JInput.cpp" />
     <ClCompile Include="JTimer.cpp" />
-    <ClCompile Include="JVector.cpp" />
     <ClCompile Include="JWindow.cpp" />
     <ClCompile Include="JWriter.cpp" />
     <ClCompile Include="stdafx.cpp">
