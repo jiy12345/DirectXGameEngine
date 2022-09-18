@@ -5,3 +5,4 @@
 #include <string>
 
 #include "JDevice.h"
+#include "JVector.cpp"
