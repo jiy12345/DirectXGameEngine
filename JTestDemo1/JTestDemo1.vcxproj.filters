@@ -30,4 +30,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DefaultShapeMask.hlsl" />
+  </ItemGroup>
 </Project>

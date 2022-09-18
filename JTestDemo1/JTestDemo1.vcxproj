@@ -161,6 +161,9 @@
       <Project>{76997334-a4a1-45cf-989f-4f30c0db5e4e}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="DefaultShapeMask.hlsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
