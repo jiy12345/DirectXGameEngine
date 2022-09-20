@@ -8,7 +8,7 @@ HRESULT JShaderManager::loadVS(ID3D11VertexShader* m_pVS, std::wstring fileName,
     auto iter = m_VSList.find(fileName);
     if (iter != m_VSList.end())
     {
-        m_pVS = iter->second;
+        m_pVS = (iter->second).second;
         return S_OK;
     }
 
@@ -52,11 +52,70 @@ HRESULT JShaderManager::loadVS(ID3D11VertexShader* m_pVS, std::wstring fileName,
     {
         if (SUCCEEDED(hr))
         {
-            m_VSList.insert(std::make_pair(fileName, m_pVS));
+            m_VSList.insert({ fileName, {pVSCode, m_pVS} });
         }
     }
 
-    pVSCode->Release();
+    return hr;
+}
+
+HRESULT JShaderManager::loadVSCode(ID3DBlob* m_pVSCode, std::wstring fileName, std::string funName)
+{
+    HRESULT hr;
+    ID3DBlob* pErrorCode = nullptr;
+
+    auto iter = m_VSList.find(fileName);
+    if (iter != m_VSList.end())
+    {
+        m_pVSCode = (iter->second).first;
+        return S_OK;
+    }
+
+    
+    hr = D3DCompileFromFile(
+        fileName.c_str(),
+        NULL,
+        NULL,
+        funName.c_str(),
+        "vs_5_0",
+        0,
+        0,
+        &m_pVSCode,
+        &pErrorCode);
+    if (FAILED(hr))
+    {
+        if (pErrorCode)
+        {
+            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
+            pErrorCode->Release();
+        }
+        return hr;
+    }
+
+    ID3D11VertexShader* pVS = nullptr;
+    hr = I_Device.m_pd3dDevice->CreateVertexShader(
+        m_pVSCode->GetBufferPointer(),
+        m_pVSCode->GetBufferSize(),
+        NULL,
+        &pVS);
+    if (FAILED(hr))
+    {
+        if (pErrorCode)
+        {
+            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
+            pErrorCode->Release();
+        }
+        return hr;
+    }
+
+    if (pVS)
+    {
+        if (SUCCEEDED(hr))
+        {
+            m_VSList.insert({ fileName, {m_pVSCode, pVS} });
+        }
+    }
+
     return hr;
 }
 
