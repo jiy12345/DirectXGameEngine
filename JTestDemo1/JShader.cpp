@@ -62,15 +62,28 @@ HRESULT JShader::createIndexBuffer() {
 bool	JShader::init() {
     createVertexBuffer();
     createIndexBuffer();
+    m_wstrVSName = L"DefaultShapeMask.hlsl";
+    m_wstrPSName = L"DefaultShapeMask.hlsl";
+    m_strVSFuncName = "VS";
+    m_strPSFuncName = "PS";
     return true;
 }
 bool	JShader::frame() {
     return true;
 }
 bool	JShader::render() {
+    HRESULT hr;
+    ID3D11VertexShader* pVS = nullptr;
+    hr = I_Shader.loadVS(pVS, m_wstrVSName, m_strVSFuncName);
+    if (FAILED(hr)) return false;
+
+    ID3D11PixelShader* pPS = nullptr;
+    hr = I_Shader.loadPS(pPS, m_wstrPSName, m_strPSFuncName);
+    if (FAILED(hr)) return false;
+
     I_Device.m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
-    I_Device.m_pImmediateContext->VSSetShader(m_pVS, NULL, 0);
-    I_Device.m_pImmediateContext->PSSetShader(m_pPS, NULL, 0);
+    I_Device.m_pImmediateContext->VSSetShader(pVS, NULL, 0);
+    I_Device.m_pImmediateContext->PSSetShader(pPS, NULL, 0);
     UINT stride = sizeof(SimpleVertex);
     UINT offset = 0;
     I_Device.m_pImmediateContext->IASetVertexBuffers(0, 1,
@@ -85,10 +98,6 @@ bool	JShader::render() {
     return true;
 }
 bool	JShader::release() {
-    if (m_pVS) m_pVS->Release();
-    if (m_pPS) m_pPS->Release();
-    if (m_pVSCode) m_pVSCode->Release();
-    if (m_pPSCode) m_pPSCode->Release();
     if (m_pVertexBuffer) m_pVertexBuffer->Release();
     if (m_pIndexBuffer) m_pIndexBuffer->Release();
     if (m_pVertexLayout) m_pVertexLayout->Release();
@@ -96,77 +105,9 @@ bool	JShader::release() {
 }
 HRESULT JShader::load(std::wstring filename) {
     HRESULT hr;
-    ID3DBlob* pErrorCode = nullptr;
-    hr = D3DCompileFromFile(
-        filename.c_str(),
-        NULL,
-        NULL,
-        "VS",
-        "vs_5_0",
-        0,
-        0,
-        &m_pVSCode,
-        &pErrorCode);
-    if (FAILED(hr))
-    {
-        if (pErrorCode)
-        {
-            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
-            pErrorCode->Release();
-        }
-        return hr;
-    }
-
-    hr = I_Device.m_pd3dDevice->CreateVertexShader(
-        m_pVSCode->GetBufferPointer(),
-        m_pVSCode->GetBufferSize(),
-        NULL,
-        &m_pVS);
-    if (FAILED(hr))
-    {
-        if (pErrorCode)
-        {
-            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
-            pErrorCode->Release();
-        }
-        return hr;
-    }
-
-    hr = D3DCompileFromFile(
-        filename.c_str(),
-        NULL,
-        NULL,
-        "PS",
-        "ps_5_0",
-        0,
-        0,
-        &m_pPSCode,
-        &pErrorCode);
-    if (FAILED(hr))
-    {
-        if (pErrorCode)
-        {
-            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
-            pErrorCode->Release();
-        }
-        return hr;
-    }
-
-    hr = I_Device.m_pd3dDevice->CreatePixelShader(
-        m_pPSCode->GetBufferPointer(),
-        m_pPSCode->GetBufferSize(),
-        NULL,
-        &m_pPS);
-
-    if (FAILED(hr))
-    {
-        if (pErrorCode)
-        {
-            OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
-            pErrorCode->Release();
-        }
-        return hr;
-    }
+    ID3DBlob* pVSCode = nullptr;
+    hr = I_Shader.loadVSCode(pVSCode, m_wstrVSName, m_strVSFuncName);
+    if (FAILED(hr)) return hr;
 
     D3D11_INPUT_ELEMENT_DESC ied[] =
     {
@@ -178,8 +119,8 @@ HRESULT JShader::load(std::wstring filename) {
     hr = I_Device.m_pd3dDevice->CreateInputLayout(
         ied,
         NumElements,
-        m_pVSCode->GetBufferPointer(),
-        m_pVSCode->GetBufferSize(),
+        pVSCode->GetBufferPointer(),
+        pVSCode->GetBufferSize(),
         &m_pVertexLayout);
 
     return hr;

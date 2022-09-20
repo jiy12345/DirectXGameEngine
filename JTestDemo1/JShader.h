@@ -1,4 +1,5 @@
 #pragma once
+#include "JShaderManager.h"
 #include "stdafx.h"
 
 struct SimpleVertex
@@ -11,10 +12,10 @@ struct SimpleVertex
 class JShader
 {
 public:
-	ID3D11VertexShader*			m_pVS;
-	ID3D11PixelShader*			m_pPS;
-	ID3DBlob*					m_pVSCode = nullptr;
-	ID3DBlob*					m_pPSCode = nullptr;
+	std::wstring				m_wstrVSName;
+	std::wstring				m_wstrPSName;
+	std::string					m_strVSFuncName;
+	std::string					m_strPSFuncName;
 	ID3D11Buffer*				m_pVertexBuffer;
 	ID3D11Buffer*				m_pIndexBuffer;
 	ID3D11InputLayout*			m_pVertexLayout;

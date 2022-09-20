@@ -1,6 +1,6 @@
 #include "JShaderManager.h"
 
-HRESULT JShaderManager::loadVS(ID3D11VertexShader* m_pVS, std::wstring fileName, std::string funName)
+HRESULT JShaderManager::loadVS(ID3D11VertexShader* &m_pVS, std::wstring fileName, std::string funName)
 {
     HRESULT hr;
     ID3DBlob* pErrorCode = nullptr;
@@ -59,7 +59,7 @@ HRESULT JShaderManager::loadVS(ID3D11VertexShader* m_pVS, std::wstring fileName,
     return hr;
 }
 
-HRESULT JShaderManager::loadVSCode(ID3DBlob* m_pVSCode, std::wstring fileName, std::string funName)
+HRESULT JShaderManager::loadVSCode(ID3DBlob* &m_pVSCode, std::wstring fileName, std::string funName)
 {
     HRESULT hr;
     ID3DBlob* pErrorCode = nullptr;
@@ -71,7 +71,6 @@ HRESULT JShaderManager::loadVSCode(ID3DBlob* m_pVSCode, std::wstring fileName, s
         return S_OK;
     }
 
-    
     hr = D3DCompileFromFile(
         fileName.c_str(),
         NULL,
@@ -119,7 +118,7 @@ HRESULT JShaderManager::loadVSCode(ID3DBlob* m_pVSCode, std::wstring fileName, s
     return hr;
 }
 
-HRESULT JShaderManager::loadPS(ID3D11PixelShader* m_pPS, std::wstring fileName, std::string funName)
+HRESULT JShaderManager::loadPS(ID3D11PixelShader* &m_pPS, std::wstring fileName, std::string funName)
 {
     HRESULT hr;
     ID3DBlob* pErrorCode = nullptr;
@@ -137,7 +136,7 @@ HRESULT JShaderManager::loadPS(ID3D11PixelShader* m_pPS, std::wstring fileName, 
         NULL,
         NULL,
         funName.c_str(),
-        "vs_5_0",
+        "ps_5_0",
         0,
         0,
         &pPSCode,
@@ -183,9 +182,12 @@ bool JShaderManager::Release()
 {
     for (auto data : m_VSList)
     {
-        ID3D11VertexShader* pData = data.second;
-        if (pData) pData->Release();
-        delete pData;
+        ID3DBlob* pData1           = data.second.first;
+        ID3D11VertexShader* pData2 = data.second.second;
+        if (pData1) pData1->Release();
+        if (pData1) pData2->Release();
+        pData1 = nullptr;
+        pData2 = nullptr;
     }
     m_VSList.clear();
 
@@ -193,7 +195,7 @@ bool JShaderManager::Release()
     {
         ID3D11PixelShader* pData = data.second;
         if (pData) pData->Release();
-        delete pData;
+        pData = nullptr;
     }
     m_VSList.clear();
     return true;
