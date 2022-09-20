@@ -39,7 +39,7 @@
     - [주요 기능](#4-0-주요-기능)
       - [HLSL 코드로 쉐이더 구성하기](#HLSL-코드로-쉐이더-구성하기)
       - [생성된 정점 쉐이더를 활용하여 Input Layout 생성하기](#생성된-정점-쉐이더를-활용하여-Input-Layout-생성하기)
-      - [쉐이더에 넘겨줄 Vertex Buffer, Index Buffer 생성하기](#쉐이더에-넘겨줄-Vertex-Buffer,-Index-Buffer-생성하기)
+      - [쉐이더에 넘겨줄 Vertex Buffer, Index Buffer 생성하기](#쉐이더에-넘겨줄-Vertex-Buffer-Index-Buffer-생성하기)
       - [생성된 쉐이더들을 렌더링 파이프라인에 연결하여 도형 출력하기](#생성된-쉐이더들을-렌더링-파이프라인에-연결하여-도형-출력하기)
     - [문제점](#3-0-문제점)
       - [확장성 부족](#확장성-부족)
@@ -342,7 +342,7 @@ dwrite 라이브러리는 d2d1라이브러리를 통해 2d 렌더링 파이프�
  아래의 글을 참고 바랍니다.  
 
  [Input Assembler(IA) 단계에서는 어떤 작업이 이루어질까?](https://blog.naver.com/jiy12345/222701037912)
-1. Vertex Buffer, Index Buffer가 될 데이터 작성하기
+1. Vertex Buffer Index Buffer가 될 데이터 작성하기
 ```C++
 void    JShader::setVertexData() {
     m_VertexList.resize(4);
@@ -441,3 +441,4 @@ HRESULT JShader::createIndexBuffer() {
 ### 4 0 클래스 다이어그램
  앞서 언급한 여러 문제점들 때문에 JShader 클래스를 아직 라이브러리에 통합하지 않았고, 따라서 엔진 라이브러리 상의 변화는 없다.
 ### 4 0 실행 예시
+![result image4.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image4.0.png)  
