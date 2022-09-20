@@ -27,29 +27,23 @@ void    JShader::setIndexData() {
 }
 
 HRESULT JShader::createVertexBuffer() {
-    HRESULT hr;
     setVertexData();
     D3D11_BUFFER_DESC       bd;
     ZeroMemory(&bd, sizeof(bd));
     bd.ByteWidth = sizeof(SimpleVertex) * m_VertexList.size();
-    // GPU 메모리에 할당
     bd.Usage = D3D11_USAGE_DEFAULT;
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
     D3D11_SUBRESOURCE_DATA  sd;
     ZeroMemory(&sd, sizeof(sd));
     sd.pSysMem = &m_VertexList.at(0);
-    hr = I_Device.m_pd3dDevice->CreateBuffer(
+    return I_Device.m_pd3dDevice->CreateBuffer(
         &bd,
         &sd,
-        &m_pVertexBuffer);
-    return hr;
+        &m_pVertexBuffer);;
 }
 HRESULT JShader::createIndexBuffer() {
-    HRESULT hr;
-
     setIndexData();
-
     D3D11_BUFFER_DESC       bd;
     ZeroMemory(&bd, sizeof(bd));
     bd.ByteWidth = sizeof(DWORD) * m_IndexList.size();
@@ -59,11 +53,10 @@ HRESULT JShader::createIndexBuffer() {
     D3D11_SUBRESOURCE_DATA  sd;
     ZeroMemory(&sd, sizeof(sd));
     sd.pSysMem = &m_IndexList.at(0);
-    hr = I_Device.m_pd3dDevice->CreateBuffer(
+    return I_Device.m_pd3dDevice->CreateBuffer(
         &bd,
         &sd,
-        &m_pIndexBuffer);
-    return hr;
+        &m_pIndexBuffer);;
 }
 
 bool	JShader::init() {
