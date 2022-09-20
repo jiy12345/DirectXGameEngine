@@ -19,20 +19,26 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
+	m_pShader = new JShader;
+	m_pShader->init();
+	m_pShader->load(L"DefaultShapeMask.hlsl");
 	return true;
 }
 
 bool Test::frame()
 {
+	m_pShader->frame();
 	return true;
 }
 
 bool Test::render()
 {
+	m_pShader->render();
 	return true;
 }
 
 bool Test::release()
 {
+	m_pShader->release();
 	return true;
 }
