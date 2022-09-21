@@ -42,9 +42,6 @@
     <ClInclude Include="JVector.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="JShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="JShaderManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -78,9 +75,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="JShaderManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="JShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="JBaseObject.cpp">
