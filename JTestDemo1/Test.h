@@ -5,7 +5,8 @@
 
 class Test : public JGameEngine
 {
-	JShader* m_pShader;
+	JShader* m_pShader1;
+	JShader* m_pShader2;
 public:
 	virtual bool init() override;
 	virtual bool frame() override;
