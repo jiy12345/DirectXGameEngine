@@ -11,7 +11,6 @@ HRESULT JTextureManager::loadSRV(ID3D11ShaderResourceView*& m_pTextureSRV, std::
 
 	JTexture* pJTexture = new JTexture;
 
-	ID3D11Texture2D* m_pTexture = nullptr;
 	HRESULT hr = DirectX::CreateWICTextureFromFile(
 		I_Device.m_pd3dDevice,
 		I_Device.m_pImmediateContext,
@@ -24,7 +23,7 @@ HRESULT JTextureManager::loadSRV(ID3D11ShaderResourceView*& m_pTextureSRV, std::
 			I_Device.m_pd3dDevice,
 			I_Device.m_pImmediateContext,
 			fileName.c_str(),
-			(ID3D11Resource**)&m_pTexture,
+			(ID3D11Resource**)&pJTexture->m_pTexture,
 			&pJTexture->m_pTextureSRV);
 	}
 
@@ -32,7 +31,7 @@ HRESULT JTextureManager::loadSRV(ID3D11ShaderResourceView*& m_pTextureSRV, std::
 		return hr;
 	}
 	
-	m_pTexture->GetDesc(&pJTexture->m_Desc);
+	(pJTexture->m_pTexture)->GetDesc(&pJTexture->m_Desc);
 
 	m_pTextureSRV = pJTexture->m_pTextureSRV;
 	m_List.insert({ fileName, pJTexture });

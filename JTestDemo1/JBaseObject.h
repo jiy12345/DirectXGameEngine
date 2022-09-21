@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "JDevice.h"
 #include "JShaderManager.h"
+#include "JTextureManager.h"
 
 struct SimpleVertex
 {
@@ -17,6 +18,7 @@ public:
 	std::wstring				m_wstrPSName = L"DefaultShapeMask.hlsl";
 	std::string					m_strVSFuncName = "VS";
 	std::string					m_strPSFuncName = "PS";
+	std::wstring				m_wstrTextureName = L"_RAINBOW.bmp";
 	ID3D11Buffer*				m_pVertexBuffer;
 	ID3D11Buffer*				m_pIndexBuffer;
 	ID3D11InputLayout*			m_pVertexLayout;
@@ -27,6 +29,7 @@ public:
 	void				setPSName(std::wstring wstrPSName);
 	void				setVSFuncName(std::string strVSFuncName);
 	void				setPSFuncName(std::string strPSFuncName);
+	void				setTextureName(std::wstring strTextureName);
 public:
 	virtual void		setVertexData();
 	virtual void		setIndexData();

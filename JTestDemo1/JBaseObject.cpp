@@ -20,6 +20,11 @@ void JBaseObject::setPSFuncName(std::string strPSFuncName)
 	m_strPSFuncName = strPSFuncName;
 }
 
+void JBaseObject::setTextureName(std::wstring wstrTextureName)
+{
+	m_wstrTextureName = wstrTextureName;
+}
+
 void JBaseObject::setVertexData()
 {
 	m_VertexList.resize(4);
@@ -133,6 +138,9 @@ bool JBaseObject::frame()
 bool JBaseObject::preRender()
 {
 	HRESULT hr;
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	hr = I_Tex.loadSRV(pSRV, m_wstrTextureName);
+
 	ID3D11VertexShader* pVS = nullptr;
 	hr = I_Shader.loadVS(pVS, m_wstrVSName, m_strVSFuncName);
 	if (FAILED(hr)) return false;
@@ -141,6 +149,7 @@ bool JBaseObject::preRender()
 	hr = I_Shader.loadPS(pPS, m_wstrPSName, m_strPSFuncName);
 	if (FAILED(hr)) return false;
 
+	I_Device.m_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
 	I_Device.m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
 	I_Device.m_pImmediateContext->VSSetShader(pVS, NULL, 0);
 	I_Device.m_pImmediateContext->PSSetShader(pPS, NULL, 0);

@@ -39,4 +39,9 @@
   <ItemGroup>
     <Text Include="DefaultShapeMask.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="_RAINBOW.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
