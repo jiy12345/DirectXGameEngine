@@ -149,6 +149,8 @@
     <ClInclude Include="JDevice.h" />
     <ClInclude Include="JGameEngine.h" />
     <ClInclude Include="JInput.h" />
+    <ClInclude Include="JShader.h" />
+    <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JTimer.h" />
     <ClInclude Include="JVector.h" />
@@ -160,6 +162,8 @@
     <ClCompile Include="JDevice.cpp" />
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JInput.cpp" />
+    <ClCompile Include="JShader.cpp" />
+    <ClCompile Include="JShaderManager.cpp" />
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
     <ClCompile Include="JWriter.cpp" />
