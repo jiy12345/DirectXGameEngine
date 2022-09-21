@@ -164,7 +164,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DefaultShapeMask.hlsl" />
+    <Text Include="DefaulTextureShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="_RAINBOW.bmp" />
