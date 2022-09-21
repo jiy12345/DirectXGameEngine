@@ -149,11 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="JShader.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="JShader.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
