@@ -445,6 +445,7 @@ HRESULT JShader::createIndexBuffer() {
 ### 4 0 실행 예시
 ![result image4.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image4.0.png) 
 ## v4 1
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/4.1)
 ### 4 1 해결된 문제
 다음과 같은 구현 사항들을 통해 [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10), [쉐이더 코드의 중복 로드 가능성 #11](https://github.com/jiy12345/DirectXGameEngine/issues/11)이슈를 해결하였다.
 
