@@ -19,31 +19,26 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_pShader1 = new JShader;
-	m_pShader1->init();
+	m_pObject = new JBaseObject;
+	m_pObject->init();
 
-	m_pShader2 = new JShader;
-	m_pShader2->init();
 	return true;
 }
 
 bool Test::frame()
 {
-	m_pShader1->frame();
-	m_pShader2->frame();
+	m_pObject->frame();
 	return true;
 }
 
 bool Test::render()
 {
-	m_pShader1->render();
-	m_pShader2->render();
+	m_pObject->render();
 	return true;
 }
 
 bool Test::release()
 {
-	m_pShader1->release();
-	m_pShader2->release();
+	m_pObject->release();
 	return true;
 }

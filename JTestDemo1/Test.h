@@ -1,12 +1,11 @@
 #pragma once
 #include "stdafx.h"
 #include "JGameEngine.h"
-#include "JShader.h"
+#include "JBaseObject.h"
 
 class Test : public JGameEngine
 {
-	JShader* m_pShader1;
-	JShader* m_pShader2;
+	JBaseObject* m_pObject;
 public:
 	virtual bool init() override;
 	virtual bool frame() override;

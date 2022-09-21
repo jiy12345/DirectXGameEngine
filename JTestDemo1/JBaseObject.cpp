@@ -28,10 +28,10 @@ void JBaseObject::setVertexData()
 	m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
 	m_VertexList[3].p = { 1.0f, -1.0f, 0.0f };
 
-	m_VertexList[0].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_VertexList[1].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_VertexList[2].c = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_VertexList[3].c = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[0].c = { 1.0f, 0.5f, 1.0f, 1.0f };
+	m_VertexList[1].c = { 1.0f, 1.0f, 0.0f, 1.0f };
+	m_VertexList[2].c = { 0.0f, 1.0f, 1.0f, 1.0f };
+	m_VertexList[3].c = { 1.0f, 1.0f, 0.0f, 1.0f };
 
 	m_VertexList[0].t = { 0.0f, 0.0f };
 	m_VertexList[1].t = { 1.0f, 0.0f };
