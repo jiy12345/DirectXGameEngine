@@ -27,9 +27,11 @@ public:
 	bool	render();
 	bool	release();
 public:
-	void	setVertexData();
-	void	setIndexData();
-	HRESULT createVertexBuffer();
-	HRESULT createIndexBuffer();
-	HRESULT load(std::wstring name);
+	virtual void	setVertexData();
+	virtual void	setIndexData();
+	virtual HRESULT setInputLayout();
+	HRESULT			createVertexBuffer();
+	HRESULT			createIndexBuffer();
+public:
+	virtual ~JShader() {};
 };

@@ -40,7 +40,7 @@ HRESULT JShader::createVertexBuffer() {
     return I_Device.m_pd3dDevice->CreateBuffer(
         &bd,
         &sd,
-        &m_pVertexBuffer);;
+        &m_pVertexBuffer);
 }
 HRESULT JShader::createIndexBuffer() {
     setIndexData();
@@ -60,12 +60,14 @@ HRESULT JShader::createIndexBuffer() {
 }
 
 bool	JShader::init() {
-    createVertexBuffer();
-    createIndexBuffer();
     m_wstrVSName = L"DefaultShapeMask.hlsl";
     m_wstrPSName = L"DefaultShapeMask.hlsl";
     m_strVSFuncName = "VS";
     m_strPSFuncName = "PS";
+    createVertexBuffer();
+    createIndexBuffer();
+    setInputLayout();
+
     return true;
 }
 bool	JShader::frame() {
@@ -103,7 +105,7 @@ bool	JShader::release() {
     if (m_pVertexLayout) m_pVertexLayout->Release();
     return true;
 }
-HRESULT JShader::load(std::wstring filename) {
+HRESULT JShader::setInputLayout() {
     HRESULT hr;
     ID3DBlob* pVSCode = nullptr;
     hr = I_Shader.loadVSCode(pVSCode, m_wstrVSName, m_strVSFuncName);
