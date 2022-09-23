@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "WICTextureLoader.h"
 #include "DDSTextureLoader.h"
-#pragma comment(lib, "../../lib/DirectXTK.lib")
+#pragma comment(lib, "../lib/DirectXTK.lib")
 
 struct JTexture {
 	ID3D11Texture2D*			m_pTexture;

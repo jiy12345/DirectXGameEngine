@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../lib/Debug/$(ProjectName)</OutDir>
-    <IntDir>../../output/Debug/$(ProjectName)</IntDir>
+    <OutDir>../lib/Debug/$(ProjectName)</OutDir>
+    <IntDir>../output/Debug/$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -120,14 +120,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../include/dxtk;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/dxtk;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "*.h" "..\\..\\include"</Command>
+      <Command>copy "*.h" "..\\include"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,6 @@
     <ClInclude Include="JDevice.h" />
     <ClInclude Include="JGameEngine.h" />
     <ClInclude Include="JInput.h" />
-    <ClInclude Include="JShader.h" />
     <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JTextureManager.h" />
@@ -166,7 +165,6 @@
     <ClCompile Include="JDevice.cpp" />
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JInput.cpp" />
-    <ClCompile Include="JShader.cpp" />
     <ClCompile Include="JShaderManager.cpp" />
     <ClCompile Include="JTextureManager.cpp" />
     <ClCompile Include="JTimer.cpp" />
