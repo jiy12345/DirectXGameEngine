@@ -42,10 +42,13 @@
     <ClInclude Include="JVector.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="JShader.h">
+    <ClInclude Include="JShaderManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="JShaderManager.h">
+    <ClInclude Include="JBaseObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="JTextureManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,7 +77,10 @@
     <ClCompile Include="JShaderManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="JShader.cpp">
+    <ClCompile Include="JBaseObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="JTextureManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

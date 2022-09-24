@@ -25,6 +25,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DefaultShapeMask.hlsl" />
+    <Text Include="DefaulTextureShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="_RAINBOW.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

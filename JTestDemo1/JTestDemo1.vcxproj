@@ -120,13 +120,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../include/dxtk;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>DirectXGameEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../lib/Debug/DirectXGameEngine;../../lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../lib/Debug/DirectXGameEngine;../lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +160,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DefaultShapeMask.hlsl" />
+    <Text Include="DefaulTextureShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="_RAINBOW.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
