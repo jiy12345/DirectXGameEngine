@@ -456,6 +456,7 @@ HRESULT JShader::createIndexBuffer() {
 ### 4 0 실행 예시
 ![result image4.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image4.0.png) 
 ## v4 1
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/4.1)
 ### 4 1 해결된 문제
 다음과 같은 구현 사항들을 통해 [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10), [쉐이더 코드의 중복 로드 가능성 #11](https://github.com/jiy12345/DirectXGameEngine/issues/11)이슈를 해결하였습니다.
 
@@ -464,9 +465,8 @@ HRESULT JShader::createIndexBuffer() {
 JShaderManager클래스가 전담하게 하여 같은 쉐이더가 사용될 때 반복될 수 있는 작업을 없앴습니다.
 2. [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10) 관련 해결 사항
 - JShader 클래스가 JShaderManager클래스를 이용하여 쉐이더 파일의 이름만으로 쉐이더를 얻어올 수 있도록 하여, 해당 이름 변수만 수정한다면 쉽게 다른 쉐이더를 활용할 수 있도록 하였습니다.
-- JShader 클래스에서 바뀔 수 있는 정보들인 정점 정보 설정, 인덱스 정보 설정, 인풋 레이아웃 정보를 설정하는 코드들을 가상 함수로 구현하여
-JShader클래스를 상속 받은 클래스가 재정의 하여 쉽게 앞서 언급한 정보들을 수정하여 사용할 수 있도록 하였다.
-### 4 1 추가된 기능 
+- JShader 클래스에서 바뀔 수 있는 정보들인 정점 정보 설정, 인덱스 정보 설정, 인풋 레이아웃 정보를 설정하는 코드들을 가상 함수로 구현하여 JShader클래스를 상속 받은 클래스가 재정의 하여 쉽게 앞서 언급한 정보들을 수정하여 사용할 수 있도록 하였습니다.
+### 4 1 추가된 기능
 # v5 기본 객체 구성하기
 ## v5 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/5.0)
