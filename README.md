@@ -613,4 +613,7 @@ float4 PS(PS_input input) : SV_Target
  이러한 불필요한 통신을 줄이기 위해 버퍼 정보와 인풋 레이아웃 정보는 객체쪽에서 들고 있도록 하였고, 역할이 없어진 JShader 클래스는 삭제하였습니다.
 ### 5 0 문제점
 ### 5 0 클래스 다이어그램
+![class diagram5.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram5.0.png) 
 ### 5 0 실행 예시
+![result image5.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image5.0.png) 
+받아온 텍스쳐를 그대로 화면에 출력하고 있는 것을 확인할 수 있습니다.
