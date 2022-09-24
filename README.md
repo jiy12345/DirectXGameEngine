@@ -54,10 +54,12 @@
     - [주요 기능](#5-0-주요-기능)
       - [기본 객체](#기본-객체)
       - [텍스쳐 매니저](#텍스쳐-매니저)
+    - [수정 사항](#5-0-수정-사항)
+      - [hlsl 코드 수정](#hlsl-코드-수정)
+      - [JShader 클래스 삭제](#JShader-클래스-삭제)
     - [문제점](#5-0-문제점)
     - [클래스 다이어그램](#5-0-클래스-다이어그램)
     - [실행 예시](#5-0-실행-예시)
-
 # v1 창 띄우기
 ## v1 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
@@ -471,6 +473,46 @@ JShader클래스를 상속 받은 클래스가 재정의 하여 쉽게 앞서 �
 ### 5 0 주요 기능
 #### 기본 객체
  게임을 구성할 때 상속받아 활용할 수 있는 기본적인 객체 클래스를 작성하였습니다.
+```C++
+class JBaseObject
+{
+public:
+	std::wstring		  m_wstrVSName = L"DefaulTextureShader.hlsl";
+	std::wstring		  m_wstrPSName = L"DefaulTextureShader.hlsl";
+	std::string		  m_srVSFuncName = "VS";
+	std::string		  m_srPSFuncName = "PS";
+	std::wstring		  m_wstrTextureName = L"_RAINBOW.bmp";
+	ID3D11Buffer*		  m_pVertexBuffer;
+	ID3D11Buffer*		  m_pIndexBuffer;
+	ID3D11InputLayout*	  m_pVertexLayout;
+	std::vector<SimpleVertex> m_VertexList;
+	std::vector<DWORD>	m_IndexList;
+public:
+	void		setVSName(std::wstring wstrVSName);
+	void		setPSName(std::wstring wstrPSName);
+	void		setVSFuncName(std::string strVSFuncName);
+	void		setPSFuncName(std::string strPSFuncName);
+	void		setTextureName(std::wstring strTextureName);
+public:
+	virtual void	setVertexData();
+	virtual void	setIndexData();
+	virtual HRESULT	createVertexBuffer();
+	virtual HRESULT	createIndexBuffer();
+	virtual HRESULT createVertexLayout();
+	virtual void	updateVertexBuffer();
+public:
+	virtual boo	init();
+	virtual boo	frame();
+	virtual boo	render();
+	virtual boo	release();
+protected:
+	bool				preRender();
+	bool				postRender();
+public:
+	virtual				 ~JBaseObject();
+};
+```
+ 여러 객체가 공유할 가능성이 있는 텍스쳐, 쉐이더 등은 이름만 가지고 있어 각각의 매니저를 통해 참조할 수 있도록 하였습니다.
 
 #### 텍스쳐 매니저
  외부에서 이미지를 가져와 Shader Resource View를 구성하여 아래와 같은 구조체를 구성해놓는 텍스쳐 매니저를 구성하였습니다. 
@@ -510,8 +552,8 @@ m_List는 탐색의 효율성을 위해 다음과 같이 파일 이름을 키로
 ```
 
 2. 이미지 파일 이름으로 Shader Resource View를 반환해주는 함수 구현
-앞서 설명한 중복 제거 코드를 활용하여 이미 로드된 이미지라면 저장된 Shader Resource View의 주소값을 반환해주고, 그렇지 않다면 이미지 파일로부터 생성하여 반환해주는 함수를 작성하였습니다.
- 아래의 코드가 바로 DirectXTK에서 제공하는 함수들을 활용하여 이미지로부터 Texture와 ShaderResourceView를 구성하는 코드입니다.
+앞서 설명한 중복 제거 코드를 활용하여 이미 로드된 이미지라면 저장된 Shader Resource View의 주소값을 반환해주고, 그렇지 않다면 이미지 파일로부터 생성하여 반환해주는 함수를 작성하였습니다.  
+아래의 코드가 바로 DirectXTK에서 제공하는 함수들을 활용하여 이미지로부터 Texture와 ShaderResourceView를 구성하는 코드입니다.
 ```C++
 	HRESULT hr = DirectX::CreateWICTextureFromFile(
 		I_Device.m_pd3dDevice,
@@ -529,8 +571,8 @@ m_List는 탐색의 효율성을 위해 다음과 같이 파일 이름을 키로
 			&pJTexture->m_pTextureSRV);
 	}
 ```
-
-
+bmp파일같은 경우 CreateWICTextureFromFile()함수만으로는 제대로 로드되지 않는 현상이 발생하므로, 
+실패할 경우 CreateDDSTextureFromFile() 함수로도 로드를 시도하도록 하였습니다.
 ```C++
 	(pJTexture->m_pTexture)->GetDesc(&pJTexture->m_Desc);
 
@@ -540,8 +582,35 @@ m_List는 탐색의 효율성을 위해 다음과 같이 파일 이름을 키로
 	return hr;
 }
 ```
+### 5 0 수정 사항
+#### hlsl 코드 수정 
+픽셀 쉐이더에 대한 hlsl코드에서 기존에는 정점 버퍼에서 받아온 색상을 출력하도록 하였다면, 지금은
+텍스쳐의 해당 좌표에서 받아온 색상을 출력하도록 수정하였습니다.
+```hlsl
+SamplerState MeshTextureSampler
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+Texture2D    g_txTex : register(t0);
 
-
+struct PS_input
+{
+	float4 p : SV_POSITION;
+	float4 c : COLOR0;
+	float2 t : TEXCOORD0;
+};
+float4 PS(PS_input input) : SV_Target
+{
+	float4 vColor = g_txTex.Sample(MeshTextureSampler, input.t);
+	return vColor;
+}
+```
+#### JShader 클래스 삭제 
+정점 버퍼 설정, 인덱스 버퍼 설정, 인풋 레이아웃의 설정 등의 역할을 [4.1](https://github.com/jiy12345/DirectXGameEngine/tree/4.1)에서는 JShader 클래스가 진행하고 있었습니다.
+ 그런데 이러한 버퍼는 객체에서 계속해서 갱신되며 객체의 내용을 그릴 때 사용되어야 하므로 JShader 클래스와 객체 클래스간의 통신이 계속해서 있어야 합니다.
+ 이러한 불필요한 통신을 줄이기 위해 버퍼 정보와 인풋 레이아웃 정보는 객체쪽에서 들고 있도록 하였고, 역할이 없어진 JShader 클래스는 삭제하였습니다.
 ### 5 0 문제점
 ### 5 0 클래스 다이어그램
 ### 5 0 실행 예시
