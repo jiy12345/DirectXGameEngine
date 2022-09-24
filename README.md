@@ -175,7 +175,7 @@ I_Device.m_pSwapChain->Present(0, 0);
     DWORD dwElapseTime = dwCurrentTime - m_dwBeforeTime;
     m_dwBeforeTime = dwCurrentTime;
 ```
-위 코드는 매 프레임마다 현재 시간을 기존 라이브러리에 있는 timeGetTime() 함수로 구하고, 현재 시간을 활용해 이전 프레임과의 시간차를 구하여 멤버 변수에 그 시간 차 값을 받아놓는 부분이다. 
+위 코드는 매 프레임마다 현재 시간을 기존 라이브러리에 있는 timeGetTime() 함수로 구하고, 현재 시간을 활용해 이전 프레임과의 시간차를 구하여 멤버 변수에 그 시간 차 값을 받아놓는 부분입니다. 
 위의 코드를 통해 JTimer 클래스는 매 프레임마다 이전 프레임과의 시간차 값을 제공해줄 수 있다.  
 ##### FPS(Frame Per Second: 초당 프레임) 구하기
 ```C++
@@ -441,19 +441,18 @@ HRESULT JShader::createIndexBuffer() {
 #### 쉐이더 코드의 중복 로드 가능성
 [해당 이슈](https://github.com/jiy12345/DirectXGameEngine/issues/11)
 ### 4 0 클래스 다이어그램
- 앞서 언급한 여러 문제점들 때문에 JShader 클래스를 아직 라이브러리에 통합하지 않았고, 따라서 엔진 라이브러리 상의 변화는 없다.
+ 앞서 언급한 여러 문제점들 때문에 JShader 클래스를 아직 라이브러리에 통합하지 않았고, 따라서 엔진 라이브러리 상의 변화는 없습니다.
 ### 4 0 실행 예시
 ![result image4.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image4.0.png) 
 ## v4 1
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/4.1)
 ### 4 1 해결된 문제
-다음과 같은 구현 사항들을 통해 [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10), [쉐이더 코드의 중복 로드 가능성 #11](https://github.com/jiy12345/DirectXGameEngine/issues/11)이슈를 해결하였다.
+다음과 같은 구현 사항들을 통해 [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10), [쉐이더 코드의 중복 로드 가능성 #11](https://github.com/jiy12345/DirectXGameEngine/issues/11)이슈를 해결하였습니다.
 
 1. [쉐이더 코드의 중복 로드 가능성 #11](https://github.com/jiy12345/DirectXGameEngine/issues/11)관련된 해결 사항
 - [Flyweight pattern](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%9B%A8%EC%9D%B4%ED%8A%B8_%ED%8C%A8%ED%84%B4)의 적용: 앞서 JShader클래스가 전담하고 있던 쉐이더에 대한 내용이 작성된 파일 불러오기, 컴파일, 쉐이더 생성등의 작업을 
-JShaderManager클래스가 전담하게 하여 같은 쉐이더가 사용될 때 반복될 수 있는 작업을 없앴다.
+JShaderManager클래스가 전담하게 하여 같은 쉐이더가 사용될 때 반복될 수 있는 작업을 없앴습니다.
 2. [확장성 부족 #10](https://github.com/jiy12345/DirectXGameEngine/issues/10) 관련 해결 사항
-- JShader 클래스가 JShaderManager클래스를 이용하여 쉐이더 파일의 이름만으로 쉐이더를 얻어올 수 있도록 하여, 해당 이름 변수만 수정한다면 쉽게 다른 쉐이더를 활용할 수 있도록 하였다.
-- JShader 클래스에서 바뀔 수 있는 정보들인 정점 정보 설정, 인덱스 정보 설정, 인풋 레이아웃 정보를 설정하는 코드들을 가상 함수로 구현하여
-JShader클래스를 상속 받은 클래스가 재정의 하여 쉽게 앞서 언급한 정보들을 수정하여 사용할 수 있도록 하였다.
-### 4 1 추가된 기능 
+- JShader 클래스가 JShaderManager클래스를 이용하여 쉐이더 파일의 이름만으로 쉐이더를 얻어올 수 있도록 하여, 해당 이름 변수만 수정한다면 쉽게 다른 쉐이더를 활용할 수 있도록 하였습니다.
+- JShader 클래스에서 바뀔 수 있는 정보들인 정점 정보 설정, 인덱스 정보 설정, 인풋 레이아웃 정보를 설정하는 코드들을 가상 함수로 구현하여 JShader클래스를 상속 받은 클래스가 재정의 하여 쉽게 앞서 언급한 정보들을 수정하여 사용할 수 있도록 하였습니다.
+### 4 1 추가된 기능
