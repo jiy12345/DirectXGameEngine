@@ -22,11 +22,39 @@ bool Test::init()
 	m_pObject = new JBaseObject;
 	m_pObject->init();
 
+	m_pGunShots.resize(50);
+	for (JSoundChannel*& curGunshot : m_pGunShots) {
+		curGunshot = new JSoundChannel(L"Gun1.wav");
+	}
+	m_pBGM = new JSoundChannel(L"MyLove.mp3");
+
 	return true;
 }
 
 bool Test::frame()
 {
+	if (I_Input.GetKey(VK_HOME) == KEY_PUSH)
+	{
+		for (JSoundChannel*& curGunshot : m_pGunShots) {
+			I_Sound.playEffect(curGunshot, false);
+		}
+	}
+	if (I_Input.GetKey(VK_INSERT) == KEY_PUSH)
+	{
+		I_Sound.play(m_pBGM, true);
+	}
+	if (I_Input.GetKey(VK_END) == KEY_PUSH)
+	{
+		I_Sound.stop(m_pBGM);
+	}
+	if (I_Input.GetKey(VK_F1) == KEY_PUSH)
+	{
+		I_Sound.pause(m_pBGM);
+	}
+	if (I_Input.GetKey(VK_F2) == KEY_PUSH)
+	{
+		I_Sound.resume(m_pBGM);
+	}
 	m_pObject->frame();
 	return true;
 }
@@ -40,5 +68,10 @@ bool Test::render()
 bool Test::release()
 {
 	m_pObject->release();
+	I_Sound.stop(m_pBGM);
+	for (JSoundChannel*& curGunshot : m_pGunShots) {
+		I_Sound.stop(curGunshot);
+	}
+	m_pGunShots.clear();
 	return true;
 }

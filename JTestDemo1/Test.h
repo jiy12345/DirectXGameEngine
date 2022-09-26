@@ -6,6 +6,8 @@
 class Test : public JGameEngine
 {
 	JBaseObject* m_pObject;
+	JSoundChannel* m_pBGM;
+	std::vector<JSoundChannel*> m_pGunShots;
 public:
 	virtual bool init() override;
 	virtual bool frame() override;

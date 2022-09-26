@@ -11,6 +11,14 @@
       <Method Name="release" Hidden="true" />
       <Method Name="render" Hidden="true" />
     </Members>
+    <InheritanceLine Type="JSingleton&lt;T&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="1.603" />
+        <Point X="6.5" Y="2.137" />
+        <Point X="1.25" Y="2.137" />
+        <Point X="1.25" Y="2.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>ERAAAIAIgBBAIAAICAAAAAAAAAAAAgICAAAgAQAQAAA=</HashCode>
       <FileName>JDevice.h</FileName>
@@ -27,7 +35,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="JInput">
-    <Position X="2.75" Y="2.5" Width="1.5" />
+    <Position X="2.5" Y="2.5" Width="1.5" />
     <Members>
       <Method Name="~JInput" Hidden="true" />
       <Method Name="JInput" Hidden="true" />
@@ -46,7 +54,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JTimer">
-    <Position X="7.25" Y="2.5" Width="1.5" />
+    <Position X="6.5" Y="2.5" Width="1.5" />
     <Members>
       <Method Name="~JTimer" Hidden="true" />
       <Method Name="frame" Hidden="true" />
@@ -62,7 +70,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JWindow">
-    <Position X="5" Y="2.5" Width="1.5" />
+    <Position X="4.5" Y="2.5" Width="1.5" />
     <Members>
       <Method Name="~JWindow" Hidden="true" />
       <Method Name="frame" Hidden="true" />
@@ -102,42 +110,56 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JShaderManager">
-    <Position X="9.5" Y="2.5" Width="1.5" />
+    <Position X="8.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACBAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAgAhAAAiA=</HashCode>
       <FileName>JShaderManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JTextureManager">
-    <Position X="11.75" Y="2.5" Width="1.5" />
+    <Position X="10.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAEAABAEQAAAAAAAgAAAAAAA=</HashCode>
       <FileName>JTextureManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JVector&lt;n&gt;">
-    <Position X="5" Y="7" Width="1.5" />
+    <Position X="4.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAQABAAAEAAAQAAAAEAAAAAAAAgAAAAQAA=</HashCode>
       <FileName>JVector.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="JSoundChannel">
+    <Position X="12.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAACA=</HashCode>
+      <FileName>JSoundManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JSoundManager">
+    <Position X="12.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAAAAAAIAIAAkAgAAAAgAAAADACgAAIEAAAgAAAAIAQ=</HashCode>
+      <FileName>JSoundManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="SimpleVertex">
-    <Position X="2.75" Y="7" Width="1.5" />
+    <Position X="2.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEQAAAAAAAA=</HashCode>
       <FileName>JBaseObject.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="JTexture">
-    <Position X="11.75" Y="5" Width="1.5" />
+    <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAEAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>JTextureManager.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Enum Name="KeyState">
-    <Position X="2.75" Y="5.25" Width="1.5" />
+    <Position X="2.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAgAAAAAAAAAAAAAAgAAAABAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>JInput.h</FileName>

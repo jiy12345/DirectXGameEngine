@@ -3,6 +3,7 @@
 #include "JTimer.h"
 #include "JWriter.h"
 #include "JInput.h"
+#include "JSoundManager.h"
 
 class JGameEngine
 {

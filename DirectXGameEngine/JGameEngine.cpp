@@ -6,6 +6,7 @@ bool JGameEngine::engineInit()
     I_Device.init();
     I_Timer.init();
     I_Input.init();
+    I_Sound.init();
 
     m_Writer.init();
     IDXGISurface1* m_pBackBuffer;
@@ -39,6 +40,7 @@ bool JGameEngine::engineRelease()
 {
     release();
     m_Writer.release();
+    I_Sound.release();
     I_Input.release();
     I_Timer.release();
     I_Device.release();
