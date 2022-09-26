@@ -22,7 +22,10 @@ bool Test::init()
 	m_pObject = new JBaseObject;
 	m_pObject->init();
 
-	m_pGunShot = new JSoundChannel(L"Gun1.wav");
+	m_pGunShots.resize(50);
+	for (JSoundChannel*& curGunshot : m_pGunShots) {
+		curGunshot = new JSoundChannel(L"Gun1.wav");
+	}
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
 	return true;
@@ -32,7 +35,9 @@ bool Test::frame()
 {
 	if (I_Input.GetKey(VK_HOME) == KEY_PUSH)
 	{
-		I_Sound.playEffect(m_pGunShot, false);
+		for (JSoundChannel*& curGunshot : m_pGunShots) {
+			I_Sound.playEffect(curGunshot, false);
+		}
 	}
 	if (I_Input.GetKey(VK_INSERT) == KEY_PUSH)
 	{
@@ -64,6 +69,9 @@ bool Test::release()
 {
 	m_pObject->release();
 	I_Sound.stop(m_pBGM);
-	I_Sound.stop(m_pGunShot);
+	for (JSoundChannel*& curGunshot : m_pGunShots) {
+		I_Sound.stop(curGunshot);
+	}
+	m_pGunShots.clear();
 	return true;
 }
