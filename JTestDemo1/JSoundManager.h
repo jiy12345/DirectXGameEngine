@@ -7,6 +7,7 @@
 #pragma comment (lib, "fmod_vc.lib")
 
 class JSoundChannel {
+public:
 	std::wstring m_fileName;
 	FMOD::Channel* m_pChannel;
 public:
@@ -27,15 +28,17 @@ private:
 	std::unordered_map<std::wstring, FMOD::Sound*> m_List;
 public:
 	bool init();
-	bool load(FMOD::Sound* m_pSound, std::wstring fileName);
-	void pause(FMOD::Channel*& m_pChannel);
-	void resume(FMOD::Channel*& m_pChannel);
-	void volumeUp(FMOD::Channel*& m_pChannel, float fVolume = 0.1f);
-	void volumeDown(FMOD::Channel*& m_pChannel, float fVolume = 0.1f);
-	bool play(std::wstring fileName, FMOD::Channel*& m_pChannel, bool bIsLoop = false);
-	bool playEffect(std::wstring fileName, FMOD::Channel*& m_pChannel, bool bIsLoop = false);
-	void stop(FMOD::Channel*& m_pChannel);
+	bool release();
+	void pause(const JSoundChannel* pChannel);
+	void resume(const JSoundChannel* pChannel);
+	void volumeUp(const JSoundChannel* pChannel, float fVolume = 0.1f);
+	void volumeDown(const JSoundChannel* pChannel, float fVolume = 0.1f);
+	bool play(JSoundChannel* pChannel, bool bIsLoop = false);
+	bool playEffect(JSoundChannel* pChannel, bool bIsLoop = false);
+	void stop(const JSoundChannel* pChannel);
+private:
 	void setLoop(FMOD::Sound* pSound, bool bIsLoop = false);
+	bool load(FMOD::Sound*& m_pSound, std::wstring fileName);
 	bool isPlay(FMOD::Channel*& m_pChannel);
 private:
 	JSoundManager() {};
@@ -44,4 +47,4 @@ private:
 	JSoundManager& operator=(const JSoundManager&) = delete;
 };
 
-#define I_Sound TSoundManager::GetInstance()
+#define I_Sound JSoundManager::GetInstance()

@@ -4,94 +4,94 @@ bool JSoundManager::init()
 {
 	FMOD::System_Create(&m_pSystem);
 	m_pSystem->init(32, FMOD_INIT_NORMAL, 0);
+	return true;
 }
 
-bool JSoundManager::load(FMOD::Sound* m_pSound, std::wstring fileName)
+bool JSoundManager::release()
 {
-	auto iter = m_List.find(fileName);
-	if (iter != m_List.end())
+	for (auto data : m_List)
 	{
-		return iter->second;
+		FMOD::Sound* pData = data.second;
+		if (pData) pData->release();
+		pData = nullptr;
 	}
-	FMOD::Sound* pSound = nullptr;
-	FMOD_RESULT hr = m_pSystem->createSound(
-		to_wm(fileName).c_str(),
-		FMOD_DEFAULT, nullptr,
-		&pSound);
-
-	return (hr == FMOD_OK) ? true : false;
+	m_pSystem->close();
+	m_pSystem->release();
+	m_List.clear();
+	return true;
 }
 
-void JSoundManager::pause(FMOD::Channel*& m_pChannel)
+void JSoundManager::pause(const JSoundChannel* pChannel)
 {
-	if (m_pChannel == nullptr) return;
+	if (pChannel->m_pChannel == nullptr) return;
 	bool isPaused;
-	m_pChannel->getPaused(&isPaused);
-	if(isPaused == false)m_pChannel->setPaused(true);
+	pChannel->m_pChannel->getPaused(&isPaused);
+	if (isPaused == false) pChannel->m_pChannel->setPaused(true);
 }
 
-void JSoundManager::resume(FMOD::Channel*& m_pChannel)
+void JSoundManager::resume(const JSoundChannel* pChannel)
 {
-	if (m_pChannel == nullptr) return;
+	if (pChannel->m_pChannel == nullptr) return;
 	bool isPaused;
-	m_pChannel->getPaused(&isPaused);
-	if (isPaused == true)m_pChannel->setPaused(false);
+	pChannel->m_pChannel->getPaused(&isPaused);
+	if (isPaused == true) pChannel->m_pChannel->setPaused(false);
 }
 
-void JSoundManager::volumeUp(FMOD::Channel*& m_pChannel, float fVolume)
+void JSoundManager::volumeUp(const JSoundChannel* pChannel, float fVolume)
 {
 	float fCurVolume = 0.0f;
-	m_pChannel->getVolume(&fCurVolume);
+	pChannel->m_pChannel->getVolume(&fCurVolume);
 	fCurVolume += fVolume;
 	fCurVolume = min(1.0f, fCurVolume);
-	m_pChannel->setVolume(fCurVolume);
+	pChannel->m_pChannel->setVolume(fCurVolume);
 }
 
-void JSoundManager::volumeDown(FMOD::Channel*& m_pChannel, float fVolume)
+void JSoundManager::volumeDown(const JSoundChannel* pChannel, float fVolume)
 {
 	float fCurVolume = 0.0f;
-	m_pChannel->getVolume(&fCurVolume);
+	pChannel->m_pChannel->getVolume(&fCurVolume);
 	fCurVolume -= fVolume;
 	fCurVolume = min(1.0f, fCurVolume);
-	m_pChannel->setVolume(fCurVolume);
+	pChannel->m_pChannel->setVolume(fCurVolume);
 }
 
-bool JSoundManager::play(std::wstring fileName, FMOD::Channel*& m_pChannel, bool bIsLoop)
+bool JSoundManager::play(JSoundChannel* pChannel, bool bIsLoop)
 {
-	FMOD::Sound* pSound = nullptr;
-	load(pSound, fileName);
-	if (isPlay(m_pChannel) == false)
+	if (isPlay(pChannel->m_pChannel) == false)
 	{
+		FMOD::Sound* pSound = nullptr;
+		load(pSound, pChannel->m_fileName);
 		FMOD_RESULT hr =
 			m_pSystem->playSound(pSound, nullptr, false,
-				&m_pChannel);
+				&pChannel->m_pChannel);
 		if (hr == FMOD_OK)
 		{
-			m_pChannel->setVolume(0.5f);
+			pChannel->m_pChannel->setVolume(0.5f);
 			setLoop(pSound, bIsLoop);
 		}
 	}
 	return true;
 }
 
-bool JSoundManager::playEffect(std::wstring fileName, FMOD::Channel*& m_pChannel, bool bIsLoop)
+bool JSoundManager::playEffect(JSoundChannel* pChannel, bool bIsLoop)
 {
 	FMOD::Sound* pSound = nullptr;
-	load(pSound, fileName);
+	load(pSound, pChannel->m_fileName);
 	FMOD_RESULT hr =
 		m_pSystem->playSound(pSound, nullptr, false,
-			&m_pChannel);
+			&pChannel->m_pChannel);
 	if (hr == FMOD_OK)
 	{
-		m_pChannel->setVolume(0.5f);
+		pChannel->m_pChannel->setVolume(0.5f);
 		setLoop(pSound, bIsLoop);
 	}
 	return true;
 }
 
-void JSoundManager::stop(FMOD::Channel*& m_pChannel)
+void JSoundManager::stop(const JSoundChannel* pChannel)
 {
-	m_pChannel->stop();
+	if (pChannel->m_pChannel == nullptr) return;
+	pChannel->m_pChannel->stop();
 }
 
 void JSoundManager::setLoop(FMOD::Sound* pSound, bool bIsLoop)
@@ -100,6 +100,24 @@ void JSoundManager::setLoop(FMOD::Sound* pSound, bool bIsLoop)
 		pSound->setMode(FMOD_LOOP_NORMAL);
 	else
 		pSound->setMode(FMOD_LOOP_OFF);
+}
+
+bool JSoundManager::load(FMOD::Sound*& m_pSound, std::wstring fileName)
+{
+	auto iter = m_List.find(fileName);
+	if (iter != m_List.end())
+	{
+		m_pSound = iter->second;
+		return true;
+	}
+	FMOD_RESULT hr = m_pSystem->createSound(
+		to_wm(fileName).c_str(),
+		FMOD_DEFAULT, nullptr,
+		&m_pSound);
+
+	m_List.insert({ fileName, m_pSound });
+
+	return (hr == FMOD_OK) ? true : false;
 }
 
 bool JSoundManager::isPlay(FMOD::Channel*& m_pChannel)
