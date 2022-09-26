@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "JGameEngine.h"
 #include "JBaseObject.h"
-#include "JSoundManager.h"
 
 class Test : public JGameEngine
 {

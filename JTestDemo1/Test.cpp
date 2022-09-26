@@ -21,7 +21,7 @@ bool Test::init()
 {
 	m_pObject = new JBaseObject;
 	m_pObject->init();
-	I_Sound.init();
+
 	m_pGunShot = new JSoundChannel(L"Gun1.wav");
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
@@ -63,7 +63,6 @@ bool Test::render()
 bool Test::release()
 {
 	m_pObject->release();
-	I_Sound.release();
 	I_Sound.stop(m_pBGM);
 	I_Sound.stop(m_pGunShot);
 	return true;

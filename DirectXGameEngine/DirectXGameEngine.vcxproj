@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../include/dxtk;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/dxtk;../include/fmod;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +153,7 @@
     <ClInclude Include="JInput.h" />
     <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
+    <ClInclude Include="JSoundManager.h" />
     <ClInclude Include="JTextureManager.h" />
     <ClInclude Include="JTimer.h" />
     <ClInclude Include="JVector.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JInput.cpp" />
     <ClCompile Include="JShaderManager.cpp" />
+    <ClCompile Include="JSoundManager.cpp" />
     <ClCompile Include="JTextureManager.cpp" />
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
