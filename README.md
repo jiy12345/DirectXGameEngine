@@ -60,6 +60,14 @@
     - [문제점](#5-0-문제점)
     - [클래스 다이어그램](#5-0-클래스-다이어그램)
     - [실행 예시](#5-0-실행-예시)
+- [v6 사운드 처리 기능 추가하기](#v6-사운드-처리-기능-구성하기)
+  - [v6.0](#v6-0) 
+    - [주요 기능](#6-0-주요-기능)
+      - [사운드 매니저](#사운드-매니저)
+    - [수정 사항](#6-0-수정-사항)
+    - [문제점](#6-0-문제점)
+    - [클래스 다이어그램](#6-0-클래스-다이어그램)
+    - [실행 예시](#6-0-실행-예시)
 # v1 창 띄우기
 ## v1 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
@@ -617,3 +625,16 @@ float4 PS(PS_input input) : SV_Target
 ### 5 0 실행 예시
 ![result image5.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image5.0.png) 
 받아온 텍스쳐를 그대로 화면에 출력하고 있는 것을 확인할 수 있습니다.
+# v6 사운드 처리 기능 추가하기
+![picture1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/pictures%20for%20illustration/picture1.png) 
+## v6 0 
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/5.0)
+### 6 0 주요 기능
+#### 사운드 매니저
+
+### 6 0 수정 사항
+### 6 0 문제점
+### 6 0 클래스 다이어그램
+![result image6.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image6.0.png) 
+### 6 0 실행 예시
+보이는 화면상 달라진 부분은 5.0버전이랑 달라진 부분이 없어 생략하겠습니다.
