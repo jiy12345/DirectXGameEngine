@@ -635,6 +635,6 @@ float4 PS(PS_input input) : SV_Target
 ### 6 0 수정 사항
 ### 6 0 문제점
 ### 6 0 클래스 다이어그램
-![result image6.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image6.0.png) 
+![class diagram6.0](https://github.com/jiy12345/DirectXGameEngine/blob/6.0/images/class%20diagrams/ClassDiagram6.0.png) 
 ### 6 0 실행 예시
 보이는 화면상 달라진 부분은 5.0버전이랑 달라진 부분이 없어 생략하겠습니다.
