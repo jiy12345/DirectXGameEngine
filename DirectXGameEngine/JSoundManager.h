@@ -29,6 +29,7 @@ private:
 public:
 	bool init();
 	bool release();
+	bool frame();
 	void pause(const JSoundChannel* pChannel);
 	void resume(const JSoundChannel* pChannel);
 	void volumeUp(const JSoundChannel* pChannel, float fVolume = 0.1f);

@@ -22,7 +22,7 @@ bool Test::init()
 	m_pObject = new JBaseObject;
 	m_pObject->init();
 
-	m_pGunShots.resize(50);
+	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
 		curGunshot = new JSoundChannel(L"Gun1.wav");
 	}
@@ -36,6 +36,7 @@ bool Test::frame()
 	if (I_Input.GetKey(VK_HOME) == KEY_PUSH)
 	{
 		for (JSoundChannel*& curGunshot : m_pGunShots) {
+			Sleep(10);
 			I_Sound.playEffect(curGunshot, false);
 		}
 	}

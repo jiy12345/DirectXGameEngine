@@ -21,6 +21,12 @@ bool JSoundManager::release()
 	return true;
 }
 
+bool JSoundManager::frame()
+{
+	m_pSystem->update();
+	return true;
+}
+
 void JSoundManager::pause(const JSoundChannel* pChannel)
 {
 	if (pChannel->m_pChannel == nullptr) return;
