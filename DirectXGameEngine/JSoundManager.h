@@ -7,7 +7,8 @@
 #pragma comment (lib, "fmod_vc.lib")
 
 class JSoundChannel {
-public:
+	friend class JSoundManager;
+private:
 	std::wstring m_fileName;
 	FMOD::Channel* m_pChannel;
 public:
