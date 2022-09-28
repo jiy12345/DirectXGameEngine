@@ -20,7 +20,9 @@ int APIENTRY wWinMain(
 bool Test::init()
 {
 	m_pObject = new JTestObject;
+	m_pMapObject = new JBaseObject;
 	m_pObject->init();
+	m_pMapObject->init();
 
 	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
@@ -57,11 +59,13 @@ bool Test::frame()
 		I_Sound.resume(m_pBGM);
 	}
 	m_pObject->frame();
+	m_pMapObject->frame();
 	return true;
 }
 
 bool Test::render()
 {
+	// m_pMapObject->render();
 	m_pObject->render();
 	return true;
 }
