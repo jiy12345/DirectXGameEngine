@@ -19,7 +19,7 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_pObject = new JBaseObject;
+	m_pObject = new JTestObject;
 	m_pObject->init();
 
 	m_pGunShots.resize(32);

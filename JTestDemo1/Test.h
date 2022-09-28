@@ -1,11 +1,11 @@
 #pragma once
 #include "stdafx.h"
 #include "JGameEngine.h"
-#include "JBaseObject.h"
+#include "JTestObject.h"
 
 class Test : public JGameEngine
 {
-	JBaseObject* m_pObject;
+	JTestObject* m_pObject;
 	JSoundChannel* m_pBGM;
 	std::vector<JSoundChannel*> m_pGunShots;
 public:
