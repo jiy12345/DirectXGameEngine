@@ -10,7 +10,9 @@
 #include <codecvt>
 
 #include "JDevice.h"
-#include "JVector.h"
+#include "JShape.h"
+#include "JInput.h"
+#include "JTimer.h"
 
 static std::wstring to_mw(const std::string& _src)
 {

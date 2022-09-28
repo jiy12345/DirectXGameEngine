@@ -1,6 +1,7 @@
 #pragma once
-#pragma once
-#include "stdafx.h"
+#include "JSingleton.h"
+#include <string>
+#include <Windows.h>
 #pragma comment(lib, "winmm.lib")
 class JTimer : public JSingleton<JTimer>
 {

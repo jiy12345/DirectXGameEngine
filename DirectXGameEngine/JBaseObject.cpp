@@ -149,6 +149,8 @@ bool JBaseObject::preRender()
 	hr = I_Shader.loadPS(pPS, m_wstrPSName, m_strPSFuncName);
 	if (FAILED(hr)) return false;
 
+	updateVertexBuffer();
+
 	I_Device.m_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
 	I_Device.m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
 	I_Device.m_pImmediateContext->VSSetShader(pVS, NULL, 0);

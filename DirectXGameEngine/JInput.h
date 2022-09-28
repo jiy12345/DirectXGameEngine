@@ -1,5 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <windows.h>
+#include <string>
+#include "JSingleton.h"
+#include "JWindow.h"
+
 enum KeyState
 {
 	KEY_FREE = 0,

@@ -1,13 +1,33 @@
-#include"stdafx.h"
+#include "JVector.h"
 
 template<size_t n>
 struct nCube
 {
-    JVector<n> m_vMin;
+public:
+    JVector<n> m_vLeftTop;
     JVector<n> m_vSize;
+public:
+    nCube() {}
+    nCube(const JVector<n>& vPos, const JVector<n>& vSize)
+    {
+        Set(vPos, vSize);
+    }
+    void  Set(const JVector<n>& vPos, const JVector<n>& vSize)
+    {
+        m_vLeftTop = vPos;
+        this->m_vSize = vSize;
+    }
+public:
+    JVector<n> vMax() const {
+        return m_vLeftTop + m_vSize;
+    }
+    JVector<n> vCenter() const {
+        return (m_vLeftTop + vMax()) / 2.0f;
+    }
+public:
     bool   operator == (nCube<n>& dest)
     {
-        if (m_vMin == dest.m_vMin)
+        if (m_vLeftTop == dest.m_vLeftTop)
         {
             if (m_vSize == dest.m_vSize)
             {
@@ -16,29 +36,15 @@ struct nCube
         }
         return false;
     }
-    nCube() {}
-    nCube(const JVector<n> &vPos, const JVector<n>& vSize)
-    {
-        Set(vPos, vSize);
-    }
-    void  Set(const JVector<n>& vPos, const JVector<n>& vSize)
-    {
-        m_vMin = vPos;
-        this->m_vSize = vSize;
-    }
-    JVector<n> vMax() const {
-        return m_vMin + m_vSize;
-    }
-    JVector<n> vCenter() const {
-        return (m_vMin + vMax()) / 2.0f;
-    }
 };
 
 template<size_t n>
 struct nSphere
 {
+public:
     JVector<n> m_vCenter;
     float m_fRadius;
+public:
     nSphere() {
         for (int i = 0; i < n; i++)
             m_vCenter[i] = 0;

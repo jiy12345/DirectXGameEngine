@@ -54,7 +54,7 @@
     <ClInclude Include="JSoundManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="JShape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <ClCompile Include="JSoundManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="JShape.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
