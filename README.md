@@ -1,3 +1,4 @@
+
 # DirectX로 구성한 게임 엔진
 
 - [v1 창 띄우기](#v1-창-띄우기)
@@ -60,6 +61,14 @@
     - [문제점](#5-0-문제점)
     - [클래스 다이어그램](#5-0-클래스-다이어그램)
     - [실행 예시](#5-0-실행-예시)
+- [v6 사운드 처리 기능 추가하기](#v6-사운드-처리-기능-구성하기)
+  - [v6.0](#v6-0) 
+    - [주요 기능](#6-0-주요-기능)
+      - [사운드 매니저](#사운드-매니저)
+    - [수정 사항](#6-0-수정-사항)
+    - [문제점](#6-0-문제점)
+    - [클래스 다이어그램](#6-0-클래스-다이어그램)
+    - [실행 예시](#6-0-실행-예시)
 # v1 창 띄우기
 ## v1 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
@@ -617,3 +626,74 @@ float4 PS(PS_input input) : SV_Target
 ### 5 0 실행 예시
 ![result image5.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image5.0.png) 
 받아온 텍스쳐를 그대로 화면에 출력하고 있는 것을 확인할 수 있습니다.
+# v6 사운드 처리 기능 추가하기
+## v6 0 
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/5.0)
+### 6 0 주요 기능
+#### 사운드 매니저
+- 활용된 라이브러리  
+```C++
+#include "fmod.h"
+#include "fmod.hpp"
+#include "fmod_errors.h"
+
+#pragma comment (lib, "fmod_vc.lib")
+```
+- fmod 라이브러리에 대한 간단한 설명  
+ 현재의 엔진에서 사운드 처리 기능을 어떻게 구현하였는지 이해하기 위해서는 fmod가 어떤 식으로 동작하는지에 대해 간단히 이해할 필요가 있습니다.
+ 다음의 그림은 fmod가 어떤식으로 사운드를 처리하는지에 대해 알려주고 있습니다.  
+![picture1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/pictures%20for%20illustration/picture1.png)  
+위 그림에서 확인할 수 있듯, 사운드 파일들은 fmod에서 제공하는 함수인 createSound() 함수를 통해 프로그램 상에 FMOD::Sound 형태로
+ 저장될 수 있게 됩니다. 이렇게 저장된 FMOD\::Sound는 playSound() 함수를 통해 재생되며, 그 재생 상태는 FMOD\::Channel 클래스를 통해 제어됩니다.
+ 같은 soundfile이라 해도 서로 다른 FMOD\::Channel에 재생될 수 있습니다.  
+  
+ 이때 생성할 수 있는 채널의 개수는 다음의 코드를 통해 정해집니다.
+```C++
+	FMOD::System_Create(&m_pSystem);
+	m_pSystem->init(32, FMOD_INIT_NORMAL, 0);
+```
+ FMOD\::System은 Fmod 전체를 관리하기 위한 객체라고 볼 수 있으며, init() 함수를 통해 초기화됩니다.
+ 위 코드의 init() 함수에서 32가 들어간 부분이 바로 생성 가능한 채널의 개수를 지정하는 것이며, 따라서 동시에 
+사용할 수 있는 채널의 개수는 32개가 됩니다. 따라서 32개의 채널을 사용 중에 하나의 사운드 파일을 또 재생하게 된다면
+ 기존에 재생 중인 채널 중 하나를 중지하고 재생하게 됩니다.  
+
+- 현재 엔진에서의 활용
+1. JSoundManager클래스로 모든 Sound에 관련된 처리 국소화
+```C++
+class JSoundChannel {
+public:
+	std::wstring m_fileName;
+	FMOD::Channel* m_pChannel;
+public:
+	JSoundChannel(std::wstring fileName) {
+		m_fileName = fileName;
+		m_pChannel = nullptr;
+	}
+	bool release() {
+		m_pChannel->stop();
+	}
+};
+```
+ Sound에 관한 처리를 JSound Channel 내에서 모두 진행하기 위해 외부에서 필요한 최소한의 정보인 사운드 파일이름과 채널 포인터만을 가진
+JSoundChannel 클래스를 작성하였고, 외부에서는 JSoundChannel클래스만 가지고 있다면 JSoundManager 클래스의 모든 기능을 이용할 수 있도록 하였습니다.  
+  
+2. [Flyweight pattern](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%9B%A8%EC%9D%B4%ED%8A%B8_%ED%8C%A8%ED%84%B4)을 이용하여 Sound파일의 중복 로드 방지  
+같은 음성 파일이 여러번 사용될 때 중복 로드 되는 것을 막기 위하여 다음과 같이 unordered_map에 이름과 FMOD\::Sound 짝을 이루도록 저장하였고,
+```C++
+	std::unordered_map<std::wstring, FMOD::Sound*> m_List;
+```
+다음과 같이 이미 해당 파일 이름으로된 음성 파일이 올라와 있다면 반환만 해주도록 하였습니다.
+```C++
+	auto iter = m_List.find(fileName);
+	if (iter != m_List.end())
+	{
+		m_pSound = iter->second;
+		return true;
+	}
+```
+### 6 0 수정 사항
+### 6 0 문제점
+### 6 0 클래스 다이어그램
+![class diagram6.0](https://github.com/jiy12345/DirectXGameEngine/blob/6.0/images/class%20diagrams/ClassDiagram6.0.png) 
+### 6 0 실행 예시
+보이는 화면상 달라진 부분은 5.0버전이랑 달라진 부분이 없어 생략하겠습니다.

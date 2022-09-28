@@ -7,7 +7,8 @@
 #pragma comment (lib, "fmod_vc.lib")
 
 class JSoundChannel {
-public:
+	friend class JSoundManager;
+private:
 	std::wstring m_fileName;
 	FMOD::Channel* m_pChannel;
 public:
@@ -29,6 +30,7 @@ private:
 public:
 	bool init();
 	bool release();
+	bool frame();
 	void pause(const JSoundChannel* pChannel);
 	void resume(const JSoundChannel* pChannel);
 	void volumeUp(const JSoundChannel* pChannel, float fVolume = 0.1f);
