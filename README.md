@@ -677,8 +677,20 @@ public:
  Sound에 관한 처리를 JSound Channel 내에서 모두 진행하기 위해 외부에서 필요한 최소한의 정보인 사운드 파일이름과 채널 포인터만을 가진
 JSoundChannel 클래스를 작성하였고, 외부에서는 JSoundChannel클래스만 가지고 있다면 JSoundManager 클래스의 모든 기능을 이용할 수 있도록 하였습니다.  
   
-2. [Flyweight pattern](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%9B%A8%EC%9D%B4%ED%8A%B8_%ED%8C%A8%ED%84%B4)을 이용하여 Sound파일의 중복 로드 방지
-
+2. [Flyweight pattern](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%9B%A8%EC%9D%B4%ED%8A%B8_%ED%8C%A8%ED%84%B4)을 이용하여 Sound파일의 중복 로드 방지  
+같은 음성 파일이 여러번 사용될 때 중복 로드 되는 것을 막기 위하여 다음과 같이 unordered_map에 이름과 FMOD\::Sound 짝을 이루도록 저장하였고,
+```C++
+	std::unordered_map<std::wstring, FMOD::Sound*> m_List;
+```
+다음과 같이 이미 해당 파일 이름으로된 음성 파일이 올라와 있다면 반환만 해주도록 하였습니다.
+```C++
+	auto iter = m_List.find(fileName);
+	if (iter != m_List.end())
+	{
+		m_pSound = iter->second;
+		return true;
+	}
+```
 ### 6 0 수정 사항
 ### 6 0 문제점
 ### 6 0 클래스 다이어그램
