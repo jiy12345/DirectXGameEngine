@@ -159,6 +159,7 @@
     <ClInclude Include="JVector.h" />
     <ClInclude Include="JWindow.h" />
     <ClInclude Include="JWriter.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
     <ClCompile Include="JWriter.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
