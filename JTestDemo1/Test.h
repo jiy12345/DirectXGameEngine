@@ -5,7 +5,7 @@
 
 class Test : public JGameEngine
 {
-	JUser* m_pObject;
+	JUser* m_pUser;
 	JBaseObject* m_pMapObject;
 	JSoundChannel* m_pBGM;
 	std::vector<JSoundChannel*> m_pGunShots;

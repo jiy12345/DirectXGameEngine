@@ -69,13 +69,14 @@
     - [문제점](#6-0-문제점)
     - [클래스 다이어그램](#6-0-클래스-다이어그램)
     - [실행 예시](#6-0-실행-예시)
-- [v6 정점 버퍼 조작하여 여러 효과 적용하기](#v6-정점-버퍼-조작하여-여러-효과-적용하기)
+- [v7 정점 버퍼 조작하여 여러 효과 적용하기](#v7-정점-버퍼-조작하여-여러-효과-적용하기)
   - [v7.0](#v7-0) 
     - [주요 기능](#7-0-주요-기능)
       - [정점 버퍼 업데이트 기능 추가](#정점-버퍼-업데이트-기능-추가)
       - [카메라 변환 기능 추가](#카메라-변환-기능-추가)
     - [수정 사항](#7-0-수정-사항)
     - [문제점](#7-0-문제점)
+      - [카메라 좌표를 멤버로 가질 클래스가 결정되지 않음](#카메라-좌표를-멤버로-가질-클래스가-결정되지-않음)
     - [클래스 다이어그램](#7-0-클래스-다이어그램)
     - [실행 예시](#7-0-실행-예시)
 # v1 창 띄우기
@@ -707,3 +708,82 @@ JSoundChannel 클래스를 작성하였고, 외부에서는 JSoundChannel클래�
 ![class diagram6.0](https://github.com/jiy12345/DirectXGameEngine/blob/6.0/images/class%20diagrams/ClassDiagram6.0.png) 
 ### 6 0 실행 예시
 보이는 화면상 달라진 부분은 5.0버전이랑 달라진 부분이 없어 생략하겠습니다.
+# v7 정점 버퍼 조작하여 여러 효과 적용하기
+## v7 0 
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/7.0)
+### 7 0 주요 기능
+#### 정점 버퍼 업데이트 기능 추가
+ 게임이 동작할 때 모든 객체가 가만히 있지는 않으므로, 그림의 움직임은 항상 필요합니다. 따라서 정점 버퍼를 갱신하는 기능을 추가하였습니다.
+1. UV 영역과 게임 내에서 차지할 영역 변수 추가
+ 텍스쳐를 가져와 그리기 위해서는 가져온 텍스쳐에서 어떤 영역을 그릴지에 대한 좌표와 그린 내용이 화면상에서 어떤 곳에 위치할지를 결정할 좌표가 필요합니다.
+ 그에 따라 다음의 두 변수(nCube<2>는 직사각형을 나타내는 객체입니다.)를 추가하였습니다.
+```C++
+	nCube<2>		m_rtUV;   // 텍스쳐 내에서의 좌표
+	nCube<2>		m_rtArea; // 게임 공간 내에서의 좌표
+```
+  
+2. NDC 좌표 변환 함수 추가  
+최종적으로 정점 버퍼를 통해 전달될 때는 NDC 좌표계(-1 ~ 1사이로 정규화된 공간)에 따라 전달되므로, 
+다음과 같은 함수를 통해 현재 영역을 바탕으로 NDC 좌표를 구할 수 있도록 하였습니다.
+```C++
+nCube<2> JBaseObject::getNDC()
+{
+	nCube<2> rtNDC;
+	rtNDC.m_vLeftTop[0] = m_rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
+	rtNDC.m_vLeftTop[1] = -((m_rtArea.m_vLeftTop[1] + m_rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
+	rtNDC.m_vSize[0] = m_rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
+	rtNDC.m_vSize[1] = m_rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
+	return rtNDC;
+}
+```
+위 함수에서 원래 클라이언트의 넓이(m_rtClient)가 들어가는 부분에는 뷰포트의 크기가 들어가야 맞으나, 현재는 뷰포트의 크기를 화면 크기에 맞추고 
+변경할 예정이 없어 화면 크기로 설정하였습니다.  
+  
+3. m_rtUV, m_rtArea정보 바탕으로 정점 버퍼 업데이트 하는 함수 구현
+```C++
+void JBaseObject::updateVertexBuffer()
+{
+	nCube<2> rtNDC = getNDC();
+	m_VertexList[0].p = { rtNDC.m_vLeftTop[0], rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1], 0.0f };
+	m_VertexList[0].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] };
+
+	m_VertexList[1].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1],  0.0f };
+	m_VertexList[1].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] };
+
+	m_VertexList[2].p = { rtNDC.m_vLeftTop[0],  rtNDC.m_vLeftTop[1], 0.0f };
+	m_VertexList[2].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
+
+	m_VertexList[3].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1], 0.0f };
+	m_VertexList[3].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
+
+	I_Device.m_pImmediateContext->UpdateSubresource(
+		m_pVertexBuffer, NULL, NULL, &m_VertexList.at(0), 0, 0);
+}
+```
+앞서 언급한 텍스쳐 내에서의 좌표와 게임 공간 내에서의 좌표를 정점 좌표에 적용하여 실제 그려질 때 반영되도록 하였습니다.
+또한 updateVertexBuffer()함수가 렌더링 전에 호출되도록 고정하여 좌표들이 업데이트 되었을 때 그릴 때 반영되도록 하였습니다.
+#### 카메라 변환 기능 추가
+카메라 영역을 표현하기 위한 다음과 같은 변수를 추가하였고, 
+```C++
+	nCube<2> m_rtCamera;
+```
+해당 영역을 활용하여 카메라 위치 변환을 다음과 같이 구현하였습니다.
+```C++
+void Test::getCameraCoord(nCube<2>& rtArea)
+{
+	rtArea.m_vLeftTop -= m_rtCamera.m_vLeftTop;
+}
+```
+또한 카메라 변환이 잘 되는 지 체크하기 위해 다음과 같은 코드를 통해 카메라가 유저를 따라다니도록 하였고, 
+```C++
+m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
+```
+실행 결과 유저에 따라 카메라가 움직이고 나머지는 원래의 위치에 있는 것이 확인되었습니다.
+### 7 0 수정 사항
+### 7 0 문제점
+#### 카메라 좌표를 멤버로 가질 클래스가 결정되지 않음
+[해당 이슈](https://github.com/jiy12345/DirectXGameEngine/issues/22)
+### 7 0 클래스 다이어그램
+추가된 클래스가 없어 클래스 구조상 변경은 없으므로 생략하겠습니다.
+### 7 0 실행 예시
+![result image7.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image7.0.png) 
