@@ -1,5 +1,17 @@
 #include "JBaseObject.h"
 
+nCube<2> JBaseObject::getNDC()
+{
+	nCube<2> rtNDC;
+
+	rtNDC.m_vLeftTop[0] = m_rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
+	rtNDC.m_vLeftTop[1] = -((m_rtArea.m_vLeftTop[1] + m_rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
+	rtNDC.m_vSize[0] = m_rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
+	rtNDC.m_vSize[1] = m_rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
+
+	return rtNDC;
+}
+
 void JBaseObject::setVSName(std::wstring wstrVSName)
 {
 	m_wstrVSName = wstrVSName;
@@ -29,7 +41,7 @@ void JBaseObject::setVertexData()
 {
 	m_VertexList.resize(4);
 	m_VertexList[0].p = { -1.0f, 1.0f, 0.0f };
-	m_VertexList[1].p = { +1.0f, 1.0f,  0.0f };
+	m_VertexList[1].p = { 1.0f, 1.0f,  0.0f };
 	m_VertexList[2].p = { -1.0f, -1.0f, 0.0f };
 	m_VertexList[3].p = { 1.0f, -1.0f, 0.0f };
 
@@ -117,9 +129,21 @@ HRESULT JBaseObject::createVertexLayout()
 
 void JBaseObject::updateVertexBuffer()
 {
+	nCube<2> rtNDC = getNDC();
+	m_VertexList[0].p = { rtNDC.m_vLeftTop[0], rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1], 0.0f };
+	m_VertexList[0].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] };
+
+	m_VertexList[1].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1],  0.0f };
+	m_VertexList[1].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] };
+
+	m_VertexList[2].p = { rtNDC.m_vLeftTop[0],  rtNDC.m_vLeftTop[1], 0.0f };
+	m_VertexList[2].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
+
+	m_VertexList[3].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1], 0.0f };
+	m_VertexList[3].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
+
 	I_Device.m_pImmediateContext->UpdateSubresource(
-		m_pVertexBuffer, 0, nullptr,
-		&m_VertexList.at(0), 0, 0);
+		m_pVertexBuffer, NULL, NULL, &m_VertexList.at(0), 0, 0);
 }
 
 bool JBaseObject::init()
@@ -148,6 +172,8 @@ bool JBaseObject::preRender()
 	ID3D11PixelShader* pPS = nullptr;
 	hr = I_Shader.loadPS(pPS, m_wstrPSName, m_strPSFuncName);
 	if (FAILED(hr)) return false;
+
+	updateVertexBuffer();
 
 	I_Device.m_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
 	I_Device.m_pImmediateContext->IASetInputLayout(m_pVertexLayout);
