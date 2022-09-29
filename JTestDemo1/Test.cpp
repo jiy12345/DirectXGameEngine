@@ -19,8 +19,13 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
+	m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
+
 	m_pObject = new JTestObject;
-	m_pMapObject = new JBaseObject;
+	m_pMapObject = new JTestObject;
+	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
+	m_pMapObject->m_rtUV.Set({ 0, 0 }, { 1, 1 });
+	m_pMapObject->m_rtArea.Set({ 0, 0 }, { 1024, 768 });
 	m_pObject->init();
 	m_pMapObject->init();
 
@@ -59,13 +64,16 @@ bool Test::frame()
 		I_Sound.resume(m_pBGM);
 	}
 	m_pObject->frame();
-	m_pMapObject->frame();
+	//m_pMapObject->frame();
+	m_rtCamera.m_vLeftTop = m_pObject->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
 	return true;
 }
 
 bool Test::render()
 {
-	// m_pMapObject->render();
+	getCameraCoord(m_pMapObject->m_rtArea);
+	getCameraCoord(m_pObject->m_rtArea);
+	m_pMapObject->render();
 	m_pObject->render();
 	return true;
 }
@@ -73,10 +81,16 @@ bool Test::render()
 bool Test::release()
 {
 	m_pObject->release();
+	m_pMapObject->release();
 	I_Sound.stop(m_pBGM);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
 		I_Sound.stop(curGunshot);
 	}
 	m_pGunShots.clear();
 	return true;
+}
+
+void Test::getCameraCoord(nCube<2>& rtArea)
+{
+	rtArea.m_vLeftTop -= m_rtCamera.m_vLeftTop;
 }

@@ -5,11 +5,11 @@ bool JTestObject::frame()
     JVector<2> vPos = m_rtArea.m_vLeftTop;
     if (I_Input.GetKey('W'))
     {
-        vPos[1] += +1.0f * I_Timer.m_fElapseTimer * m_fSpeed;
+        vPos[1] += -1.0f * I_Timer.m_fElapseTimer * m_fSpeed;
     }
     if (I_Input.GetKey('S'))
     {
-        vPos[1] += -1.0f * I_Timer.m_fElapseTimer * m_fSpeed;
+        vPos[1] += +1.0f * I_Timer.m_fElapseTimer * m_fSpeed;
     }
     if (I_Input.GetKey('A'))
     {
@@ -47,10 +47,10 @@ nCube<2> JTestObject::getNDC()
 {
     nCube<2> rtNDC;
 
-    rtNDC.m_vLeftTop[0] = m_rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right;
-    rtNDC.m_vLeftTop[1] = m_rtArea.m_vLeftTop[1] / I_Window.m_rtClient.bottom;
-    rtNDC.m_vSize[0] = m_rtArea.m_vSize[0] / I_Window.m_rtClient.bottom;
-    rtNDC.m_vSize[1] = m_rtArea.m_vSize[1] / I_Window.m_rtClient.bottom;
+    rtNDC.m_vLeftTop[0] = m_rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
+    rtNDC.m_vLeftTop[1] = -((m_rtArea.m_vLeftTop[1] + m_rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
+    rtNDC.m_vSize[0] = m_rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
+    rtNDC.m_vSize[1] = m_rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
 
 	return rtNDC;
 }

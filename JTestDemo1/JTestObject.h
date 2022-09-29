@@ -20,7 +20,9 @@ public:
 		m_rtUV.Set({ 0 / 988.0f, 24 / 811.0f }, { 15 / 988.0f, 22 / 811.0f });
 		// m_rtUV.Set({ 0, 0 }, { 1, 1 });
 		
-		m_rtArea.Set({ 0, 0 }, { m_rtUV.m_vSize[0]* 3000, m_rtUV.m_vSize[1] * 3000 });
+		// float ratio = m_rtUV.m_vSize[0] / m_rtUV.m_vSize[1];
+		float ratio = 15 / 22.0f;
+		m_rtArea.Set({ 0, 0 }, { 50 * ratio, 50 });
 	}
 };
 
