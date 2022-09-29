@@ -21,11 +21,11 @@ bool Test::init()
 {
 	m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
 
-	m_pObject = new JTestObject;
-	m_pMapObject = new JTestObject;
+	m_pObject = new JUser;
+	m_pMapObject = new JBaseObject;
 	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
 	m_pMapObject->m_rtUV.Set({ 0, 0 }, { 1, 1 });
-	m_pMapObject->m_rtArea.Set({ 0, 0 }, { 1024, 768 });
+	m_pMapObject->m_rtArea.Set({ -1024, -768 }, { 1024 * 2, 768 * 2 });
 	m_pObject->init();
 	m_pMapObject->init();
 
@@ -64,7 +64,7 @@ bool Test::frame()
 		I_Sound.resume(m_pBGM);
 	}
 	m_pObject->frame();
-	//m_pMapObject->frame();
+	m_pMapObject->frame();
 	m_rtCamera.m_vLeftTop = m_pObject->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
 	return true;
 }
