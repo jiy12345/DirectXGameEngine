@@ -16,6 +16,11 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
     _wfopen_s(&fp_src, fileName.c_str(), _T("rt"));
     if (fp_src == NULL) return false;
 
+    JVector<2> vTotalTextureSize;
+    _fgetts(pBuffer, _countof(pBuffer), fp_src);
+    _stscanf_s(pBuffer, _T("%f %f"),
+        &vTotalTextureSize[0], &vTotalTextureSize[1]);
+
     std::vector<JSprite> vJSprites;
     int iIndex = 0;
     while (!feof(fp_src))
@@ -23,7 +28,7 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
         JSprite jSprite;
         _fgetts(pBuffer, _countof(pBuffer), fp_src);
         _stscanf_s(pBuffer, _T("%d %f"),
-            &jSprite.m_iNumFrame, &jSprite.m_totalTime);
+            &jSprite.m_iNumFrame, &jSprite.m_fTotalTime, &jSprite.m_iNumFrame, &jSprite.m_fTotalTime);
 
         std::vector<nCube<2>> rtList;
         nCube<2> rt;
@@ -31,10 +36,11 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
         {
             _fgetts(pBuffer, _countof(pBuffer), fp_src);
             _stscanf_s(pBuffer, _T("%f %f %f %f"),
-                &rt.m_vLeftTop[0], &rt.m_vLeftTop[1], &rt.m_vSize[0], &rt.m_vSize[0]);
-            jSprite.m_spriteRtLists.push_back(rt);
+                &rt.m_vLeftTop[0], &rt.m_vLeftTop[1], &rt.m_vSize[0], &rt.m_vSize[1]);
+            jSprite.m_vSpriteRtLists.push_back(rt);
         }
         
+        jSprite.m_vTotalTextureSize = vTotalTextureSize;
         vJSprites.push_back(jSprite);
     }
     fclose(fp_src);
