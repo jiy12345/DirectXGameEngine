@@ -9,11 +9,16 @@
 #include <tchar.h>
 #include <atlconv.h> 
 #include <codecvt>
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
 
 #include "JDevice.h"
 #include "JShape.h"
 #include "JInput.h"
 #include "JTimer.h"
+
+const double PI = acos(-1);
 
 typedef std::basic_string<TCHAR>				T_STR;
 typedef std::basic_string<wchar_t>				W_STR;

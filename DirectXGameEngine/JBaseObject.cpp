@@ -125,6 +125,10 @@ HRESULT JBaseObject::createVertexLayout()
 	return hr;
 }
 
+void JBaseObject::updateUVCoord()
+{
+}
+
 void JBaseObject::updateVertexBuffer()
 {
 	nCube<2> rtNDC = getNDC();
@@ -171,6 +175,7 @@ bool JBaseObject::preRender()
 	hr = I_Shader.loadPS(pPS, m_wstrPSName, m_strPSFuncName);
 	if (FAILED(hr)) return false;
 
+	updateUVCoord();
 	updateVertexBuffer();
 
 	I_Device.m_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
