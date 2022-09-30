@@ -1,6 +1,14 @@
 #pragma once
-#include "JSprite.h"
+#include "stdafx.h"
 #include "JSingleton.h"
+
+struct JSprite
+{
+	int						m_iNumFrame;
+	float					m_fTotalTime;
+	JVector<2>				m_vTotalTextureSize;
+	std::vector<nCube<2>>	m_vSpriteRtLists;
+};
 
 class JSpriteManager : public JSingleton<JSpriteManager>
 {
