@@ -149,13 +149,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="JSprite.h" />
     <ClInclude Include="JSpriteManager.h" />
     <ClInclude Include="JUser.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="JSprite.cpp" />
     <ClCompile Include="JSpriteManager.cpp" />
     <ClCompile Include="JUser.cpp" />
     <ClCompile Include="Test.cpp" />

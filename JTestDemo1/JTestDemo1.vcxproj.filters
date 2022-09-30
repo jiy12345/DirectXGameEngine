@@ -24,9 +24,6 @@
     <ClInclude Include="JSpriteManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="JSprite.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
@@ -36,9 +33,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="JSpriteManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="JSprite.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

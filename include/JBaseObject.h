@@ -43,6 +43,7 @@ public:
 	virtual HRESULT		createVertexBuffer();
 	virtual HRESULT		createIndexBuffer();
 	virtual HRESULT     createVertexLayout();
+	virtual void		updateUVCoord();
 	virtual void		updateVertexBuffer();
 public:
 	virtual bool		init();

@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Test.h"
 
 #define WINDOW_SIZE_X 1024
@@ -9,10 +10,18 @@ int APIENTRY wWinMain(
 	HINSTANCE	hPrevInstance,
 	LPWSTR		lpCmdLine,
 	int			nCmdShow) {
-
+#ifdef _DEBUG
+	AllocConsole();
+	AttachConsole(GetCurrentProcessId());
+	freopen("CON", "w", stdout);
+#endif
 	I_Window.setWindow(hInstance, WINDOW_NAME, WINDOW_SIZE_X, WINDOW_SIZE_Y);
 	Test test;
 	test.run();
+#ifdef _DEBUG
+	FreeConsole();
+#endif
+
 
 	return 0;
 }
@@ -28,6 +37,7 @@ bool Test::init()
 	m_pMapObject->m_rtArea.Set({ -1024, -768 }, { 1024 * 2, 768 * 2 });
 	m_pUser->init();
 	m_pMapObject->init();
+
 
 	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
