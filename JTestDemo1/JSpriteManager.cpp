@@ -1,100 +1,52 @@
 #include "JSpriteManager.h"
 
-bool JSpriteManager::gameDataLoad(const TCHAR* pszLoad)
+bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName)
 {
+    auto iter = m_List.find(fileName);
+    if (iter != m_List.end())
+    {
+        m_vSprite = iter->second;
+        return true;
+    }
+
     TCHAR pBuffer[256] = { 0 };
-    TCHAR pTemp[256] = { 0 };
-    TCHAR pTexturePath[256] = { 0 };
-    TCHAR pMaskTexturePath[256] = { 0 };
-    TCHAR pShaderPath[256] = { 0 };
 
     int iNumSprite = 0;
     FILE* fp_src;
-    _wfopen_s(&fp_src, pszLoad, _T("rt"));
+    _wfopen_s(&fp_src, fileName.c_str(), _T("rt"));
     if (fp_src == NULL) return false;
 
-    _fgetts(pBuffer, _countof(pBuffer), fp_src);
-    _stscanf_s(pBuffer, _T("%s"), pTemp, (unsigned int)_countof(pTemp));
-    //m_rtSpriteList.resize(iNumSprite);
-
-    while(true)
+    std::vector<JSprite> vJSprites;
+    int iIndex = 0;
+    while (!feof(fp_src))
     {
-        int iNumFrame = 0;
+        JSprite jSprite;
         _fgetts(pBuffer, _countof(pBuffer), fp_src);
-        _stscanf_s(pBuffer, _T("%s %d"),
-            pTemp, (unsigned int)_countof(pTemp), &iNumFrame);
+        _stscanf_s(pBuffer, _T("%d %f"),
+            &jSprite.m_iNumFrame, &jSprite.m_totalTime);
 
-        W_STR name = pTemp;
-        if (name == L"#END")
-        {
-            break;
-        }
-        m_rtNameList.push_back(pTemp);
-
-        int iReadFrame = 0;
         std::vector<nCube<2>> rtList;
         nCube<2> rt;
-        for (int iFrame = 0; iFrame < iNumFrame; iFrame++)
+        for (int iFrame = 0; iFrame < jSprite.m_iNumFrame; iFrame++)
         {
             _fgetts(pBuffer, _countof(pBuffer), fp_src);
-            _stscanf_s(pBuffer, _T("%d %d %d %d %d"),
-                &iReadFrame,
+            _stscanf_s(pBuffer, _T("%f %f %f %f"),
                 &rt.m_vLeftTop[0], &rt.m_vLeftTop[1], &rt.m_vSize[0], &rt.m_vSize[0]);
-            rtList.push_back(rt);
+            jSprite.m_spriteRtLists.push_back(rt);
         }
-        m_rtSpriteList.push_back(rtList);
+        
+        vJSprites.push_back(jSprite);
     }
     fclose(fp_src);
+    
+    m_vSprite = vJSprites;
+    m_List.insert({ fileName, vJSprites });;
 
-    return true;
-}
-
-bool JSpriteManager::load(std::wstring fileName, std::wstring spriteName)
-{
-    //if(m_List.find(fileName) == m_List.end())
-    //    read
-    //m_rtSpriteList.clear();
-    //m_rtNameList.clear();
-
-    //if (gameDataLoad(fileName.c_str()) == false)
-    //{
-    //    return false;
-    //}
-
-    //HRESULT hr;
-    //UINT iCurrentTexIndex = 0;
-    //UINT iCurrentUVIndex = 0;
-    //for (int iSp = 0; iSp < m_rtNameList.size(); iSp++)
-    //{
-    //    auto data = Find(m_rtNameList[iSp]);
-    //    if (data != nullptr) continue;
-
-    //    std::unique_ptr<TSprite> pNewData = nullptr;
-    //    if (m_iSpriteTypeList[iSp] == 0)
-    //        pNewData = std::make_unique<TSprite>();
-    //    else
-    //        pNewData = std::make_unique<TSpriteTexture>();
-
-    //    pNewData->m_szName = m_rtNameList[iSp];
-    //    pNewData->m_szTexturePath = m_TextureNameList[iSp];
-    //    pNewData->m_szMaskTexturePath = m_MaskTextureNameList[iSp];
-    //    pNewData->m_szShaderPath = m_ShaderNameList[iSp];
-    //    pNewData->m_uvArray = m_rtSpriteList[iCurrentUVIndex++];
-
-    //    if (pNewData)
-    //    {
-    //        m_List.insert(std::make_pair(pNewData->m_szName, std::move(pNewData)));
-    //    }
-    //}
     return true;
 }
 
 bool JSpriteManager::release()
 {
-    for (const auto& data : m_List)
-    {
-        data.second->release();
-    }
     m_List.clear();
     return true;
 }

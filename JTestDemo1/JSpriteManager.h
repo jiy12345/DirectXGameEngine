@@ -5,14 +5,10 @@
 class JSpriteManager : public JSingleton<JSpriteManager>
 {
 	friend class JSingleton<JSpriteManager>;
-public:
-	std::vector<W_STR> m_rtNameList;
-	std::vector<std::vector<nCube<2>>> m_rtSpriteList;
 private:
-	std::unordered_map<std::wstring, JSprite*> m_List;
+	std::unordered_map<std::wstring, std::vector<JSprite>> m_List;
 public:
-	bool gameDataLoad(const TCHAR* pszLoad);
-	bool load(std::wstring fileName, std::wstring spriteName);
+	bool load(std::vector<JSprite> &m_vSprite, std::wstring fileName);
 	bool release();
 private:
 	JSpriteManager() {};
@@ -21,3 +17,4 @@ private:
 	JSpriteManager& operator=(const JSpriteManager&) = delete;
 };
 
+#define I_Sprite JSpriteManager::GetInstance()

@@ -1,12 +1,10 @@
 #pragma once
 #include "stdafx.h"
 
-class JSprite
+struct JSprite
 {
-public:
-	bool		init();
-	bool		frame();
-	bool		render();
-	bool		release();
+	int						m_iNumFrame;
+	float					m_totalTime;
+	std::vector<nCube<2>>	m_spriteRtLists;
 };
 
