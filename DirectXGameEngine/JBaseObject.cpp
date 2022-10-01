@@ -127,6 +127,24 @@ HRESULT JBaseObject::createVertexLayout()
 
 void JBaseObject::updateUVCoord()
 {
+	if (m_curSprite == IS_NOT_SPRITE) return;
+	m_fEffectTimer += I_Timer.m_fElapseTimer;
+	if (m_fStep <= m_fEffectTimer)
+	{
+		m_fEffectTimer -= m_fStep;
+		m_iIndexOfSprite++;
+	}
+	if (m_iIndexOfSprite >= m_vSpriteInfo->at(m_curSprite).m_iNumFrame)
+	{
+		m_fEffectTimer = 0;
+		m_iIndexOfSprite = 0;
+	}
+	m_rtUV = m_vSpriteInfo->at(m_curSprite).m_vSpriteRtLists[m_iIndexOfSprite];
+
+	m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+	m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
+	m_rtUV.m_vSize[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+	m_rtUV.m_vSize[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 }
 
 void JBaseObject::updateVertexBuffer()

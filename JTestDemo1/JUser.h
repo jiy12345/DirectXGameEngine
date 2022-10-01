@@ -14,16 +14,9 @@ enum SPRITE {
 class JUser : public JBaseObject
 {
 public:
-	SPRITE					m_curSprite = IDLE_DOWN;
-	int						m_iIndex = 0;
-	float					m_fStep;
-	float					m_fEffectTimer = 0.0f;
-	std::vector<JSprite>*	m_vSpriteInfo;
-public:
 	bool init() override;
 	bool frame() override;
 public:
-	void updateUVCoord() override;
-	void setCurDirection(float angle);
+	void setCurSprite(float angle);
 };
 

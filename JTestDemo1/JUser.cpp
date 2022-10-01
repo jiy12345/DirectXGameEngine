@@ -4,7 +4,6 @@ bool JUser::init()
 {
     JBaseObject::init();
     I_Sprite.load(m_vSpriteInfo, L"../data/sprites/pilot.txt");
-    m_fStep = m_vSpriteInfo->at(m_curSprite).m_fTotalTime / m_vSpriteInfo->at(m_curSprite).m_iNumFrame;
     return false;
 }
 
@@ -14,7 +13,7 @@ bool JUser::frame()
     float curPosInViewX = I_Input.m_ptPos.x - I_Window.m_rtClient.right / 2;
     float angle = static_cast<float>(atan2(curPosInViewY, curPosInViewX) * 180 / PI);
     std::cout << angle << '\n';
-    setCurDirection(angle);
+    setCurSprite(angle);
 
     JVector<2> vPos = m_rtArea.m_vLeftTop;
     if (I_Input.GetKey('W'))
@@ -38,29 +37,7 @@ bool JUser::frame()
     return true;
 }
 
-void JUser::updateUVCoord()
-{
-    m_fEffectTimer += I_Timer.m_fElapseTimer;
-    if (m_fStep <= m_fEffectTimer)
-    {
-        m_fEffectTimer -= m_fStep;
-        m_iIndex++;
-    }
-    if (m_iIndex >= m_vSpriteInfo->at(m_curSprite).m_iNumFrame)
-    {
-        m_fEffectTimer = 0;
-        //m_fEffectTimer -= m_vSpriteInfo[m_curSprite].m_fTotalTime;
-        m_iIndex = 0;
-    }
-    m_rtUV = m_vSpriteInfo->at(m_curSprite).m_vSpriteRtLists[m_iIndex];
-
-    m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
-    m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
-    m_rtUV.m_vSize[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
-    m_rtUV.m_vSize[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
-}
-
-void JUser::setCurDirection(float angle) {
+void JUser::setCurSprite(float angle) {
     if (angle >= 150 || angle <= -120) {
         m_curSprite = IDLE_LEFT;
     }
@@ -79,4 +56,5 @@ void JUser::setCurDirection(float angle) {
     else if (-120 < angle && angle <= -60) {
         m_curSprite = IDLE_DOWN;
     }
+    m_fStep = m_vSpriteInfo->at(m_curSprite).m_fTotalTime / m_vSpriteInfo->at(m_curSprite).m_iNumFrame;
 }
