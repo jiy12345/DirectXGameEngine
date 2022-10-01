@@ -26,7 +26,7 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
+	I_Camera.m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
 
 	m_pUser = new JUser;
 	m_pMapObject = new JBaseObject;
@@ -72,14 +72,14 @@ bool Test::frame()
 	}
 	m_pUser->frame();
 	m_pMapObject->frame();
-	m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
+	I_Camera.m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
 	return true;
 }
 
 bool Test::render()
 {
-	getCameraCoord(m_pMapObject->m_rtArea);
-	getCameraCoord(m_pUser->m_rtArea);
+	I_Camera.getCameraCoord(m_pMapObject->m_rtArea);
+	I_Camera.getCameraCoord(m_pUser->m_rtArea);
 	m_pMapObject->render();
 	m_pUser->render();
 	return true;
@@ -95,9 +95,4 @@ bool Test::release()
 	}
 	m_pGunShots.clear();
 	return true;
-}
-
-void Test::getCameraCoord(nCube<2>& rtArea)
-{
-	rtArea.m_vLeftTop -= m_rtCamera.m_vLeftTop;
 }
