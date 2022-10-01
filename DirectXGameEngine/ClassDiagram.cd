@@ -13,8 +13,8 @@
     </Members>
     <InheritanceLine Type="JSingleton&lt;T&gt;" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="6.5" Y="1.603" />
-        <Point X="6.5" Y="2.137" />
+        <Point X="8.25" Y="1.603" />
+        <Point X="8.25" Y="2.137" />
         <Point X="1.25" Y="2.137" />
         <Point X="1.25" Y="2.5" />
       </Path>
@@ -47,7 +47,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JSingleton&lt;T&gt;">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Position X="7.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>JSingleton.h</FileName>
@@ -105,12 +105,21 @@
       <Method Name="render" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>ERIAABAAACgBAEAAQgwAEAAAAAgRgEMCAAAQAQEQgAA=</HashCode>
+      <HashCode>ERIAABAAACghIEIAQwwAEIAAAAgRgEMCiAAQAQESgAA=</HashCode>
       <FileName>JBaseObject.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_rtArea" />
+      <Field Name="m_rtUV" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="JShaderManager">
     <Position X="8.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="~JShaderManager" Hidden="true" />
+      <Method Name="JShaderManager" Hidden="true" />
+      <Method Name="operator=" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>ACBAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAgAhAAAiA=</HashCode>
       <FileName>JShaderManager.h</FileName>
@@ -118,6 +127,11 @@
   </Class>
   <Class Name="JTextureManager">
     <Position X="10.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="~JTextureManager" Hidden="true" />
+      <Method Name="JTextureManager" Hidden="true" />
+      <Method Name="operator=" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAEAABAEQAAAAAAAgAAAAAAA=</HashCode>
       <FileName>JTextureManager.h</FileName>
@@ -131,7 +145,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JSoundChannel">
-    <Position X="12.5" Y="7.25" Width="1.5" />
+    <Position X="12.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAAACA=</HashCode>
       <FileName>JSoundManager.h</FileName>
@@ -139,9 +153,25 @@
   </Class>
   <Class Name="JSoundManager">
     <Position X="12.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="~JSoundManager" Hidden="true" />
+      <Method Name="JSoundManager" Hidden="true" />
+      <Method Name="operator=" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>GAAAAAAIAIAAkAgAAAAgAAAADACgAAIEAAAgAAAAIAQ=</HashCode>
+      <HashCode>GAAAAAAIAIAAkAgAAAAgAAAADACgAAIEAAAgAQAAIAQ=</HashCode>
       <FileName>JSoundManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JSpriteManager">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="~JSpriteManager" Hidden="true" />
+      <Method Name="JSpriteManager" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAIAAAAABAAAAAAAABAEAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>JSpriteManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="SimpleVertex">
@@ -152,10 +182,31 @@
     </TypeIdentifier>
   </Struct>
   <Struct Name="JTexture">
-    <Position X="10.5" Y="5" Width="1.5" />
+    <Position X="10.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAEAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>JTextureManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="nCube&lt;n&gt;">
+    <Position X="2.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAABAAgAAAAAQAAgAAAAAAAAAEIAAAAAAA=</HashCode>
+      <FileName>JShape.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="nSphere&lt;n&gt;">
+    <Position X="2.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAgAAAAAg=</HashCode>
+      <FileName>JShape.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="JSprite">
+    <Position X="14.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAACgAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>JSpriteManager.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Enum Name="KeyState">
