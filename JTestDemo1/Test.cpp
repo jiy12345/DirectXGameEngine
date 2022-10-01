@@ -26,8 +26,6 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	I_Camera.m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
-
 	m_pUser = new JUser;
 	m_pMapObject = new JBaseObject;
 	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
@@ -78,8 +76,6 @@ bool Test::frame()
 
 bool Test::render()
 {
-	I_Camera.getCameraCoord(m_pMapObject->m_rtArea);
-	I_Camera.getCameraCoord(m_pUser->m_rtArea);
 	m_pMapObject->render();
 	m_pUser->render();
 	return true;

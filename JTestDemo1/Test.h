@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "JGameEngine.h"
 #include "JUser.h"
-#include "JCamera.h"
 
 class Test : public JGameEngine
 {
