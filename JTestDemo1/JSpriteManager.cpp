@@ -1,6 +1,6 @@
 #include "JSpriteManager.h"
 
-bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName)
+bool JSpriteManager::load(std::vector<JSprite>* &m_vSprite, std::wstring fileName)
 {
     auto iter = m_List.find(fileName);
     if (iter != m_List.end())
@@ -21,7 +21,7 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
     _stscanf_s(pBuffer, _T("%f %f"),
         &vTotalTextureSize[0], &vTotalTextureSize[1]);
 
-    std::vector<JSprite> vJSprites;
+    std::vector<JSprite> *vJSprites = new std::vector<JSprite>;
     int iIndex = 0;
     while (!feof(fp_src))
     {
@@ -41,7 +41,7 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
         }
         
         jSprite.m_vTotalTextureSize = vTotalTextureSize;
-        vJSprites.push_back(jSprite);
+        vJSprites->push_back(jSprite);
     }
     fclose(fp_src);
     
@@ -53,6 +53,9 @@ bool JSpriteManager::load(std::vector<JSprite>& m_vSprite, std::wstring fileName
 
 bool JSpriteManager::release()
 {
+    for (auto curSprites : m_List) {
+        delete curSprites.second;
+    }
     m_List.clear();
     return true;
 }

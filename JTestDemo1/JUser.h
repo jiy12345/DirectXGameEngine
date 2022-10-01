@@ -18,7 +18,7 @@ public:
 	int						m_iIndex = 0;
 	float					m_fStep;
 	float					m_fEffectTimer = 0.0f;
-	std::vector<JSprite>	m_vSpriteInfo;
+	std::vector<JSprite>*	m_vSpriteInfo;
 public:
 	bool init() override;
 	bool frame() override;

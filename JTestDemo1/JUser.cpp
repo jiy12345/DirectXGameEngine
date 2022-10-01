@@ -4,7 +4,7 @@ bool JUser::init()
 {
     JBaseObject::init();
     I_Sprite.load(m_vSpriteInfo, L"../data/sprites/pilot.txt");
-    m_fStep = m_vSpriteInfo[m_curSprite].m_fTotalTime / m_vSpriteInfo[m_curSprite].m_iNumFrame;
+    m_fStep = m_vSpriteInfo->at(m_curSprite).m_fTotalTime / m_vSpriteInfo->at(m_curSprite).m_iNumFrame;
     return false;
 }
 
@@ -46,18 +46,18 @@ void JUser::updateUVCoord()
         m_fEffectTimer -= m_fStep;
         m_iIndex++;
     }
-    if (m_iIndex >= m_vSpriteInfo[m_curSprite].m_iNumFrame)
+    if (m_iIndex >= m_vSpriteInfo->at(m_curSprite).m_iNumFrame)
     {
         m_fEffectTimer = 0;
         //m_fEffectTimer -= m_vSpriteInfo[m_curSprite].m_fTotalTime;
         m_iIndex = 0;
     }
-    m_rtUV = m_vSpriteInfo[m_curSprite].m_vSpriteRtLists[m_iIndex];
+    m_rtUV = m_vSpriteInfo->at(m_curSprite).m_vSpriteRtLists[m_iIndex];
 
-    m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo[m_curSprite].m_vTotalTextureSize[0];
-    m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo[m_curSprite].m_vTotalTextureSize[1];
-    m_rtUV.m_vSize[0] /= m_vSpriteInfo[m_curSprite].m_vTotalTextureSize[0];
-    m_rtUV.m_vSize[1] /= m_vSpriteInfo[m_curSprite].m_vTotalTextureSize[1];
+    m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+    m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
+    m_rtUV.m_vSize[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+    m_rtUV.m_vSize[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 }
 
 void JUser::setCurDirection(float angle) {

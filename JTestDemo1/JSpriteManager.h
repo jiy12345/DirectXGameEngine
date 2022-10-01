@@ -14,9 +14,9 @@ class JSpriteManager : public JSingleton<JSpriteManager>
 {
 	friend class JSingleton<JSpriteManager>;
 private:
-	std::unordered_map<std::wstring, std::vector<JSprite>> m_List;
+	std::unordered_map<std::wstring, std::vector<JSprite>*> m_List;
 public:
-	bool load(std::vector<JSprite> &m_vSprite, std::wstring fileName);
+	bool load(std::vector<JSprite>* &m_vSprite, std::wstring fileName);
 	bool release();
 private:
 	JSpriteManager() {};
