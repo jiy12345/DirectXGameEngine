@@ -45,6 +45,7 @@ bool JGameEngine::engineRelease()
     I_Timer.release();
     I_Device.release();
     I_Window.release();
+    I_Sprite.release();
     return true;
 }
 
