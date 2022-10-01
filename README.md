@@ -79,6 +79,14 @@
       - [카메라 좌표를 멤버로 가질 클래스가 결정되지 않음](#카메라-좌표를-멤버로-가질-클래스가-결정되지-않음)
     - [클래스 다이어그램](#7-0-클래스-다이어그램)
     - [실행 예시](#7-0-실행-예시)
+  - [v7.1](#v7-1)
+	- [해결된 문제](#7-1-해결된-문제)
+    - [추가된 기능](#7-1-추가된-기능)
+      - [애니메이션 재생 기능](#애니메이션-재생-기능)
+    - [문제점](#7-1-문제점)
+      - [포인터 형태로 전달되는 데이터](#포인터-형태로-전달되는-데이터)
+    - [클래스 다이어그램](#7-1-클래스-다이어그램)
+    - [실행 예시](#7-0-실행-예시)
 # v1 창 띄우기
 # v1 창 띄우기
 ## v1 0
@@ -786,4 +794,41 @@ m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rt
 ### 7 0 클래스 다이어그램
 추가된 클래스가 없어 클래스 구조상 변경은 없으므로 생략하겠습니다.
 ### 7 0 실행 예시
-![result image7.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image7.0.png) 
+![result image7.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image7.0.png)
+## v7 1
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/7.1)
+### 7 1 해결된 문제
+### 7 1 추가된 기능
+#### 애니메이션 재생 기능
+ 애니메이션을 재생하기 위해서는 그리는 대상이 되는 이미지가 계속해서 바뀌어야 하고, 그러기 위해서는 그려질 대상이 될 이미지 파일을
+계속해서 교체해 주거나 이미지 내에서의 위치를 바꿔가며 출력해야 합니다. 따라서 교체를 위해 추가적인 정보를 업로드하여 관리할 필요가 있습니다.
+
+1. JSprite 구조체  
+하나의 애니메이션을 위해서는 다양한 정보가 필요합니다. 따라서 다음과 같이 JSprite 클래를 구성하여
+ 필요한 정보들을 가지고 있도록 하였습니다.
+```C++
+struct JSprite
+{
+	int			m_iNumFrame;            // 애니메이션에의 프레임 개수
+	float			m_fTotalTime;           // 한 사이클을 재생하는데 걸려야 하는 시간
+	JVector<2>		m_vTotalTextureSize;    // 스프라이트 이미지들이 들어있는 전체 이미지의 크기
+                                                        // 이미지 내에서의 정규화된 좌표를 구하기 위해 필요합니다.
+	std::vector<nCube<2>>	m_vSpriteRtLists;       // 이미지 내에서의 UV 좌표를 담은 벡터
+};
+
+```  
+  
+2. JSpriteManager 클래스  
+ 앞서 구현하였던 매니저들과 마찬가지로, 정보를 외부에서 읽어와 필요한 객체들에 전달하는 역할을 합니다. 
+앞서 구현되었던 매니저들과 마찬가지로 [Flyweight pattern](https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9D%BC%EC%9D%B4%EC%9B%A8%EC%9D%B4%ED%8A%B8_%ED%8C%A8%ED%84%B4)을 적용하여 
+같은 데이터에 대해 중복된 입출력 작업이 일어나는 것을 막았습니다.  
+현재는 하나의 캐릭터에 대한 스프라이트를 전부 가지고 있는 이미지 파일이 있다고 가정하여 하나의 객체에 대한 모든 정보를 한꺼번에 갖고 있도록 하고, 또한 한꺼번에 반환하도록 하였습니다.
+ 
+### 7 1 문제점
+#### 포인터 형태로 전달되는 데이터
+[해당 이슈](https://github.com/jiy12345/DirectXGameEngine/issues/26)
+### 7 1 클래스 다이어그램
+![class diagram7.1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram7.1.png) 
+### 7 1 실행 예시 
+![result image7.1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image7.1.gif)
+마우스 위치에 따라 출력되는 캐릭터의 애니매이션이 달라지도록 구현해보았습니다.
