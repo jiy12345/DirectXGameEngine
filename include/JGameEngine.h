@@ -1,9 +1,8 @@
 #pragma once
 #include"stdafx.h"
-#include "JTimer.h"
 #include "JWriter.h"
-#include "JInput.h"
 #include "JSoundManager.h"
+#include "JSpriteManager.h"
 
 class JGameEngine
 {

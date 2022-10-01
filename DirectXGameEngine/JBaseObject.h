@@ -3,6 +3,9 @@
 #include "JDevice.h"
 #include "JShaderManager.h"
 #include "JTextureManager.h"
+#include "JSpriteManager.h"
+
+#define IS_NOT_SPRITE -1
 
 struct SimpleVertex
 {
@@ -14,10 +17,16 @@ struct SimpleVertex
 class JBaseObject
 {
 public:
-	nCube<2>		m_rtUV;
-	nCube<2>		m_rtArea;
+	int 					m_curSprite = IS_NOT_SPRITE;
+	int						m_iIndexOfSprite = 0;
+	float					m_fStep;
+	float					m_fEffectTimer = 0.0f;
+	std::vector<JSprite>*	m_vSpriteInfo;
 public:
-	float				m_fSpeed = 500.0f;
+	nCube<2>				m_rtUV;
+	nCube<2>				m_rtArea;
+public:
+	float					m_fSpeed = 500.0f;
 public:
 	std::wstring				m_wstrVSName = L"DefaulTextureShader.hlsl";
 	std::wstring				m_wstrPSName = L"DefaulTextureShader.hlsl";
@@ -43,6 +52,7 @@ public:
 	virtual HRESULT		createVertexBuffer();
 	virtual HRESULT		createIndexBuffer();
 	virtual HRESULT     createVertexLayout();
+	virtual void		updateUVCoord();
 	virtual void		updateVertexBuffer();
 public:
 	virtual bool		init();

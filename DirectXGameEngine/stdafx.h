@@ -6,13 +6,23 @@
 #include <list>
 #include <set>
 #include <string>
+#include <tchar.h>
 #include <atlconv.h> 
 #include <codecvt>
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
 
 #include "JDevice.h"
 #include "JShape.h"
 #include "JInput.h"
 #include "JTimer.h"
+
+const double PI = acos(-1);
+
+typedef std::basic_string<TCHAR>				T_STR;
+typedef std::basic_string<wchar_t>				W_STR;
+typedef std::basic_string<char>					C_STR;
 
 static std::wstring to_mw(const std::string& _src)
 {

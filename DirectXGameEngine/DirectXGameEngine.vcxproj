@@ -154,6 +154,7 @@
     <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JSoundManager.h" />
+    <ClInclude Include="JSpriteManager.h" />
     <ClInclude Include="JTextureManager.h" />
     <ClInclude Include="JTimer.h" />
     <ClInclude Include="JVector.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="JInput.cpp" />
     <ClCompile Include="JShaderManager.cpp" />
     <ClCompile Include="JSoundManager.cpp" />
+    <ClCompile Include="JSpriteManager.cpp" />
     <ClCompile Include="JTextureManager.cpp" />
     <ClCompile Include="JTimer.cpp" />
     <ClCompile Include="JWindow.cpp" />
