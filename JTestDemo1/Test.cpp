@@ -28,8 +28,6 @@ bool Test::init()
 {
 	m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
 
-	JDXState::setState();
-
 	m_pUser = new JUser;
 	m_pMapObject = new JBaseObject;
 	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
@@ -80,7 +78,6 @@ bool Test::frame()
 
 bool Test::render()
 {
-	I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
 	getCameraCoord(m_pMapObject->m_rtArea);
 	getCameraCoord(m_pUser->m_rtArea);
 	m_pMapObject->render();
