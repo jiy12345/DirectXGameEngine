@@ -86,7 +86,7 @@
     - [문제점](#7-1-문제점)
       - [포인터 형태로 전달되는 데이터](#포인터-형태로-전달되는-데이터)
     - [클래스 다이어그램](#7-1-클래스-다이어그램)
-    - [실행 예시](#7-0-실행-예시)
+    - [실행 예시](#7-1-실행-예시)
 - [v8 여러 상태 적용하기](#v8-여러-상태-적용하기)
   - [v8.0](#v8-0) 
     - [주요 기능](#8-0-주요-기능)
@@ -905,4 +905,5 @@ I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
 ![class diagram8.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram8.0.png) 
 ### 8 0 실행 예시
 ![result image8.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image8.0.gif)
-g_pAlphaBlend상태를 적용하여 
+g_pAlphaBlend상태를 적용하여 알파값을 반영하여 출력하도록 하였습니다. [7.1의 실행 예시](#7-1-실행-예시)와 비교해보시면 원래 출력되었던
+ 배경의 검은 색이 출력되지 않고 있는 것을 확인하실 수 있습니다.
