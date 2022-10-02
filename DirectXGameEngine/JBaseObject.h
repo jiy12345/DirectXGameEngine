@@ -4,6 +4,7 @@
 #include "JShaderManager.h"
 #include "JTextureManager.h"
 #include "JSpriteManager.h"
+#include "JCamera.h"
 
 #define IS_NOT_SPRITE -1
 
@@ -39,7 +40,7 @@ public:
 	std::vector<SimpleVertex>   m_VertexList;
 	std::vector<DWORD>			m_IndexList;
 public:
-	nCube<2>			getNDC();
+	void				getNDC(nCube<2>& rtArea);
 public:
 	void				setVSName(std::wstring wstrVSName);
 	void				setPSName(std::wstring wstrPSName);

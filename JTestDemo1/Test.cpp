@@ -21,15 +21,11 @@ int APIENTRY wWinMain(
 #ifdef _DEBUG
 	FreeConsole();
 #endif
-
-
 	return 0;
 }
 
 bool Test::init()
 {
-	m_rtCamera.Set({ 0, 0 }, { I_Window.m_rtClient.right, I_Window.m_rtClient.bottom });
-
 	m_pUser = new JUser;
 	m_pMapObject = new JBaseObject;
 	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
@@ -37,7 +33,6 @@ bool Test::init()
 	m_pMapObject->m_rtArea.Set({ -1024, -768 }, { 1024 * 2, 768 * 2 });
 	m_pUser->init();
 	m_pMapObject->init();
-
 
 	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
@@ -75,14 +70,12 @@ bool Test::frame()
 	}
 	m_pUser->frame();
 	m_pMapObject->frame();
-	m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
+	I_Camera.m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
 	return true;
 }
 
 bool Test::render()
 {
-	getCameraCoord(m_pMapObject->m_rtArea);
-	getCameraCoord(m_pUser->m_rtArea);
 	m_pMapObject->render();
 	m_pUser->render();
 	return true;
@@ -98,9 +91,4 @@ bool Test::release()
 	}
 	m_pGunShots.clear();
 	return true;
-}
-
-void Test::getCameraCoord(nCube<2>& rtArea)
-{
-	rtArea.m_vLeftTop -= m_rtCamera.m_vLeftTop;
 }

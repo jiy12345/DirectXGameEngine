@@ -148,7 +148,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="JBaseObject.h" />
+    <ClInclude Include="JCamera.h" />
     <ClInclude Include="JDevice.h" />
+    <ClInclude Include="JDXState.h" />
     <ClInclude Include="JGameEngine.h" />
     <ClInclude Include="JInput.h" />
     <ClInclude Include="JShaderManager.h" />
@@ -165,7 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JBaseObject.cpp" />
+    <ClCompile Include="JCamera.cpp" />
     <ClCompile Include="JDevice.cpp" />
+    <ClCompile Include="JDXState.cpp" />
     <ClCompile Include="JGameEngine.cpp" />
     <ClCompile Include="JInput.cpp" />
     <ClCompile Include="JShaderManager.cpp" />
