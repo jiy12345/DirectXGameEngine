@@ -87,6 +87,15 @@
       - [포인터 형태로 전달되는 데이터](#포인터-형태로-전달되는-데이터)
     - [클래스 다이어그램](#7-1-클래스-다이어그램)
     - [실행 예시](#7-0-실행-예시)
+- [v8 여러 상태 적용하기](#v8-여러-상태-적용하기)
+  - [v8.0](#v8-0) 
+    - [주요 기능](#8-0-주요-기능)
+      - [여러 상태를 가지는 클래스 구현](#여러-상태를-가지는-클래스-구현)
+    - [수정 사항](#7-0-수정-사항)
+      - [카매라 클래스 생성](#카메라-클래스-생성)
+    - [문제점](#7-0-문제점)
+    - [클래스 다이어그램](#7-0-클래스-다이어그램)
+    - [실행 예시](#7-0-실행-예시)
 # v1 창 띄우기
 # v1 창 띄우기
 ## v1 0
@@ -832,3 +841,68 @@ struct JSprite
 ### 7 1 실행 예시 
 ![result image7.1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image7.1.gif)
 마우스 위치에 따라 출력되는 캐릭터의 애니매이션이 달라지도록 구현해보았습니다.
+# v8 여러 상태 적용하기
+- DirectX에서 상태란?  
+Blend State, Depth and Stencil State, Rasterizer State등 렌더링 파이프라인의 다양한 위치에서 여러 효과를 줄 수 있는 상태를 말합니다. 
+자세한 내용은 아래의 글을 참고 바랍니다.
+[Effect State Groups (Direct3D 11)](https://learn.microsoft.com/en-us/windows/win32/direct3d11/d3d11-effect-states)
+## v8 0 
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/8.0)
+### 8 0 주요 기능
+#### 여러 상태를 가지는 클래스 구현
+- 현재 구현 사항  
+다음과 같이 스태틱 멤버 변수로 생성한 상태들을 갖고 있도록 한 JDXState 클래스를 구현하였습니다.
+```C++
+class JDXState
+{
+public:
+	static ID3D11SamplerState* g_pDefaultSSWrap;
+	static ID3D11SamplerState* g_pDefaultSSMirror;
+	static ID3D11RasterizerState* g_pDefaultRSWireFrame;
+	static ID3D11RasterizerState* g_pDefaultRSSolid;
+	static ID3D11BlendState* g_pAlphaBlend;
+
+	static bool setState();
+	static bool release();
+};
+
+```
+위의 정적 변수들은 정적 함수 setState() 함수를 통해 초기화 되며, 
+```C++
+bool JDXState::setState()
+{
+    HRESULT hr;
+    D3D11_SAMPLER_DESC sd;
+    ZeroMemory(&sd, sizeof(sd));
+    sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+    sd.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    sd.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    sd.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    hr = I_Device.m_pd3dDevice->CreateSamplerState(&sd, &g_pDefaultSSWrap);
+    if (FAILED(hr)) return false;
+                    :
+                    :
+}
+```
+외부에서 특정 상태를 적용하고 싶을 때 생성해놓은 상태를 활용하기만 하면 되도록 하였습니다.
+
+- 활용은 어떻게 해야 하는가?  
+다음의 코드와 같이 DeviceContext를 통해 각 상태에 맞는 함수를 호출하여 생성된 변수를 사용하면 적용할 수 있습니다.
+```C++
+I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
+```
+각 상태는 렌더링 파이프라인에 적용되는 위치에 따라 상태 클래스가 달라지므로, 해당 클래스에 적절한 적용 함수를 사용하여야 합니다. 각 클래스에 적절한 함수는
+ 아래의 문서에서 검색해서 사용하시면 됩니다.
+[ID3D11DeviceContext interface (d3d11.h)](https://learn.microsoft.com/en-us/windows/win32/api/D3D11/nn-d3d11-id3d11devicecontext)
+- 새로운 상태의 적용은 어떻게 해야 하는가?  
+ 새로운 상태의 적용을 원할 시 정적 변수를 생성하고, 해당 변수를 초기화하는 코드만 추가해준다면 얼마든지 다른 위치에서 활용이 가능합니다. 
+### 8 0 수정 사항
+#### 카메라 클래스 생성
+카메라 클래스를 생성하고 싱글톤 클래스로 구현하여 전역적인 접근점을 줌으로써 각 객체에서 자신을 그려야 할 때 카메라 좌표로 업데이트를 각각 할 수 있도록 하였습니다.
+ 그에 따라 [카메라 좌표를 멤버로 가질 클래스가 결정되지 않음 #22](https://github.com/jiy12345/DirectXGameEngine/issues/10)이슈가 해결되었습니다.
+### 8 0 문제점
+### 8 0 클래스 다이어그램
+![class diagram8.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram8.0.png) 
+### 8 0 실행 예시
+![result image8.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image8.0.gif)
+g_pAlphaBlend상태를 적용하여 
