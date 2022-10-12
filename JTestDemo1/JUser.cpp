@@ -12,7 +12,6 @@ bool JUser::frame()
     float curPosInViewY = -(I_Input.m_ptPos.y - I_Window.m_rtClient.bottom / 2);
     float curPosInViewX = I_Input.m_ptPos.x - I_Window.m_rtClient.right / 2;
     float angle = static_cast<float>(atan2(curPosInViewY, curPosInViewX) * 180 / PI);
-    std::cout << angle << '\n';
     setCurSprite(angle);
 
     JVector<2> vPos = m_rtArea.m_vLeftTop;

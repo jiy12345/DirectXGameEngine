@@ -2,8 +2,10 @@
 
 bool JGameEngine::engineInit()
 {
+    
     I_Window.init();
     I_Device.init();
+    JDXState::setState();
     I_Timer.init();
     I_Input.init();
     I_Sound.init();
@@ -28,6 +30,7 @@ bool JGameEngine::engineFrame()
 bool JGameEngine::engineRender()
 {
     I_Device.render();
+    I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
     render();
     I_Timer.render();
     I_Input.render();
@@ -43,9 +46,11 @@ bool JGameEngine::engineRelease()
     I_Sound.release();
     I_Input.release();
     I_Timer.release();
+    JDXState::release();
     I_Device.release();
     I_Window.release();
     I_Sprite.release();
+
     return true;
 }
 

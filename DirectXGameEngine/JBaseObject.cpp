@@ -1,13 +1,11 @@
 #include "JBaseObject.h"
 
-nCube<2> JBaseObject::getNDC()
+void JBaseObject::getNDC(nCube<2>& rtArea)
 {
-	nCube<2> rtNDC;
-	rtNDC.m_vLeftTop[0] = m_rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
-	rtNDC.m_vLeftTop[1] = -((m_rtArea.m_vLeftTop[1] + m_rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
-	rtNDC.m_vSize[0] = m_rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
-	rtNDC.m_vSize[1] = m_rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
-	return rtNDC;
+	rtArea.m_vLeftTop[0] = rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
+	rtArea.m_vLeftTop[1] = -((rtArea.m_vLeftTop[1] + rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
+	rtArea.m_vSize[0] = rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
+	rtArea.m_vSize[1] = rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
 }
 
 void JBaseObject::setVSName(std::wstring wstrVSName)
@@ -149,7 +147,10 @@ void JBaseObject::updateUVCoord()
 
 void JBaseObject::updateVertexBuffer()
 {
-	nCube<2> rtNDC = getNDC();
+	nCube<2> rtNDC = m_rtArea;
+	I_Camera.getCameraCoord(rtNDC);
+	getNDC(rtNDC);
+	std::cout << rtNDC.m_vLeftTop[0] << " " << rtNDC.m_vLeftTop[1] << '\n';
 	m_VertexList[0].p = { rtNDC.m_vLeftTop[0], rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1], 0.0f };
 	m_VertexList[0].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] };
 

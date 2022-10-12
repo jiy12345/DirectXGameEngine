@@ -25,7 +25,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JGameEngine">
-    <Position X="9.75" Y="7" Width="1.5" />
+    <Position X="9.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EQEAAgAAABAAAAAAAAAAAAAAAAAAAAIAAAgAARCQAAA=</HashCode>
       <FileName>JGameEngine.h</FileName>
@@ -81,20 +81,28 @@
       <Method Name="render" Hidden="true" />
       <Method Name="run" Hidden="true" />
     </Members>
+    <InheritanceLine Type="JSingleton&lt;T&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="1.603" />
+        <Point X="8.25" Y="2.137" />
+        <Point X="5.312" Y="2.137" />
+        <Point X="5.312" Y="2.5" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>GAAAAgAAACAgAAUQAAAAAAAABAAAAAIAAAggAQSwAAQ=</HashCode>
       <FileName>JWindow.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JWriter">
-    <Position X="7.25" Y="7" Width="1.5" />
+    <Position X="6.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAYAARBAAIAQAAIAAAAAAQAQAAA=</HashCode>
       <FileName>JWriter.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JBaseObject">
-    <Position X="0.5" Y="7" Width="1.5" />
+    <Position X="0.5" Y="8.75" Width="1.5" />
     <Members>
       <Method Name="~JBaseObject" Hidden="true" />
       <Method Name="frame" Hidden="true" />
@@ -109,8 +117,8 @@
       <FileName>JBaseObject.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="m_rtArea" />
       <Field Name="m_rtUV" />
+      <Field Name="m_rtArea" />
     </ShowAsAssociation>
   </Class>
   <Class Name="JShaderManager">
@@ -138,7 +146,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="JVector&lt;n&gt;">
-    <Position X="4.5" Y="7" Width="1.5" />
+    <Position X="4.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAQABAAAEAAAQAAAAEAAAAAAAAgAAAAQAA=</HashCode>
       <FileName>JVector.h</FileName>
@@ -174,8 +182,27 @@
       <FileName>JSpriteManager.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="JCamera">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="~JCamera" Hidden="true" />
+      <Method Name="JCamera" Hidden="true" />
+      <Method Name="operator=" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIEEAAAAAAAAAAAACAgAAAAAAA=</HashCode>
+      <FileName>JCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JDXState">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAgAAAAAAAAAAAAAAAAAAYAAAEAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>JDXState.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="SimpleVertex">
-    <Position X="2.5" Y="7" Width="1.5" />
+    <Position X="2.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEQAAAAAAAA=</HashCode>
       <FileName>JBaseObject.h</FileName>
@@ -189,14 +216,14 @@
     </TypeIdentifier>
   </Struct>
   <Struct Name="nCube&lt;n&gt;">
-    <Position X="2.5" Y="8.75" Width="1.5" />
+    <Position X="2.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAAABAAgAAAAAQAAgAAAAAAAAAEIAAAAAAA=</HashCode>
       <FileName>JShape.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="nSphere&lt;n&gt;">
-    <Position X="2.5" Y="11.5" Width="1.5" />
+    <Position X="2.5" Y="13.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAgAAAAAg=</HashCode>
       <FileName>JShape.h</FileName>
