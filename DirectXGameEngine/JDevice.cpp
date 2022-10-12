@@ -55,7 +55,8 @@ HRESULT JDevice::createRenderTargetView()
 {
     HRESULT hr;
     ID3D11Texture2D* pBackBuffer = nullptr;
-    m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
+    hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
+    if (FAILED(hr)) return hr;
     hr = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRTV);
     pBackBuffer->Release();
     return hr;
@@ -71,6 +72,24 @@ void JDevice::createViewport()
     vp.MinDepth = 0.0f;
     vp.MaxDepth = 1.0f;
     m_pImmediateContext->RSSetViewports(1, &vp);
+}
+
+HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
+{
+    HRESULT hr;
+    if (m_pd3dDevice == nullptr) return S_OK;
+    m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
+    if(m_pRTV) m_pRTV->Release();
+
+    DXGI_SWAP_CHAIN_DESC CurrentSD;
+    m_pSwapChain->GetDesc(&CurrentSD);
+    hr = m_pSwapChain->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight,
+        CurrentSD.BufferDesc.Format, 0);
+
+    if (FAILED(hr = createRenderTargetView())) return hr;
+    createViewport();
+
+    return S_OK;
 }
 
 bool JDevice::init()
@@ -112,7 +131,7 @@ bool JDevice::render()
 
 bool JDevice::release()
 {
-    if (m_pd3dDevice) m_pd3dDevice->Release();// 디바이스 객체        
+    if (m_pd3dDevice) m_pd3dDevice->Release();
     if (m_pImmediateContext)m_pImmediateContext->Release();
     if (m_pGIFactory)m_pGIFactory->Release();
     if (m_pSwapChain)m_pSwapChain->Release();

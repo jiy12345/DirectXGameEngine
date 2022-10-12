@@ -20,6 +20,9 @@ public:
 	virtual bool render() { return true; };
 	virtual bool release() { return true; };
 public:
+	virtual HRESULT createDXResource();
+	virtual HRESULT deleteDXResource();
+public:
 	bool run();
 };
 #define I_GameEngine JGameEngine::GetInstance()

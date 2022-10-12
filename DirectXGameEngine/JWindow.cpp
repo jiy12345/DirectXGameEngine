@@ -1,4 +1,6 @@
 #include "JWindow.h"
+#include "JDevice.h"
+
 LRESULT CALLBACK WndProc(
 	HWND hWnd,
 	UINT message,
@@ -112,6 +114,19 @@ LRESULT JWindow::msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_SIZE:
+	{
+		if (SIZE_MINIMIZED != wParam) {
+			UINT width = LOWORD(lParam);
+			UINT height = HIWORD(lParam);
+			GetWindowRect(hWnd, &m_rtWindow);
+			GetClientRect(hWnd, &m_rtClient);
+
+			if (FAILED(I_Device.resizeDevice(width, height)))
+			{
+			}
+		}
+	}break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

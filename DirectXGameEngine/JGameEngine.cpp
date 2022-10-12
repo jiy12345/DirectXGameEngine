@@ -49,6 +49,18 @@ bool JGameEngine::engineRelease()
     return true;
 }
 
+HRESULT JGameEngine::createDXResource()
+{
+    m_Writer.createDXResource();
+    return S_OK;
+}
+
+HRESULT JGameEngine::deleteDXResource()
+{
+    m_Writer.deleteDXResource();
+    return S_OK;
+}
+
 bool JGameEngine::run()
 {
     engineInit();

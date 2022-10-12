@@ -43,6 +43,24 @@ bool JWriter::release()
 	return true;
 }
 
+HRESULT JWriter::createDXResource()
+{
+	init();
+	IDXGISurface1* pBackBuffer;
+	I_Device.m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1),
+		(void**)&pBackBuffer);
+	set(pBackBuffer);
+	pBackBuffer->Release();
+	return S_OK;
+}
+
+HRESULT JWriter::deleteDXResource()
+{
+	if (m_pColorBrush) m_pColorBrush->Release();
+	if (m_d2dRT) m_d2dRT->Release();
+	return S_OK;
+}
+
 bool JWriter::set(IDXGISurface1* dxgiSurface)
 {
 	D2D1_RENDER_TARGET_PROPERTIES props;
@@ -60,7 +78,8 @@ bool JWriter::set(IDXGISurface1* dxgiSurface)
 		&m_d2dRT);
 	if (FAILED(hr)) return false;
 
-	hr = m_d2dRT->CreateSolidColorBrush({ 0, 0, 0, 1 }, &m_pColorBrush);
+	hr = m_d2dRT->CreateSolidColorBrush({ 0,0,0,1 },
+		&m_pColorBrush);
 	if (FAILED(hr)) return false;
 
 	return true;
