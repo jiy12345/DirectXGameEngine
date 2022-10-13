@@ -15,7 +15,7 @@ HRESULT JDevice::createDevice()
     UINT FeatureLevels = 1;
 
     return D3D11CreateDevice(
-        nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL,
+        nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
         createDeviceFlags, pFeatureLevels, 1, D3D11_SDK_VERSION,
         &m_pd3dDevice,
         &pFeatureLevel,
@@ -79,12 +79,17 @@ HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
     HRESULT hr;
     if (m_pd3dDevice == nullptr) return S_OK;
     m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
-    if(m_pRTV) m_pRTV->Release();
+    if (m_pRTV) {
+        m_pRTV->Release();
+        m_pRTV = nullptr;
+    }
 
     DXGI_SWAP_CHAIN_DESC CurrentSD;
-    m_pSwapChain->GetDesc(&CurrentSD);
+    hr = m_pSwapChain->GetDesc(&CurrentSD);
+    if (FAILED(hr)) return hr;
     hr = m_pSwapChain->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight,
         CurrentSD.BufferDesc.Format, 0);
+    if (FAILED(hr)) return hr;
 
     if (FAILED(hr = createRenderTargetView())) return hr;
     createViewport();

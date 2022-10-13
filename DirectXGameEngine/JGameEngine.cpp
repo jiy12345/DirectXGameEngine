@@ -10,11 +10,11 @@ bool JGameEngine::engineInit()
     I_Input.init();
     I_Sound.init();
 
-    m_Writer.init();
+    I_Writer.init();
     IDXGISurface1* m_pBackBuffer;
     I_Device.m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1),
         (void**)&m_pBackBuffer);
-    m_Writer.set(m_pBackBuffer);
+    I_Writer.set(m_pBackBuffer);
 
     return init();
 }
@@ -23,7 +23,7 @@ bool JGameEngine::engineFrame()
 {
     I_Timer.frame();
     I_Input.frame();
-    m_Writer.frame();
+    I_Writer.frame();
     return frame();
 }
 
@@ -34,7 +34,7 @@ bool JGameEngine::engineRender()
     render();
     I_Timer.render();
     I_Input.render();
-    m_Writer.render();
+    I_Writer.render();
     I_Device.m_pSwapChain->Present(0, 0);
     return true;
 }
@@ -42,7 +42,7 @@ bool JGameEngine::engineRender()
 bool JGameEngine::engineRelease()
 {
     release();
-    m_Writer.release();
+    I_Writer.release();
     I_Sound.release();
     I_Input.release();
     I_Timer.release();
@@ -56,13 +56,13 @@ bool JGameEngine::engineRelease()
 
 HRESULT JGameEngine::createDXResource()
 {
-    m_Writer.createDXResource();
+    I_Writer.createDXResource();
     return S_OK;
 }
 
 HRESULT JGameEngine::deleteDXResource()
 {
-    m_Writer.deleteDXResource();
+    I_Writer.deleteDXResource();
     return S_OK;
 }
 

@@ -9,7 +9,6 @@
 class JGameEngine
 {
 public:
-	JWriter m_Writer;
 	bool	m_bGameRun = true;
 private:
 	bool engineInit();

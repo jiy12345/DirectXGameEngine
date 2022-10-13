@@ -8,8 +8,9 @@
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 
-class JWriter
+class JWriter : public JSingleton<JWriter>
 {
+	friend class JSingleton<JWriter>;
 public:
 	ID2D1Factory*			m_d2dFactory;
 	IDWriteFactory*			m_pDWriteFactory;
@@ -28,5 +29,11 @@ public:
 public:
 	bool					set(IDXGISurface1* dxgiSurface);
 	bool					draw(float x, float y, std::wstring text, D2D1_COLOR_F color = { 0, 0, 0, 1 });
+private:
+	JWriter() {};
+	~JWriter() = default;
+	JWriter(const JWriter&) = delete;
+	JWriter& operator=(const JWriter&) = delete;
 };
 
+#define I_Writer JWriter::GetInstance()
