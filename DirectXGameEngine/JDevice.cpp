@@ -1,4 +1,5 @@
 #include "JDevice.h"
+#include "JWriter.h"
 
 HRESULT JDevice::createDevice()
 {
@@ -84,7 +85,10 @@ HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
         m_pRTV = nullptr;
     }
 
+    I_Writer.deleteDXResource();
+
     DXGI_SWAP_CHAIN_DESC CurrentSD;
+
     hr = m_pSwapChain->GetDesc(&CurrentSD);
     if (FAILED(hr)) return hr;
     hr = m_pSwapChain->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight,
@@ -93,6 +97,8 @@ HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
 
     if (FAILED(hr = createRenderTargetView())) return hr;
     createViewport();
+
+    I_Writer.createDXResource();
 
     return S_OK;
 }

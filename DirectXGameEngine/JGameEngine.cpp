@@ -11,10 +11,11 @@ bool JGameEngine::engineInit()
     I_Sound.init();
 
     I_Writer.init();
-    IDXGISurface1* m_pBackBuffer;
+    IDXGISurface1* pBackBuffer;
     I_Device.m_pSwapChain->GetBuffer(0, __uuidof(IDXGISurface1),
-        (void**)&m_pBackBuffer);
-    I_Writer.set(m_pBackBuffer);
+        (void**)&pBackBuffer);
+    I_Writer.set(pBackBuffer);
+    pBackBuffer->Release();
 
     return init();
 }

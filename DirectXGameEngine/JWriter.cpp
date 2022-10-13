@@ -56,8 +56,14 @@ HRESULT JWriter::createDXResource()
 
 HRESULT JWriter::deleteDXResource()
 {
-	if (m_pColorBrush) m_pColorBrush->Release();
-	if (m_d2dRT) m_d2dRT->Release();
+	if (m_pColorBrush) {
+		m_pColorBrush->Release();
+		m_pColorBrush = nullptr;
+	}
+	if (m_d2dRT) {
+		m_d2dRT->Release();
+		m_d2dRT = nullptr;
+	}
 	return S_OK;
 }
 
