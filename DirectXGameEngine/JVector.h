@@ -177,3 +177,18 @@ inline float dot(JVector<n> const& u, JVector<n> const& v)
 
     return dotProduct;
 }
+
+inline JVector<3> const cross(JVector<3> const& u, JVector<3> const& v)
+{
+    JVector<3> product = JVector<3>();
+
+    for (size_t i = 0; i < 3; ++i)
+    {
+        size_t const j = (i + 1) % 3;
+        size_t const k = (j + 1) % 3;
+
+        product[i] = u[j] * v[k] - u[k] * v[j];
+    }
+
+    return product;
+}
