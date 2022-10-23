@@ -24,6 +24,8 @@ public:
 	HRESULT createRenderTargetView();
 	void	createViewport();
 public:
+	HRESULT resizeDevice(UINT iWidth, UINT iHeight);
+public:
 	virtual bool init();
 	virtual bool frame();
 	virtual bool render();

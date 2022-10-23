@@ -4,15 +4,16 @@ bool JTimer::init()
 {
     m_fGameTimer = 0.0f;
     m_fElapseTimer = 10.0f;
-    m_dwBeforeTime = timeGetTime();
+    QueryPerformanceFrequency(&m_Frequency);
+    QueryPerformanceCounter(&m_Before);
     return true;
 }
 
 bool JTimer::frame()
 {
-    DWORD dwCurrentTime = timeGetTime();
-    DWORD dwElapseTime = dwCurrentTime - m_dwBeforeTime;
-    m_fElapseTimer = dwElapseTime / 1000.0f;
+    QueryPerformanceCounter(&m_Current);
+    m_fElapseTimer = (float)(m_Current.QuadPart - m_Before.QuadPart) /
+        (float)m_Frequency.QuadPart;
     m_fGameTimer += m_fElapseTimer;
 
     {
@@ -25,9 +26,8 @@ bool JTimer::frame()
         }
     }
 
-    m_dwBeforeTime = dwCurrentTime;
+    m_Before = m_Current;
     return true;
-
 }
 
 bool JTimer::render()

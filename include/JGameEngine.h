@@ -9,7 +9,6 @@
 class JGameEngine
 {
 public:
-	JWriter m_Writer;
 	bool	m_bGameRun = true;
 private:
 	bool engineInit();
@@ -21,6 +20,9 @@ public:
 	virtual bool frame() { return true; };
 	virtual bool render() { return true; };
 	virtual bool release() { return true; };
+public:
+	virtual HRESULT createDXResource();
+	virtual HRESULT deleteDXResource();
 public:
 	bool run();
 };
