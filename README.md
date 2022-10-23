@@ -96,6 +96,14 @@
     - [문제점](#8-0-문제점)
     - [클래스 다이어그램](#8-0-클래스-다이어그램)
     - [실행 예시](#8-0-실행-예시)
+  - [v8.1](#v8-1)
+	- [해결된 문제](#8-1-해결된-문제)
+    - [추가된 기능](#8-1-추가된-기능)
+      - [객체가 스크린 크기에 독립적이도록 하기](#객체가-스크린-크기에-독립적이도록-하기)
+      - [타이머 업데이트](#타이머-업데이트)
+    - [문제점](#8-1-문제점)
+    - [클래스 다이어그램](#8-1-클래스-다이어그램)
+    - [실행 예시](#8-1-실행-예시)
 # v1 창 띄우기
 # v1 창 띄우기
 ## v1 0
@@ -907,3 +915,73 @@ I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
 ![result image8.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image8.0.gif)
 g_pAlphaBlend상태를 적용하여 알파값을 반영하여 출력하도록 하였습니다. [7.1의 실행 예시](#7-1-실행-예시)와 비교해보시면 원래 출력되었던
  배경의 검은 색이 출력되지 않고 있는 것을 확인하실 수 있습니다.
+## v8 1
+### 8 1 해결된 문제
+### 8 1 추가된 기능
+#### 객체가 스크린 크기에 독립적이도록 하기
+ 스크린의 크기를 바꿔도 객체의 크기는 그대로 유지되도록 업데이트를 진행하였습니다.  
+
+1. WM_SIZE 메시지를 통해 창이 바뀐 것을 인식하도록 하기
+```C++
+LRESULT CALLBACK WndProc(
+	HWND hWnd,
+	UINT message,
+LRESULT JWindow::msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_SIZE:
+	{
+		if (SIZE_MINIMIZED != wParam) {
+			UINT width = LOWORD(lParam);
+			UINT height = HIWORD(lParam);
+           // 바뀐 창의 사이즈 구하기
+			GetWindowRect(hWnd, &m_rtWindow);
+			GetClientRect(hWnd, &m_rtClient);
+           
+           // resizeDevice 함수를 호출하여 창 크기에 종속적인 객체들 수정하기
+			if (FAILED(I_Device.resizeDevice(width, height)))
+			{
+			}
+		}
+	}break;
+                        :
+                        :
+                        :
+```
+위의 코드와 같이 메시지 처리기에서 WM_SIZE(창의 크기가 바뀌었을 때 보내지는 윈도우 메시지)를 받았을 때 바뀐 창 크기를
+창 크기에 종속된 다른 객체에 전달할 수 있도록 하였습니다.
+
+
+2. 창 크기에 종속된 객체가 업데이트된 창 크기에 대한 정보를 받을 수 있도록 하기
+  ```C++
+HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
+{
+    HRESULT hr;
+    if (m_pd3dDevice == nullptr) return S_OK;
+    // OM 단계에 설정되어 있던 렌더 타겟을 해제
+    m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
+    if(m_pRTV) m_pRTV->Release();
+
+    // 백 버퍼의 크기 바꾸기
+    DXGI_SWAP_CHAIN_DESC CurrentSD;
+    m_pSwapChain->GetDesc(&CurrentSD);
+    hr = m_pSwapChain->ResizeBuffers(CurrentSD.BufferCount, iWidth, iHeight,
+        CurrentSD.BufferDesc.Format, 0);
+
+    // 변경된 창 크기 반영하여 새로 생성
+    if (FAILED(hr = createRenderTargetView())) return hr;
+    createViewport();
+
+    return S_OK;
+}
+```
+
+3. Writer에서도 비슷한 내용을 수정  
+ Writer도 마찬가지로 글시를 쓰기 위해 창 크기에 종속적인 여러 객체 멤버들을 가지고 있고, 따라서 창 크기가 수정될 때 Writer 내의 여러 객체들 또한 같이 수정되도록 하였습니다.
+#### 타이머 업데이트
+[QueryPerformanceCounter](https://learn.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancecounter)를 이용하여 조금 더 정교한 시간 측정이 가능하도록 하였습니다.
+
+### 8 1 문제점
+### 8 1 클래스 다이어그램
+### 8 1 실행 예시
