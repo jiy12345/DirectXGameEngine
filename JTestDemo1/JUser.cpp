@@ -2,8 +2,12 @@
 
 bool JUser::init()
 {
-    JBaseObject::init();
+    m_wstrTextureName = L"../data/sprites/pilot.png";
     I_Sprite.load(m_vSpriteInfo, L"../data/sprites/pilot.txt");
+    m_rtUV.Set({ 0 / 988.0f, 24 / 811.0f }, { 15 / 988.0f, 22 / 811.0f });
+    float ratio = 15 / 22.0f;
+    m_rtArea.Set({ 0, 0 }, { 40 * ratio, 40 });
+
     return false;
 }
 
