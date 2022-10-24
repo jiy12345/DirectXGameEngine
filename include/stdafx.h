@@ -17,6 +17,7 @@
 #include "JShape.h"
 #include "JInput.h"
 #include "JTimer.h"
+#include "JMatrix.h"
 
 const double PI = acos(-1);
 

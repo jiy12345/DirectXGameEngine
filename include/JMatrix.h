@@ -1,4 +1,5 @@
 #pragma once
+#include<cstring>
 
 template<size_t m, size_t n>
 class JMatrix
@@ -16,7 +17,16 @@ public:
     }
 
     JMatrix() {
-        elements[m][n] = { 0 };
+        if (n == m) {
+            for (int i = 0; i < m; i++)
+                for (int j = 0; j < n; j++) {
+                    if (m == n) elements[i][j] = 1;
+                    else        elements[i][j] = 0;
+                }
+        }
+        else {
+            memset(elements, 0, sizeof(elements));
+        }
     }
 
     auto const operator *(float const& c) const
