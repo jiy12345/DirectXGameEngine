@@ -153,6 +153,7 @@
     <ClInclude Include="JDXState.h" />
     <ClInclude Include="JGameEngine.h" />
     <ClInclude Include="JInput.h" />
+    <ClInclude Include="JMatrix.h" />
     <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JSoundManager.h" />
