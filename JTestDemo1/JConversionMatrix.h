@@ -4,12 +4,16 @@
 template <size_t Dimension>
 class JConversionMatrix
 {
+public:
 	static JMatrix<3, 3> Rotation(float fRadian);
 	static JMatrix<4, 4> RotationX(float fRadian);
 	static JMatrix<4, 4> RotationY(float fRadian);
 	static JMatrix<4, 4> RotationZ(float fRadian);
 	static JMatrix<Dimension + 1, Dimension + 1> Scale(JVector<Dimension> vScale);
 	static JMatrix<Dimension + 1, Dimension + 1> Translation(JVector<Dimension> vDelta);
+
+	static JMatrix<4, 4> ViewLookAt(JVector<4>& vPosition, JVector<4>& vTarget, JVector<4>& vUp);
+	static JMatrix<4, 4> PerspectiveFovLH(float fNearPlane, float fFarPlane, float fovy, float Aspect);
 };
 
 template<size_t Dimension>
@@ -76,4 +80,44 @@ inline JMatrix<Dimension + 1, Dimension + 1> JConversionMatrix<Dimension>::Trans
 		TranslationMatrix[Dimension][i] = vDelta[i];
 	}
 	return ScaleMatrix;
+}
+
+template<size_t Dimension>
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt(JVector<3>& vPosition, JVector<3>& vTarget, JVector<3>& vUp)
+{
+	JMatrix<4, 4> viewMatrix;
+	TVector vDirection = (vTarget - vPosition).normalize();
+	TVector vRightVector = cross(vUp, vDirection).normalize();
+	TVector vUpVector = cross(vDirection, vRightVector).normalize();
+
+	viewMatrix[0][0] = vRightVector.x;	viewMatrix[0][1] = vUpVector.x;	viewMatrix[0][2] = vDirection.x;
+	viewMatrix[1][0] = vRightVector.y;	viewMatrix[1][1] = vUpVector.y;	viewMatrix[1][2] = vDirection.y;
+	viewMatrix[2][0] = vRightVector.z;	viewMatrix[2][1] = vUpVector.z;	viewMatrix[2][2] = vDirection.z;
+
+	viewMatrix[3][0] = -(vPosition.x * viewMatrix[0][0] + vPosition.y * viewMatrix[1][0] + vPosition.z * viewMatrix[2][0]);
+	viewMatrix[3][1] = -(vPosition.x * viewMatrix[0][1] + vPosition.y * viewMatrix[1][1] + vPosition.z * viewMatrix[2][1]);
+	viewMatrix[3][2] = -(vPosition.x * viewMatrix[0][2] + vPosition.y * viewMatrix[1][2] + vPosition.z * viewMatrix[2][2]);
+	return viewMatrix;
+}
+
+template<size_t Dimension>
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::PerspectiveFovLH(float fNearPlane, float fFarPlane, float fovy, float Aspect)
+{
+	float    h, w, Q;
+
+	h = cot(fovy * 0.5f);
+	w = h / Aspect;
+
+	Q = fFarPlane / (fFarPlane - fNearPlane);
+
+	JMatrix<4, 4> rotationMatrix;
+	ZeroMemory(this, sizeof(rotationMatrix));
+
+	rotationMatrix[0][0] = w;
+	rotationMatrix[1][1] = h;
+	rotationMatrix[2][2] = Q;
+	rotationMatrix[3][2] = -Q * fNearPlane;
+	rotationMatrix[2][3] = 1;
+
+	return rotationMatrix;
 }
