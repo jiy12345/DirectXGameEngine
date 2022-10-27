@@ -26,12 +26,10 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_pUser = new JUser;
 	m_pMapObject = new JBaseObject;
 	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
 	m_pMapObject->m_rtUV.Set({ 0, 0 }, { 1, 1 });
 	m_pMapObject->m_rtArea.Set({ -1024, -768 }, { 1024 * 2, 768 * 2 });
-	m_pUser->init();
 	m_pMapObject->init();
 
 	m_pGunShots.resize(32);
@@ -68,22 +66,18 @@ bool Test::frame()
 	{
 		I_Sound.resume(m_pBGM);
 	}
-	m_pUser->frame();
 	m_pMapObject->frame();
-	I_Camera.m_rtCamera.m_vLeftTop = m_pUser->m_rtArea.vCenter() - (JVector<2>{ I_Window.m_rtClient.right, I_Window.m_rtClient.bottom } / 2);
 	return true;
 }
 
 bool Test::render()
 {
 	m_pMapObject->render();
-	m_pUser->render();
 	return true;
 }
 
 bool Test::release()
 {
-	m_pUser->release();
 	m_pMapObject->release();
 	I_Sound.stop(m_pBGM);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {

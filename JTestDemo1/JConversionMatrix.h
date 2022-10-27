@@ -12,7 +12,7 @@ public:
 	static JMatrix<Dimension + 1, Dimension + 1> Scale(JVector<Dimension> vScale);
 	static JMatrix<Dimension + 1, Dimension + 1> Translation(JVector<Dimension> vDelta);
 
-	static JMatrix<4, 4> ViewLookAt(JVector<4>& vPosition, JVector<4>& vTarget, JVector<4>& vUp);
+	static JMatrix<4, 4> ViewLookAt();
 	static JMatrix<4, 4> PerspectiveFovLH(float fNearPlane, float fFarPlane, float fovy, float Aspect);
 };
 
@@ -21,10 +21,10 @@ inline JMatrix<3, 3> JConversionMatrix<Dimension>::Rotation(float fRadian)
 {
 	float fCosTheta = cos(fRadian);
 	float fSinTheta = sin(fRadian);
-	JMatrix<3, 3> m;
+	JMatrix<3, 3> RotationMatrix;
 	RotationMatrix[0][0] = fCosTheta; RotationMatrix[0][1] = fSinTheta;
 	RotationMatrix[1][0] = -fSinTheta; RotationMatrix[1][1] = fCosTheta;
-	return m;
+	return RotationMatrix;
 }
 
 template<size_t Dimension>
@@ -35,7 +35,7 @@ inline JMatrix<4, 4> JConversionMatrix<Dimension>::RotationX(float fRadian)
 	JMatrix<4, 4> RotationMatrix;
 	RotationMatrix[1][1] = fCosTheta; RotationMatrix[1][2] = fSinTheta;
 	RotationMatrix[2][1] = -fSinTheta; RotationMatrix[2][2] = fCosTheta;
-	return m;
+	return RotationMatrix;
 }
 
 template<size_t Dimension>
@@ -46,7 +46,7 @@ inline JMatrix<4, 4> JConversionMatrix<Dimension>::RotationY(float fRadian)
 	JMatrix<4, 4> RotationMatrix;
 	RotationMatrix[0][0] = fCosTheta; RotationMatrix[0][2] = fSinTheta;
 	RotationMatrix[2][0] = -fSinTheta; RotationMatrix[2][2] = fCosTheta;
-	return m;
+	return RotationMatrix;
 }
 
 template<size_t Dimension>
@@ -57,7 +57,7 @@ inline JMatrix<4, 4> JConversionMatrix<Dimension>::RotationZ(float fRadian)
 	JMatrix<4, 4> RotationMatrix;
 	RotationMatrix[0][0] = fCosTheta; RotationMatrix[0][1] = fSinTheta;
 	RotationMatrix[1][0] = -fSinTheta; RotationMatrix[1][1] = fCosTheta;
-	return m;
+	return RotationMatrix;
 }
 
 template<size_t Dimension>
@@ -79,24 +79,28 @@ inline JMatrix<Dimension + 1, Dimension + 1> JConversionMatrix<Dimension>::Trans
 	for (int i = 0; i < Dimension; i++) {
 		TranslationMatrix[Dimension][i] = vDelta[i];
 	}
-	return ScaleMatrix;
+	return TranslationMatrix;
 }
 
 template<size_t Dimension>
-inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt(JVector<3>& vPosition, JVector<3>& vTarget, JVector<3>& vUp)
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt()
 {
 	JMatrix<4, 4> viewMatrix;
-	TVector vDirection = (vTarget - vPosition).normalize();
-	TVector vRightVector = cross(vUp, vDirection).normalize();
-	TVector vUpVector = cross(vDirection, vRightVector).normalize();
+	JVector<3> vDirection = (I_Camera.vTarget - I_Camera.vPosition);
+	JVector<3> vRightVector = cross(I_Camera.vUp, vDirection);
+	JVector<3> vUpVector = cross(vDirection, vRightVector);
 
-	viewMatrix[0][0] = vRightVector.x;	viewMatrix[0][1] = vUpVector.x;	viewMatrix[0][2] = vDirection.x;
-	viewMatrix[1][0] = vRightVector.y;	viewMatrix[1][1] = vUpVector.y;	viewMatrix[1][2] = vDirection.y;
-	viewMatrix[2][0] = vRightVector.z;	viewMatrix[2][1] = vUpVector.z;	viewMatrix[2][2] = vDirection.z;
+	vDirection;
+	normalized(vRightVector);
+	normalized(vUpVector);
 
-	viewMatrix[3][0] = -(vPosition.x * viewMatrix[0][0] + vPosition.y * viewMatrix[1][0] + vPosition.z * viewMatrix[2][0]);
-	viewMatrix[3][1] = -(vPosition.x * viewMatrix[0][1] + vPosition.y * viewMatrix[1][1] + vPosition.z * viewMatrix[2][1]);
-	viewMatrix[3][2] = -(vPosition.x * viewMatrix[0][2] + vPosition.y * viewMatrix[1][2] + vPosition.z * viewMatrix[2][2]);
+	viewMatrix[0][0] = vRightVector[0];	viewMatrix[0][1] = vUpVector[0];	viewMatrix[0][2] = vDirection[0];
+	viewMatrix[1][0] = vRightVector[1];	viewMatrix[1][1] = vUpVector[1];	viewMatrix[1][2] = vDirection[1];
+	viewMatrix[2][0] = vRightVector[2];	viewMatrix[2][1] = vUpVector[2];	viewMatrix[2][2] = vDirection[2];
+
+	viewMatrix[3][0] = -(I_Camera.vPosition[0] * viewMatrix[0][0] + I_Camera.vPosition[1] * viewMatrix[1][0] + I_Camera.vPosition[1] * viewMatrix[2][0]);
+	viewMatrix[3][1] = -(I_Camera.vPosition[0] * viewMatrix[0][1] + I_Camera.vPosition[1] * viewMatrix[1][1] + I_Camera.vPosition[1] * viewMatrix[2][1]);
+	viewMatrix[3][2] = -(I_Camera.vPosition[0] * viewMatrix[0][2] + I_Camera.vPosition[1] * viewMatrix[1][2] + I_Camera.vPosition[1] * viewMatrix[2][2]);
 	return viewMatrix;
 }
 
@@ -105,19 +109,19 @@ inline JMatrix<4, 4> JConversionMatrix<Dimension>::PerspectiveFovLH(float fNearP
 {
 	float    h, w, Q;
 
-	h = cot(fovy * 0.5f);
+	h = 1 / tan(fovy * 0.5f);
 	w = h / Aspect;
 
 	Q = fFarPlane / (fFarPlane - fNearPlane);
 
 	JMatrix<4, 4> rotationMatrix;
-	ZeroMemory(this, sizeof(rotationMatrix));
 
 	rotationMatrix[0][0] = w;
 	rotationMatrix[1][1] = h;
 	rotationMatrix[2][2] = Q;
 	rotationMatrix[3][2] = -Q * fNearPlane;
 	rotationMatrix[2][3] = 1;
+	rotationMatrix[3][3] = 0;
 
 	return rotationMatrix;
 }

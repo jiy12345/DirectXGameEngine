@@ -61,8 +61,8 @@ public:
 	virtual bool		render();
 	virtual bool		release();
 protected:
-	bool				preRender();
-	bool				postRender();
+	virtual bool		preRender();
+	virtual bool		postRender();
 public:
 	JBaseObject() {
 		init();

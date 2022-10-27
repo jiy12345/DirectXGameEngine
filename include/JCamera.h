@@ -5,8 +5,9 @@ class JCamera: public JSingleton<JCamera>
 {
 	friend class JSingleton<JCamera>;
 public:
-	nCube<2> m_rtCamera;
-	void getCameraCoord(nCube<2>& rtArea);
+	JVector<3> vPosition;
+	JVector<3> vTarget; 
+	const JVector<3> vUp = { 0.0f, 1.0f, 0.0f };
 private:
 	JCamera() {};
 	~JCamera() = default;

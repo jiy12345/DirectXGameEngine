@@ -148,7 +148,6 @@ void JBaseObject::updateUVCoord()
 void JBaseObject::updateVertexBuffer()
 {
 	nCube<2> rtNDC = m_rtArea;
-	I_Camera.getCameraCoord(rtNDC);
 	getNDC(rtNDC);
 	std::cout << rtNDC.m_vLeftTop[0] << " " << rtNDC.m_vLeftTop[1] << '\n';
 	m_VertexList[0].p = { rtNDC.m_vLeftTop[0], rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1], 0.0f };
