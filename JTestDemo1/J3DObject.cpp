@@ -25,7 +25,7 @@ void J3DObject::UpdateConstantBuffer()
     JMatrix<4, 4> mScale = JConversionMatrix<3>::Scale(m_cubeArea.m_vSize / 2);
     JMatrix<4, 4> mRotation = JConversionMatrix<3>::RotationX(DegreeToRadian(m_fXAngle)) *
                               JConversionMatrix<3>::RotationY(DegreeToRadian(m_fYAngle)) *
-                              JConversionMatrix<3>::RotationZ(DegreeToRadian(m_fZAngle));                
+                              JConversionMatrix<3>::RotationZ(DegreeToRadian(m_fZAngle));
     JMatrix<4, 4> mTranslation = JConversionMatrix<3>::Translation(m_cubeArea.m_vLeftTop + m_cubeArea.m_vSize / 2);
     m_matWorld = mScale * mRotation * mTranslation;
     m_matView = JConversionMatrix<3>::ViewLookAt();
@@ -60,6 +60,7 @@ bool J3DObject::frame()
 bool J3DObject::render()
 {
     UpdateConstantBuffer();
+    I_Device.m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
     JBaseObject::preRender();
 
     JBaseObject::postRender();
@@ -73,9 +74,5 @@ bool J3DObject::release()
 
 void J3DObject::setVertexData()
 {
-}
 
-bool J3DObject::preRender()
-{
-    return false;
 }

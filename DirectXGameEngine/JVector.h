@@ -19,12 +19,6 @@ inline float length(const JVector<n>& v)
 }
 
 template<size_t n>
-JVector<n>& normalize(const JVector<n>& v)
-{
-    return v / length(v);
-}
-
-template<size_t n>
 inline JVector<n> GetRandomVector(int iLowerBound, int iUpperBound)
 {
     JVector<n> vector;
@@ -35,9 +29,9 @@ inline JVector<n> GetRandomVector(int iLowerBound, int iUpperBound)
 }
 
 template<size_t n>
-JVector<n> normalized(JVector<n>& v)
+JVector<n> normalized(const JVector<n>& v)
 {
-    return v / v.length();
+    return v / length(v);
 }
 
 template<size_t n>

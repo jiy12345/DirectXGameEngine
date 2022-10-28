@@ -26,11 +26,10 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_pMapObject = new JBaseObject;
-	m_pMapObject->m_wstrTextureName = L"_RAINBOW.bmp";
-	m_pMapObject->m_rtUV.Set({ 0, 0 }, { 1, 1 });
-	m_pMapObject->m_rtArea.Set({ -1024, -768 }, { 1024 * 2, 768 * 2 });
-	m_pMapObject->init();
+	m_pJBox = new JBox;
+	m_pJBox->m_wstrTextureName = L"_RAINBOW.bmp";
+	m_pJBox->m_rtUV.Set({ 0, 0 }, { 1, 1 });
+	m_pJBox->init();
 
 	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
@@ -38,6 +37,8 @@ bool Test::init()
 	}
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
+	I_Camera.vPosition = { 0, 0, -500 };
+	I_Camera.vTarget = m_pJBox->m_cubeArea.vCenter();
 	return true;
 }
 
@@ -66,19 +67,20 @@ bool Test::frame()
 	{
 		I_Sound.resume(m_pBGM);
 	}
-	m_pMapObject->frame();
+	m_pJBox->frame();
+	I_Camera.vTarget = m_pJBox->m_cubeArea.vCenter();
 	return true;
 }
 
 bool Test::render()
 {
-	m_pMapObject->render();
+	m_pJBox->render();
 	return true;
 }
 
 bool Test::release()
 {
-	m_pMapObject->release();
+	m_pJBox->release();
 	I_Sound.stop(m_pBGM);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
 		I_Sound.stop(curGunshot);

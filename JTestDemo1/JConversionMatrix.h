@@ -86,13 +86,9 @@ template<size_t Dimension>
 inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt()
 {
 	JMatrix<4, 4> viewMatrix;
-	JVector<3> vDirection = (I_Camera.vTarget - I_Camera.vPosition);
-	JVector<3> vRightVector = cross(I_Camera.vUp, vDirection);
-	JVector<3> vUpVector = cross(vDirection, vRightVector);
-
-	vDirection;
-	normalized(vRightVector);
-	normalized(vUpVector);
+	JVector<3> vDirection = normalized(I_Camera.vTarget - I_Camera.vPosition);
+	JVector<3> vRightVector = normalized(cross(I_Camera.vUp, vDirection));
+	JVector<3> vUpVector = normalized(cross(vDirection, vRightVector));
 
 	viewMatrix[0][0] = vRightVector[0];	viewMatrix[0][1] = vUpVector[0];	viewMatrix[0][2] = vDirection[0];
 	viewMatrix[1][0] = vRightVector[1];	viewMatrix[1][1] = vUpVector[1];	viewMatrix[1][2] = vDirection[1];

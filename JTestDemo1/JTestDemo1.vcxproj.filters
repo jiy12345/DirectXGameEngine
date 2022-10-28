@@ -24,6 +24,9 @@
     <ClInclude Include="J3DObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="JBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
@@ -32,13 +35,17 @@
     <ClCompile Include="J3DObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="DefaulTextureShader.hlsl" />
+    <ClCompile Include="JBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="_RAINBOW.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="DefaultVertexShader.hlsl" />
+    <FxCompile Include="DefaultPixelShader.hlsl" />
   </ItemGroup>
 </Project>

@@ -20,13 +20,17 @@ public:
         if (n == m) {
             for (int i = 0; i < m; i++)
                 for (int j = 0; j < n; j++) {
-                    if (m == n) elements[i][j] = 1;
+                    if (i == j) elements[i][j] = 1;
                     else        elements[i][j] = 0;
                 }
         }
         else {
             memset(elements, 0, sizeof(elements));
         }
+    }
+
+    void const zeroMatrix() {
+        memset(elements, 0, sizeof(elements));
     }
 
     auto const operator *(float const& c) const
@@ -106,6 +110,7 @@ public:
         else
         {
             JMatrix<m, l> product = JMatrix<m, l>();
+            product.zeroMatrix();
 
             for (size_t i = 0; i < m; ++i)
                 for (size_t j = 0; j < l; ++j)
