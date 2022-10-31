@@ -55,7 +55,7 @@ bool JBox::init()
 
 bool JBox::frame()
 {
-	static JVector<3> vPosMovement = { 0,0,0 };
+	JVector<3> vPosMovement = { 0,0,0 };
 	if (I_Input.GetKey('W') == KEY_HOLD)
 	{
 		vPosMovement[2] += 10.0f * I_Timer.m_fElapseTimer;
@@ -81,8 +81,12 @@ bool JBox::frame()
 		vPosMovement[1] -= 10.0f * I_Timer.m_fElapseTimer;
 	}
 
+	if (I_Input.GetKey(VK_SPACE) == KEY_HOLD) {
+		vPosMovement *= 1000.0f;
+	}
+
 	m_cubeArea.m_vLeftTop += vPosMovement;
-	I_Camera.vTarget = m_cubeArea.vCenter();
+	//I_Camera.vTarget = m_cubeArea.vCenter();
 
 	UpdateConstantBuffer();
 
