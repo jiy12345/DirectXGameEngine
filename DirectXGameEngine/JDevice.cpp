@@ -111,6 +111,8 @@ void JDevice::createViewport()
 HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
 {
     HRESULT hr;
+    if (m_pDSV) m_pDSV->Release();
+
     if (m_pd3dDevice == nullptr) return S_OK;
     m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
     if (m_pRTV) {
@@ -132,6 +134,8 @@ HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
     createViewport();
 
     I_Writer.createDXResource();
+
+    CreateDepthStencilView();
 
     return S_OK;
 }

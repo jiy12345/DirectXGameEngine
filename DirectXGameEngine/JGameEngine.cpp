@@ -25,6 +25,7 @@ bool JGameEngine::engineFrame()
     I_Timer.frame();
     I_Input.frame();
     I_Writer.frame();
+    I_Camera.frame();
     return frame();
 }
 

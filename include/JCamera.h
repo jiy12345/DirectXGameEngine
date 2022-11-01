@@ -13,6 +13,8 @@ public:
 	float				m_fFarPlane; 
 	float				m_fovy; 
 	float				m_Aspect;
+public:
+	bool				frame();
 private:
 	JCamera() {};
 	~JCamera() = default;
