@@ -85,6 +85,19 @@ bool JBox::frame()
 		vPosMovement *= 100.0f;
 	}
 
+	if (I_Input.GetKey('Z') == KEY_HOLD)
+	{
+		m_fXAngle += 50.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey('X') == KEY_HOLD)
+	{
+		m_fYAngle += 50.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey('C') == KEY_HOLD)
+	{
+		m_fZAngle += 50.0f * I_Timer.m_fElapseTimer;
+	}
+
 	m_cubeArea.m_vCenter += vPosMovement;
 
 	UpdateConstantBuffer();
