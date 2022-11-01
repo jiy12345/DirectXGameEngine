@@ -4,7 +4,7 @@ template<size_t n>
 struct nCube
 {
 public:
-    JVector<n> m_vLeftTop;
+    JVector<n> m_vCenter;
     JVector<n> m_vSize;
 public:
     nCube() {}
@@ -14,20 +14,13 @@ public:
     }
     void  Set(const JVector<n>& vPos, const JVector<n>& vSize)
     {
-        m_vLeftTop = vPos;
+        m_vCenter = vPos;
         this->m_vSize = vSize;
-    }
-public:
-    JVector<n> vMax() const {
-        return m_vLeftTop + m_vSize;
-    }
-    JVector<n> vCenter() const {
-        return (m_vLeftTop + vMax()) / 2.0f;
     }
 public:
     bool   operator == (nCube<n>& dest)
     {
-        if (m_vLeftTop == dest.m_vLeftTop)
+        if (m_vCenter == dest.m_vCenter)
         {
             if (m_vSize == dest.m_vSize)
             {

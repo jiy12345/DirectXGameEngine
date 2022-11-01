@@ -63,6 +63,39 @@ HRESULT JDevice::createRenderTargetView()
     return hr;
 }
 
+HRESULT JDevice::CreateDepthStencilView()
+{
+    HRESULT hr;
+    D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+    m_pRTV->GetDesc(&rtvd);
+    DXGI_SWAP_CHAIN_DESC scd;
+    m_pSwapChain->GetDesc(&scd);
+
+    ID3D11Texture2D*  pDSTexture;
+    D3D11_TEXTURE2D_DESC td;
+    ZeroMemory(&td, sizeof(td));
+    td.Width = scd.BufferDesc.Width;
+    td.Height = scd.BufferDesc.Height;
+    td.MipLevels = 1;
+    td.ArraySize = 1;
+    td.Format = DXGI_FORMAT_R24G8_TYPELESS;
+    td.SampleDesc.Count = 1;
+    td.Usage = D3D11_USAGE_DEFAULT;
+    td.CPUAccessFlags = 0;
+    td.MiscFlags = 0;
+    td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+    hr = m_pd3dDevice->CreateTexture2D(&td, NULL, &pDSTexture);
+    if (FAILED(hr)) return hr;
+
+    D3D11_DEPTH_STENCIL_VIEW_DESC DSVD;
+    ZeroMemory(&DSVD, sizeof(DSVD));
+    DSVD.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    DSVD.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+    hr = m_pd3dDevice->CreateDepthStencilView(pDSTexture, &DSVD, &m_pDSV);
+    return hr;
+}
+
 void JDevice::createViewport()
 {
     D3D11_VIEWPORT vp;
@@ -122,6 +155,10 @@ bool JDevice::init()
     {
         return false;
     }
+    if (FAILED(hr = CreateDepthStencilView()))
+    {
+        return false;
+    }
     createViewport();
     return true;
 }
@@ -133,19 +170,23 @@ bool JDevice::frame()
 
 bool JDevice::render()
 {
-    m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL);
+    m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDSV);
     float color[4] = { 0.34324f,0.52342f,0.798320f,1.0f };
     m_pImmediateContext->ClearRenderTargetView(m_pRTV, color);
+    m_pImmediateContext->ClearDepthStencilView(m_pDSV,
+        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	return true;
 }
 
 bool JDevice::release()
 {
+    if (m_pDSV) m_pDSV->Release();
+    if (m_pRTV) m_pRTV->Release();
     if (m_pd3dDevice) m_pd3dDevice->Release();
     if (m_pImmediateContext)m_pImmediateContext->Release();
     if (m_pGIFactory)m_pGIFactory->Release();
     if (m_pSwapChain)m_pSwapChain->Release();
-    if (m_pRTV) m_pRTV->Release();
     return true;
 }

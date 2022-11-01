@@ -1,13 +1,5 @@
 #include "JBaseObject.h"
 
-void JBaseObject::getNDC(nCube<2>& rtArea)
-{
-	rtArea.m_vLeftTop[0] = rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
-	rtArea.m_vLeftTop[1] = -((rtArea.m_vLeftTop[1] + rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
-	rtArea.m_vSize[0] = rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
-	rtArea.m_vSize[1] = rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
-}
-
 void JBaseObject::setVSName(std::wstring wstrVSName)
 {
 	m_wstrVSName = wstrVSName;
@@ -139,39 +131,29 @@ void JBaseObject::updateUVCoord()
 	}
 	m_rtUV = m_vSpriteInfo->at(m_curSprite).m_vSpriteRtLists[m_iIndexOfSprite];
 
-	m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
-	m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
+	m_rtUV.m_vCenter[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+	m_rtUV.m_vCenter[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 	m_rtUV.m_vSize[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
 	m_rtUV.m_vSize[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 }
 
 void JBaseObject::updateVertexBuffer()
 {
-	nCube<2> rtNDC = m_rtArea;
-	I_Camera.getCameraCoord(rtNDC);
-	getNDC(rtNDC);
-	std::cout << rtNDC.m_vLeftTop[0] << " " << rtNDC.m_vLeftTop[1] << '\n';
-	m_VertexList[0].p = { rtNDC.m_vLeftTop[0], rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1], 0.0f };
-	m_VertexList[0].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] };
-
-	m_VertexList[1].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1] + rtNDC.m_vSize[1],  0.0f };
-	m_VertexList[1].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] };
-
-	m_VertexList[2].p = { rtNDC.m_vLeftTop[0],  rtNDC.m_vLeftTop[1], 0.0f };
-	m_VertexList[2].t = { m_rtUV.m_vLeftTop[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
-
-	m_VertexList[3].p = { rtNDC.m_vLeftTop[0] + rtNDC.m_vSize[0],  rtNDC.m_vLeftTop[1], 0.0f };
-	m_VertexList[3].t = { m_rtUV.m_vLeftTop[0] + m_rtUV.m_vSize[0], m_rtUV.m_vLeftTop[1] + m_rtUV.m_vSize[1] };
-
 	I_Device.m_pImmediateContext->UpdateSubresource(
 		m_pVertexBuffer, NULL, NULL, &m_VertexList.at(0), 0, 0);
 }
 
 bool JBaseObject::init()
 {
-	createVertexBuffer();
-	createIndexBuffer();
-	createVertexLayout();
+	if (FAILED(createVertexBuffer())) {
+		return false;
+	}
+	if (FAILED(createIndexBuffer())) {
+		return false;
+	}
+	if (FAILED(createVertexLayout())) {
+		return false;
+	}
 	return true;
 }
 

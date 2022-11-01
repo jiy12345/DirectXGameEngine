@@ -13,6 +13,13 @@ struct SimpleVertex
 	JVector<3> p;
 	JVector<4> c;
 	JVector<2> t;
+public:
+	SimpleVertex() {};
+	SimpleVertex(JVector<3> p, JVector<4> c, JVector<2> t) {
+		this->p = p;
+		this->c = c;
+		this->t = t;
+	};
 };
 
 class JBaseObject
@@ -29,8 +36,8 @@ public:
 public:
 	float					m_fSpeed = 500.0f;
 public:
-	std::wstring				m_wstrVSName = L"DefaulTextureShader.hlsl";
-	std::wstring				m_wstrPSName = L"DefaulTextureShader.hlsl";
+	std::wstring				m_wstrVSName = L"DefaultVertexShader.hlsl";
+	std::wstring				m_wstrPSName = L"DefaultPixelShader.hlsl";
 	std::string					m_strVSFuncName = "VS";
 	std::string					m_strPSFuncName = "PS";
 	std::wstring				m_wstrTextureName = L"_RAINBOW.bmp";
@@ -39,8 +46,6 @@ public:
 	ID3D11InputLayout*			m_pVertexLayout;
 	std::vector<SimpleVertex>   m_VertexList;
 	std::vector<DWORD>			m_IndexList;
-public:
-	void				getNDC(nCube<2>& rtArea);
 public:
 	void				setVSName(std::wstring wstrVSName);
 	void				setPSName(std::wstring wstrPSName);
@@ -61,8 +66,8 @@ public:
 	virtual bool		render();
 	virtual bool		release();
 protected:
-	bool				preRender();
-	bool				postRender();
+	virtual bool		preRender();
+	virtual bool		postRender();
 public:
 	JBaseObject() {
 		init();

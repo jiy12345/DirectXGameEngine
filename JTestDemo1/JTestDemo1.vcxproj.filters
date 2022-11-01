@@ -18,7 +18,7 @@
     <ClInclude Include="Test.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="JUser.h">
+    <ClInclude Include="JBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,16 +26,17 @@
     <ClCompile Include="Test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="JUser.cpp">
+    <ClCompile Include="JBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="DefaulTextureShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="_RAINBOW.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="DefaultVertexShader.hlsl" />
+    <FxCompile Include="DefaultPixelShader.hlsl" />
   </ItemGroup>
 </Project>

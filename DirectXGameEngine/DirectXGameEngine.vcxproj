@@ -147,12 +147,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="J3DObject.h" />
     <ClInclude Include="JBaseObject.h" />
     <ClInclude Include="JCamera.h" />
+    <ClInclude Include="JConversionMatrix.h" />
     <ClInclude Include="JDevice.h" />
     <ClInclude Include="JDXState.h" />
     <ClInclude Include="JGameEngine.h" />
     <ClInclude Include="JInput.h" />
+    <ClInclude Include="JMatrix.h" />
     <ClInclude Include="JShaderManager.h" />
     <ClInclude Include="JSingleton.h" />
     <ClInclude Include="JSoundManager.h" />
@@ -166,6 +169,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="J3DObject.cpp" />
     <ClCompile Include="JBaseObject.cpp" />
     <ClCompile Include="JCamera.cpp" />
     <ClCompile Include="JDevice.cpp" />

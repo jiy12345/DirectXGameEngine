@@ -17,11 +17,13 @@ public:
 	IDXGIFactory*			m_pGIFactory = nullptr;
 	IDXGISwapChain*			m_pSwapChain = nullptr;
 	ID3D11RenderTargetView* m_pRTV = nullptr;
+	ID3D11DepthStencilView* m_pDSV = nullptr;
 public:
 	HRESULT createDevice();
 	HRESULT createDXGIDevice();
 	HRESULT createSwapChain();
 	HRESULT createRenderTargetView();
+	HRESULT CreateDepthStencilView();
 	void	createViewport();
 public:
 	HRESULT resizeDevice(UINT iWidth, UINT iHeight);

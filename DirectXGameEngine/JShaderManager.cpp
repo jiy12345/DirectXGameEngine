@@ -71,13 +71,18 @@ HRESULT JShaderManager::loadVSCode(ID3DBlob* &m_pVSCode, std::wstring fileName, 
         return S_OK;
     }
 
+    DWORD dwShaderFlags = D3DCOMPILE_SKIP_OPTIMIZATION;
+#if defined( _DEBUG ) 
+    dwShaderFlags |= D3DCOMPILE_DEBUG;
+#endif
+
     hr = D3DCompileFromFile(
         fileName.c_str(),
         NULL,
         NULL,
         funName.c_str(),
         "vs_5_0",
-        0,
+        dwShaderFlags,
         0,
         &m_pVSCode,
         &pErrorCode);
@@ -130,6 +135,11 @@ HRESULT JShaderManager::loadPS(ID3D11PixelShader* &m_pPS, std::wstring fileName,
         return S_OK;
     }
 
+    DWORD dwShaderFlags = D3DCOMPILE_SKIP_OPTIMIZATION;
+#if defined( _DEBUG ) 
+    dwShaderFlags |= D3DCOMPILE_DEBUG;
+#endif
+
     ID3DBlob* pPSCode = nullptr;
     hr = D3DCompileFromFile(
         fileName.c_str(),
@@ -137,7 +147,7 @@ HRESULT JShaderManager::loadPS(ID3D11PixelShader* &m_pPS, std::wstring fileName,
         NULL,
         funName.c_str(),
         "ps_5_0",
-        0,
+        dwShaderFlags,
         0,
         &pPSCode,
         &pErrorCode);
