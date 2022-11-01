@@ -104,7 +104,21 @@
     - [문제점](#8-1-문제점)
     - [클래스 다이어그램](#8-1-클래스-다이어그램)
     - [실행 예시](#8-1-실행-예시)
-# v1 창 띄우기
+- [v9 3D 출력](#v9-3D-출력)
+  - [v9.0](#v9-0) 
+    - [주요 기능](#9-0-주요-기능)
+      - [행렬 클래스 구현](#행렬-클래스-구현)
+      - [변환 행렬 클래스 구현](#변환-행렬-클래스-구현)  
+        - [월드 변환](#월드-변환)
+        - [뷰 변환](#뷰-변환)
+        - [투영 변환](#투영-변환)
+      - [깊이-스텐실 버퍼 적용](#깊이-스텐실-버퍼-적용)  
+    - [수정 사항](#9-0-수정-사항)
+      - [좌표 변환이 상수 버퍼를 통해 셰이더에서 이루어지도록 하기](#좌표-변환이-상수-버퍼를-통해-셰이더에서-이루어지도록-하기)
+    - [문제점](#9-0-문제점)
+    - [클래스 다이어그램](#9-0-클래스-다이어그램)
+    - [실행 예시](#9-0-실행-예시)
+
 # v1 창 띄우기
 ## v1 0
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/1.0)
@@ -985,3 +999,235 @@ HRESULT JDevice::resizeDevice(UINT iWidth, UINT iHeight)
 ### 8 1 문제점
 ### 8 1 클래스 다이어그램
 ### 8 1 실행 예시
+
+# v9 3D 출력
+## v9 0
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/9.0)
+### 9 0 주요 기능
+#### 행렬 클래스 구현
+ 여러 선형 변환을 행렬을 활용하여 적용하기 위해 내적, 외적, 행렬 곱 등을 지원하는 행렬 클래스를 구현하였습니다.  
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/blob/master/DirectXGameEngine/JMatrix.h)
+
+ 벡터 또한 하나의 행(혹은 하나의 열)만을 가진 행렬이므로, 아래와 같이 행렬 클래스를 활용하도록 수정하였습니다.
+```c++
+template<size_t n>
+using JVector = JMatrix<1, n>;
+```
+
+#### 변환 행렬 클래스 구현
+- 배경 지식  
+[정점 변환 개요](https://www.notion.so/3d8a44875d4547358e7d208c90a6784f?v=66c4935daff6412ea2c336ad6c6465b1&p=b26a8ed2ca9949f4873d25289f78e265&pm=s)
+  
+- 개요
+ 각 객체의 크기, 회전 상태, 위치와 카메라의 상태에 따라 적절한 변환 행렬을 반환해주는 클래스입니다. 외부 정보에 따라 결정된 행렬만을 반환해주면 
+되므로, 멤버함수들을 전부 static 함수로 구현하였습니다.
+
+##### 월드 변환
+ 월드 변환을 위해 필요한 크기 변환, 회전 변환, 이동 변환 행렬을 반환해주는 기능을 지원합니다.
+
+- 크기 변환 행렬  
+```C++
+template<size_t Dimension>
+inline JMatrix<Dimension + 1, Dimension + 1> JConversionMatrix<Dimension>::Scale(JVector<Dimension> vScale)
+{
+	JMatrix<Dimension + 1, Dimension + 1> ScaleMatrix;
+
+	for (int i = 0; i < Dimension; i++) {
+		ScaleMatrix[i][i] = vScale[i];
+	}
+	return ScaleMatrix;
+}
+```
+ 객체의 크기에 따라 크기 변환행렬을 반환해주는 함수입니다.
+- 회전 행렬  
+```C++
+template<size_t Dimension>
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::RotationX(float fRadian)
+{
+	float fCosTheta = cos(fRadian);
+	float fSinTheta = sin(fRadian);
+	JMatrix<4, 4> RotationMatrix;
+	RotationMatrix[1][1] = fCosTheta; RotationMatrix[1][2] = fSinTheta;
+	RotationMatrix[2][1] = -fSinTheta; RotationMatrix[2][2] = fCosTheta;
+	return RotationMatrix;
+}
+```
+ 객체의 회전 상태에 따라 회전 행렬을 반환해주는 함수입니다. 오일러각 방식을 적용하였으며, 따라서 RotationY, RotationZ
+함수도 존재합니다.
+- 이동 행렬
+```C++
+template<size_t Dimension>
+inline JMatrix<Dimension + 1, Dimension + 1> JConversionMatrix<Dimension>::Translation(JVector<Dimension> vDelta)
+{
+	JMatrix<Dimension + 1, Dimension + 1> TranslationMatrix;
+
+	for (int i = 0; i < Dimension; i++) {
+		TranslationMatrix[Dimension][i] = vDelta[i];
+	}
+	return TranslationMatrix;
+}
+```
+ 객체의 위치에 따라 이동행렬을 반환해주는 함수입니다.
+
+##### 뷰 변환
+- 배경 지식
+[뷰 변환(View Transform)](https://www.notion.so/3d8a44875d4547358e7d208c90a6784f?v=66c4935daff6412ea2c336ad6c6465b1&p=758dd760998b41cb952536870d3ce776&pm=s)
+
+```C++
+template<size_t Dimension>
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt()
+{
+	JMatrix<4, 4> viewMatrix;
+	JVector<3> vTarget = I_Camera.m_vTarget;
+	JVector<3> vPosition = I_Camera.m_vPosition;
+	JVector<3> vDirection = normalized(I_Camera.m_vTarget - I_Camera.m_vPosition);
+	JVector<3> vRightVector = normalized(cross(I_Camera.m_vUp, vDirection));
+	JVector<3> vUpVector = normalized(cross(vDirection, vRightVector));
+
+	viewMatrix[0][0] = vRightVector[0];	viewMatrix[0][1] = vUpVector[0];	viewMatrix[0][2] = vDirection[0];
+	viewMatrix[1][0] = vRightVector[1];	viewMatrix[1][1] = vUpVector[1];	viewMatrix[1][2] = vDirection[1];
+	viewMatrix[2][0] = vRightVector[2];	viewMatrix[2][1] = vUpVector[2];	viewMatrix[2][2] = vDirection[2];
+
+	viewMatrix[3][0] = -(I_Camera.m_vPosition[0] * viewMatrix[0][0] + I_Camera.m_vPosition[1] * viewMatrix[1][0] + I_Camera.m_vPosition[2] * viewMatrix[2][0]);
+	viewMatrix[3][1] = -(I_Camera.m_vPosition[0] * viewMatrix[0][1] + I_Camera.m_vPosition[1] * viewMatrix[1][1] + I_Camera.m_vPosition[2] * viewMatrix[2][1]);
+	viewMatrix[3][2] = -(I_Camera.m_vPosition[0] * viewMatrix[0][2] + I_Camera.m_vPosition[1] * viewMatrix[1][2] + I_Camera.m_vPosition[2] * viewMatrix[2][2]);
+	return viewMatrix;
+}
+```
+ 현재 카메라의 상태에 따라서 카메라 좌표로의 변환을 진행하는 카메라 변환행렬을 반환하는 함수입니다. 
+현재 카메라 클래스를 싱글톤으로 구현하였으므로, 따로 매개 변수를 받아오지 않고 카메라 클래스의 정보를 참조하여 행렬을 반환하도록 하였습니다.
+
+##### 투영 변환
+- 배경 지식
+[투영 변환(Projection Transformation)](https://www.notion.so/3d8a44875d4547358e7d208c90a6784f?v=66c4935daff6412ea2c336ad6c6465b1&p=8d2922a95c2e4cf48965afe4d4778e30&pm=s)
+
+```C++
+template<size_t Dimension>
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::PerspectiveFovLH()
+{
+	float    h, w, Q;
+
+	h = 1 / tan(I_Camera.m_fovy * 0.5f);
+	w = h / I_Camera.m_Aspect;
+
+	Q = I_Camera.m_fFarPlane / (I_Camera.m_fFarPlane - I_Camera.m_fNearPlane);
+
+	JMatrix<4, 4> rotationMatrix;
+
+	rotationMatrix[0][0] = w;
+	rotationMatrix[1][1] = h;
+	rotationMatrix[2][2] = Q;
+	rotationMatrix[3][2] = -Q * I_Camera.m_fNearPlane;
+	rotationMatrix[2][3] = 1;
+	rotationMatrix[3][3] = 0;
+
+	return rotationMatrix;
+}
+```
+ 현재 카메라의 상태에 따라서 2차원 화면에 투영하는 투영 변환 행렬을 반환해주는 함수입니다. 
+현재 카메라 클래스를 싱글톤으로 구현하였으므로, 따로 매개 변수를 받아오지 않고 카메라 클래스의 정보를 참조하여 행렬을 반환하도록 하였습니다.
+#### 깊이-스텐실 버퍼 적용
+- 배경 지식
+[깊이 버퍼(Depth Buffer)](https://www.notion.so/3d8a44875d4547358e7d208c90a6784f?v=66c4935daff6412ea2c336ad6c6465b1&p=a5221a1f27a64131976372ba444c97a6&pm=s)
+
+깊이 버퍼를 적용하여 화면으로부터의 깊이에 따라 원근감을 느낄 수 있도록 하였습니다. 
+
+### 9 0 수정 사항
+#### 좌표 변환이 상수 버퍼를 통해 셰이더에서 이루어지도록 하기
+ 기존에는 모든 변환을 완료한 정점을 정점 셰이더에 넘겨 정점 셰이더에서는 특별한 변환 없이 다음 단계로 넘겨주도록 하였으나, 
+9.0 버전에서는 상수 버퍼를 통해 변환 행렬을 넘겨 받아 정점 셰이더에서 직접 변환을 진행하도록 하였습니다.  
+이러한 변환을 진행하기 위해 적용한 사항들은 다음과 같습니다.  
+1. 상수 버퍼에 넣을 데이터를 유지할 구조체를 생성하였습니다.
+
+```C++
+struct VS_CONSTANT_BUFFER
+{
+	JMatrix<4, 4>  m_matWorld;
+	JMatrix<4, 4>  m_matView;
+	JMatrix<4, 4>  m_matProj;
+	float    x;
+	float    y;
+	float    fTimer = 0.0f;
+	float    d;
+};
+
+```
+
+2. 상수 버퍼를 생성하고, 각 객체의 멤버로 그 포인터를 가지고 있도록 하였습니다.
+```C++
+HRESULT J3DObject::CreateConstantBuffer()
+{
+    HRESULT hr;
+    D3D11_BUFFER_DESC       bd;
+    ZeroMemory(&bd, sizeof(bd));
+    bd.ByteWidth = sizeof(VS_CONSTANT_BUFFER) * 1;
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+    D3D11_SUBRESOURCE_DATA  sd;
+    ZeroMemory(&sd, sizeof(sd));
+    sd.pSysMem = &m_cbData;
+    hr = I_Device.m_pd3dDevice->CreateBuffer(
+        &bd,
+        &sd,
+        &m_pConstantBuffer);
+    return hr;
+}
+```
+3. 매 프레임마다 현재 객체의 위치 등 상태에 따라 변환 행렬을 생성하고, 그 내용을 1에서 생성한 상수 버퍼 구조체에 유지하도록 하였습니다.
+```C++
+void J3DObject::UpdateConstantBuffer()
+{
+    JMatrix<4, 4> mScale = JConversionMatrix<3>::Scale(m_cubeArea.m_vSize / 2);
+    JMatrix<4, 4> mRotation = JConversionMatrix<3>::RotationX(DegreeToRadian(m_fXAngle)) *
+                              JConversionMatrix<3>::RotationY(DegreeToRadian(m_fYAngle)) *
+                              JConversionMatrix<3>::RotationZ(DegreeToRadian(m_fZAngle));
+    JMatrix<4, 4> mTranslation = JConversionMatrix<3>::Translation(m_cubeArea.m_vCenter);
+    m_matWorld = mScale * mRotation * mTranslation;
+    m_matView = JConversionMatrix<3>::ViewLookAt();
+    m_matProj = JConversionMatrix<3>::PerspectiveFovLH();
+
+    m_cbData.m_matWorld = transpose(m_matWorld);
+    m_cbData.m_matView = transpose(m_matView);
+    m_cbData.m_matProj = transpose(m_matProj);
+    I_Device.m_pImmediateContext->UpdateSubresource(
+        m_pConstantBuffer, 0, nullptr,
+        &m_cbData, 0, 0);
+}
+```
+4. 정점 셰이더 코드에서 상수 버퍼를 받아와 직접 좌표 변환을 진행하도록 하였습니다.
+- 상수 버퍼를 받아올 구조체
+```C++
+cbuffer cb_data : register(b0)
+{
+	matrix g_matWorld : packoffset(c0);
+	matrix g_matView : packoffset(c4);
+	matrix g_matProj : packoffset(c8);
+	float  fTimer : packoffset(c12.z);
+};
+```
+- 변환을 진행하는 코드
+```C++
+VS_out VS(VS_in input) 
+{
+	VS_out output = (VS_out)0;
+	float4 vLocal = float4(input.p, 1.0f);
+
+	float4 vWorld = mul(vLocal, g_matWorld);
+	float4 vView = mul(vWorld, g_matView);
+	float4 vProj = mul(vView, g_matProj);
+    //vProj = vProj / vProj[3];
+	
+	output.p = vProj;
+	output.c = input.color;
+	output.t = input.tex;
+
+	return output;
+}
+```
+최종적으로 투영 변환이 끝난 투영 좌표를 활용하여 화면에 출력이 진행됩니다.
+### 9 0 문제점
+### 9 0 클래스 다이어그램
+![class diagram9.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram9.0.png) 
+### 9 0 실행 예시
+![result image9.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image9.0.gif)
