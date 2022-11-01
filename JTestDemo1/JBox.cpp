@@ -3,10 +3,10 @@
 void JBox::setVertexData()
 {
 	m_VertexList.resize(24);
-	m_VertexList[0] = SimpleVertex(JVector<3>(-1.0f, 1.0f, .0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(0.0f, 0.0f));
-	m_VertexList[1] = SimpleVertex(JVector<3>(1.0f, 1.0f, .0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(1.0f, 0.0f));
-	m_VertexList[2] = SimpleVertex(JVector<3>(1.0f, -1.0f, .0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(1.0f, 1.0f));
-	m_VertexList[3] = SimpleVertex(JVector<3>(-1.0f, -1.0f, .0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(0.0f, 1.0f));
+	m_VertexList[0] = SimpleVertex(JVector<3>(-1.0f, 1.0f, -1.0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(0.0f, 0.0f));
+	m_VertexList[1] = SimpleVertex(JVector<3>(1.0f, 1.0f, -1.0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(1.0f, 0.0f));
+	m_VertexList[2] = SimpleVertex(JVector<3>(1.0f, -1.0f, -1.0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(1.0f, 1.0f));
+	m_VertexList[3] = SimpleVertex(JVector<3>(-1.0f, -1.0f, -1.0f), JVector<4>(1.0f, 0.0f, 0.0f, 1.0f), JVector<2>(0.0f, 1.0f));
 							
 	m_VertexList[4] = SimpleVertex(JVector<3>(1.0f, 1.0f, 1.0f), JVector<4>(0.0f, 0.0f, 0.0f, 1.0f), JVector<2>(0.0f, 0.0f));
 	m_VertexList[5] = SimpleVertex(JVector<3>(-1.0f, 1.0f, 1.0f), JVector<4>(0.0f, 1.0f, 0.0f, 1.0f), JVector<2>(1.0f, 0.0f));
@@ -49,7 +49,7 @@ void JBox::setIndexData()
 bool JBox::init()
 {
 	J3DObject::init();
-	m_cubeArea.Set(JVector<3>(0, 0, 0), JVector<3>(1000, 1000, 1000));
+	m_cubeArea.Set(JVector<3>(0, 0, 0), JVector<3>(100, 100, 100));
 	return true;
 }
 
@@ -82,11 +82,10 @@ bool JBox::frame()
 	}
 
 	if (I_Input.GetKey(VK_SPACE) == KEY_HOLD) {
-		vPosMovement *= 1000.0f;
+		vPosMovement *= 100.0f;
 	}
 
 	m_cubeArea.m_vLeftTop += vPosMovement;
-	//I_Camera.vTarget = m_cubeArea.vCenter();
 
 	UpdateConstantBuffer();
 

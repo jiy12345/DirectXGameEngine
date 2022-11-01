@@ -25,6 +25,7 @@ VS_out VS(VS_in input)
 	float4 vWorld = mul(vLocal, g_matWorld);
 	float4 vView = mul(vWorld, g_matView);
 	float4 vProj = mul(vView, g_matProj);
+    //vProj = vProj / vProj[3];
 	
 	output.p = vProj;
 	output.c = input.color;

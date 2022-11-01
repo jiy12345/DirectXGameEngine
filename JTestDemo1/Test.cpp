@@ -37,7 +37,7 @@ bool Test::init()
 	}
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
-	I_Camera.vPosition = { 0, 0, -500 };
+	I_Camera.vPosition = { 0, 30, -30 };
 	I_Camera.vTarget = m_pJBox->m_cubeArea.vCenter();
 	return true;
 }
@@ -68,7 +68,7 @@ bool Test::frame()
 		I_Sound.resume(m_pBGM);
 	}
 	m_pJBox->frame();
-	I_Camera.vTarget = m_pJBox->m_cubeArea.vCenter();
+	
 	return true;
 }
 

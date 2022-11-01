@@ -26,10 +26,10 @@ void J3DObject::UpdateConstantBuffer()
     JMatrix<4, 4> mRotation = JConversionMatrix<3>::RotationX(DegreeToRadian(m_fXAngle)) *
                               JConversionMatrix<3>::RotationY(DegreeToRadian(m_fYAngle)) *
                               JConversionMatrix<3>::RotationZ(DegreeToRadian(m_fZAngle));
-    JMatrix<4, 4> mTranslation = JConversionMatrix<3>::Translation(m_cubeArea.m_vLeftTop + m_cubeArea.m_vSize / 2);
+    JMatrix<4, 4> mTranslation = JConversionMatrix<3>::Translation(m_cubeArea.vCenter());
     m_matWorld = mScale * mRotation * mTranslation;
     m_matView = JConversionMatrix<3>::ViewLookAt();
-    m_matProj = JConversionMatrix<3>::PerspectiveFovLH(1.0f, 10000.0f, T_PI * 0.25f,
+    m_matProj = JConversionMatrix<3>::PerspectiveFovLH(1.0f, 1000.0f, T_PI * 0.25f,
         (float)I_Window.m_rtClient.right / (float)I_Window.m_rtClient.bottom);
 
     m_cbData.m_matWorld = transpose(m_matWorld);
