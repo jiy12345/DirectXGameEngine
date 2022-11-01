@@ -36,7 +36,7 @@ bool JSpriteManager::load(std::vector<JSprite>* &m_vSprite, std::wstring fileNam
         {
             _fgetts(pBuffer, _countof(pBuffer), fp_src);
             _stscanf_s(pBuffer, _T("%f %f %f %f"),
-                &rt.m_vLeftTop[0], &rt.m_vLeftTop[1], &rt.m_vSize[0], &rt.m_vSize[1]);
+                &rt.m_vCenter[0], &rt.m_vCenter[1], &rt.m_vSize[0], &rt.m_vSize[1]);
             jSprite.m_vSpriteRtLists.push_back(rt);
         }
         

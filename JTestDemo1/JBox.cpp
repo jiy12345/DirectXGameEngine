@@ -85,7 +85,7 @@ bool JBox::frame()
 		vPosMovement *= 100.0f;
 	}
 
-	m_cubeArea.m_vLeftTop += vPosMovement;
+	m_cubeArea.m_vCenter += vPosMovement;
 
 	UpdateConstantBuffer();
 

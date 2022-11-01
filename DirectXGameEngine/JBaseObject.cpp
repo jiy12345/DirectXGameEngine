@@ -1,13 +1,5 @@
 #include "JBaseObject.h"
 
-void JBaseObject::getNDC(nCube<2>& rtArea)
-{
-	rtArea.m_vLeftTop[0] = rtArea.m_vLeftTop[0] / I_Window.m_rtClient.right * 2 - 1;
-	rtArea.m_vLeftTop[1] = -((rtArea.m_vLeftTop[1] + rtArea.m_vSize[1]) / I_Window.m_rtClient.bottom * 2 - 1);
-	rtArea.m_vSize[0] = rtArea.m_vSize[0] / I_Window.m_rtClient.right * 2;
-	rtArea.m_vSize[1] = rtArea.m_vSize[1] / I_Window.m_rtClient.bottom * 2;
-}
-
 void JBaseObject::setVSName(std::wstring wstrVSName)
 {
 	m_wstrVSName = wstrVSName;
@@ -139,8 +131,8 @@ void JBaseObject::updateUVCoord()
 	}
 	m_rtUV = m_vSpriteInfo->at(m_curSprite).m_vSpriteRtLists[m_iIndexOfSprite];
 
-	m_rtUV.m_vLeftTop[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
-	m_rtUV.m_vLeftTop[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
+	m_rtUV.m_vCenter[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
+	m_rtUV.m_vCenter[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 	m_rtUV.m_vSize[0] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[0];
 	m_rtUV.m_vSize[1] /= m_vSpriteInfo->at(m_curSprite).m_vTotalTextureSize[1];
 }

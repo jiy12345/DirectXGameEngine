@@ -47,8 +47,6 @@ public:
 	std::vector<SimpleVertex>   m_VertexList;
 	std::vector<DWORD>			m_IndexList;
 public:
-	void				getNDC(nCube<2>& rtArea);
-public:
 	void				setVSName(std::wstring wstrVSName);
 	void				setPSName(std::wstring wstrPSName);
 	void				setVSFuncName(std::string strVSFuncName);

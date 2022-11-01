@@ -13,7 +13,7 @@ public:
 	static JMatrix<Dimension + 1, Dimension + 1> Translation(JVector<Dimension> vDelta);
 
 	static JMatrix<4, 4> ViewLookAt();
-	static JMatrix<4, 4> PerspectiveFovLH(float fNearPlane, float fFarPlane, float fovy, float Aspect);
+	static JMatrix<4, 4> PerspectiveFovLH();
 };
 
 template<size_t Dimension>
@@ -86,38 +86,38 @@ template<size_t Dimension>
 inline JMatrix<4, 4> JConversionMatrix<Dimension>::ViewLookAt()
 {
 	JMatrix<4, 4> viewMatrix;
-	JVector<3> vTarget = I_Camera.vTarget;
-	JVector<3> vPosition = I_Camera.vPosition;
-	JVector<3> vDirection = normalized(I_Camera.vTarget - I_Camera.vPosition);
-	JVector<3> vRightVector = normalized(cross(I_Camera.vUp, vDirection));
+	JVector<3> vTarget = I_Camera.m_vTarget;
+	JVector<3> vPosition = I_Camera.m_vPosition;
+	JVector<3> vDirection = normalized(I_Camera.m_vTarget - I_Camera.m_vPosition);
+	JVector<3> vRightVector = normalized(cross(I_Camera.m_vUp, vDirection));
 	JVector<3> vUpVector = normalized(cross(vDirection, vRightVector));
 
 	viewMatrix[0][0] = vRightVector[0];	viewMatrix[0][1] = vUpVector[0];	viewMatrix[0][2] = vDirection[0];
 	viewMatrix[1][0] = vRightVector[1];	viewMatrix[1][1] = vUpVector[1];	viewMatrix[1][2] = vDirection[1];
 	viewMatrix[2][0] = vRightVector[2];	viewMatrix[2][1] = vUpVector[2];	viewMatrix[2][2] = vDirection[2];
 
-	viewMatrix[3][0] = -(I_Camera.vPosition[0] * viewMatrix[0][0] + I_Camera.vPosition[1] * viewMatrix[1][0] + I_Camera.vPosition[2] * viewMatrix[2][0]);
-	viewMatrix[3][1] = -(I_Camera.vPosition[0] * viewMatrix[0][1] + I_Camera.vPosition[1] * viewMatrix[1][1] + I_Camera.vPosition[2] * viewMatrix[2][1]);
-	viewMatrix[3][2] = -(I_Camera.vPosition[0] * viewMatrix[0][2] + I_Camera.vPosition[1] * viewMatrix[1][2] + I_Camera.vPosition[2] * viewMatrix[2][2]);
+	viewMatrix[3][0] = -(I_Camera.m_vPosition[0] * viewMatrix[0][0] + I_Camera.m_vPosition[1] * viewMatrix[1][0] + I_Camera.m_vPosition[2] * viewMatrix[2][0]);
+	viewMatrix[3][1] = -(I_Camera.m_vPosition[0] * viewMatrix[0][1] + I_Camera.m_vPosition[1] * viewMatrix[1][1] + I_Camera.m_vPosition[2] * viewMatrix[2][1]);
+	viewMatrix[3][2] = -(I_Camera.m_vPosition[0] * viewMatrix[0][2] + I_Camera.m_vPosition[1] * viewMatrix[1][2] + I_Camera.m_vPosition[2] * viewMatrix[2][2]);
 	return viewMatrix;
 }
 
 template<size_t Dimension>
-inline JMatrix<4, 4> JConversionMatrix<Dimension>::PerspectiveFovLH(float fNearPlane, float fFarPlane, float fovy, float Aspect)
+inline JMatrix<4, 4> JConversionMatrix<Dimension>::PerspectiveFovLH()
 {
 	float    h, w, Q;
 
-	h = 1 / tan(fovy * 0.5f);
-	w = h / Aspect;
+	h = 1 / tan(I_Camera.m_fovy * 0.5f);
+	w = h / I_Camera.m_Aspect;
 
-	Q = fFarPlane / (fFarPlane - fNearPlane);
+	Q = I_Camera.m_fFarPlane / (I_Camera.m_fFarPlane - I_Camera.m_fNearPlane);
 
 	JMatrix<4, 4> rotationMatrix;
 
 	rotationMatrix[0][0] = w;
 	rotationMatrix[1][1] = h;
 	rotationMatrix[2][2] = Q;
-	rotationMatrix[3][2] = -Q * fNearPlane;
+	rotationMatrix[3][2] = -Q * I_Camera.m_fNearPlane;
 	rotationMatrix[2][3] = 1;
 	rotationMatrix[3][3] = 0;
 

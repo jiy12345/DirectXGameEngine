@@ -37,8 +37,13 @@ bool Test::init()
 	}
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
-	I_Camera.vPosition = { 0, 30, -30 };
-	I_Camera.vTarget = m_pJBox->m_cubeArea.vCenter();
+	I_Camera.m_vPosition = { 0, 0, -30 };
+	I_Camera.m_vTarget = { 0, 0, 0 };
+	I_Camera.m_fNearPlane = 1.0f;
+	I_Camera.m_fFarPlane = 1000.0f;
+	I_Camera.m_fovy = T_PI * 0.25f;
+	I_Camera.m_Aspect = (float)I_Window.m_rtClient.right / (float)I_Window.m_rtClient.bottom;
+
 	return true;
 }
 
