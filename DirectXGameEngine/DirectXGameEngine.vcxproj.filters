@@ -68,6 +68,12 @@
     <ClInclude Include="JMatrix.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="J3DObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="JConversionMatrix.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -114,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="JTextureManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="J3DObject.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -149,13 +149,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="J3DObject.h" />
     <ClInclude Include="JBox.h" />
-    <ClInclude Include="JConversionMatrix.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="J3DObject.cpp" />
     <ClCompile Include="JBox.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
