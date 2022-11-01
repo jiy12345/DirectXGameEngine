@@ -37,7 +37,7 @@ bool Test::init()
 	}
 	m_pBGM = new JSoundChannel(L"MyLove.mp3");
 
-	I_Camera.m_vPosition = { 0, 0, -30 };
+	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
 	I_Camera.m_fNearPlane = 1.0f;
 	I_Camera.m_fFarPlane = 1000.0f;
