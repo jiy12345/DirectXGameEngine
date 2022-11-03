@@ -49,7 +49,7 @@ void JBox::setIndexData()
 bool JBox::init()
 {
 	J3DObject::init();
-	m_cubeArea.Set(JVector<3>(0, 0, 0), JVector<3>(100, 100, 100));
+	m_cubeArea.Set(JVector<3>(0, 0, 0), JVector<3>(30, 30, 30));
 	return true;
 }
 

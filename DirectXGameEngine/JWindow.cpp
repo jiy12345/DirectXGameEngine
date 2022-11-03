@@ -1,5 +1,6 @@
 #include "JWindow.h"
 #include "JDevice.h"
+#include "JCamera.h"
 
 LRESULT CALLBACK WndProc(
 	HWND hWnd,
@@ -121,6 +122,7 @@ LRESULT JWindow::msgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			UINT height = HIWORD(lParam);
 			GetWindowRect(hWnd, &m_rtWindow);
 			GetClientRect(hWnd, &m_rtClient);
+			I_Camera.updateWindowSize();
 
 			if (FAILED(I_Device.resizeDevice(width, height)))
 			{

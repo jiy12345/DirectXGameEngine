@@ -17,6 +17,8 @@ bool JGameEngine::engineInit()
     I_Writer.set(pBackBuffer);
     pBackBuffer->Release();
 
+    I_Camera.init();
+
     return init();
 }
 
