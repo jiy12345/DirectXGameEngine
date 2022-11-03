@@ -39,10 +39,6 @@ bool Test::init()
 
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
-	I_Camera.m_fNearPlane = 1.0f;
-	I_Camera.m_fFarPlane = 1000.0f;
-	I_Camera.m_fovy = T_PI * 0.25f;
-	I_Camera.m_Aspect = (float)I_Window.m_rtClient.right / (float)I_Window.m_rtClient.bottom;
 
 	return true;
 }
@@ -73,7 +69,8 @@ bool Test::frame()
 		I_Sound.resume(m_pBGM);
 	}
 	m_pJBox->frame();
-	
+	I_Camera.setTarget(m_pJBox->m_cubeArea.m_vCenter);
+
 	return true;
 }
 

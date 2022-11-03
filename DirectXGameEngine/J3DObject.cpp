@@ -1,4 +1,5 @@
 #include "J3DObject.h"
+#include "JCamera.cpp"
 #include "JConversionMatrix.h"
 
 HRESULT J3DObject::CreateConstantBuffer()
@@ -28,8 +29,8 @@ void J3DObject::UpdateConstantBuffer()
                               JConversionMatrix<3>::RotationZ(DegreeToRadian(m_fZAngle));
     JMatrix<4, 4> mTranslation = JConversionMatrix<3>::Translation(m_cubeArea.m_vCenter);
     m_matWorld = mScale * mRotation * mTranslation;
-    m_matView = JConversionMatrix<3>::ViewLookAt();
-    m_matProj = JConversionMatrix<3>::PerspectiveFovLH();
+    m_matView = I_Camera.ViewLookAt();
+    m_matProj = I_Camera.PerspectiveFovLH();
 
     m_cbData.m_matWorld = transpose(m_matWorld);
     m_cbData.m_matView = transpose(m_matView);
