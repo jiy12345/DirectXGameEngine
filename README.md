@@ -118,6 +118,13 @@
     - [문제점](#9-0-문제점)
     - [클래스 다이어그램](#9-0-클래스-다이어그램)
     - [실행 예시](#9-0-실행-예시)
+  - [v9.1](#v9-1)
+	- [해결된 문제](#9-1-해결된-문제)
+    - [추가된 기능](#9-1-추가된-기능)
+      - [카메라 시점 변경이 가능하도록 하기](#카메라-시점-변경이-가능하도록-하기)
+    - [문제점](#9-1-문제점)
+    - [클래스 다이어그램](#9-1-클래스-다이어그램)
+    - [실행 예시](#9-1-실행-예시)
 
 # v1 창 띄우기
 ## v1 0
@@ -1231,3 +1238,97 @@ VS_out VS(VS_in input)
 ![class diagram9.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/class%20diagrams/ClassDiagram9.0.png) 
 ### 9 0 실행 예시
 ![result image9.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image9.0.gif)
+## v9 1 
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/9.1)
+### 9 1 해결된 문제
+### 9 1 추가된 기능
+#### 카메라 시점 변경이 가능하도록 하기
+- 기능 설명
+ 특정 키를 눌러 카메라 시점의 변경이 가능하도록 하였습니다. 현재 구현된 카메라는 다음과 같습니다.
+
+1. 특정 객체를 기준으로 하는 top view
+2. 특정 객체를 기준으로 하는 quarter view
+3. 1인칭 카메라
+
+- 구현 내용
+ 앞서 카메라 객체를 구현하며, 카메라의 상태에 따라 결정되는 뷰 행렬과 투영행렬을 각 객체에서 자유롭게 참조할 수 있도록 하기 위해
+ 카메라 객체를 싱글톤으로 구현하였습니다. 따라서 9.1 버전 업데이트를 하면서도 싱글톤 성질을 유지하도록 하였습니다. 따라서 구현된 사항은 다음과 같습니다.
+
+1. 카메라의 상태를 나타낼 enum형 상수를 추가하였습니다.
+```C++
+enum CAMERA_TYPE {
+	TOP_VIEW,
+	QUARTER_VIEW,
+	FIRST_PERSON_VIEW,
+	NUM_OF_CAMERA_TYPE
+};
+```
+2. 앞서 [JConversionMatrix](https://github.com/jiy12345/DirectXGameEngine/blob/master/DirectXGameEngine/JConversionMatrix.h) 클래스에서 처리하던 투영 행렬과 뷰 행렬 반환 함수를 카메라 클래스로 옮겼습니다.
+
+3. 기준 객체의 위치를 받아올 함수인 setTarget 함수를 추가하였습니다.
+```C++
+void JCamera::setTarget(JVector<3> vTarget) {
+	switch (cameraType) {
+	case TOP_VIEW:
+		m_vTarget = vTarget;
+		m_vPosition = vTarget;
+		m_vPosition[2] += 100;
+		break;
+	case QUARTER_VIEW:
+		m_vTarget = vTarget;
+		m_vPosition = vTarget;
+		m_vPosition[1] -= 100;
+		m_vPosition[2] += 100;
+		break;
+	case FIRST_PERSON_VIEW:
+		break;
+	}
+}
+```
+1인칭 시점에는 필요하지 않지만, 탑뷰나 쿼터뷰에는 필요하므로 받아도록 하였습니다.
+4. P 키를 통해 카메라 시점을 바꿀 수 있도록 하였습니다.
+```C++
+	if (I_Input.GetKey('P') == KEY_PUSH) {
+		cameraType = static_cast<CAMERA_TYPE>((cameraType + 1) % NUM_OF_CAMERA_TYPE);
+	}
+```
+5. 1인칭 시점에서는 화살표 키를 통해 카메라를 이동할 수 있도록 하였습니다.
+```C++
+	JVector<3> vPosMovement = { 0,0,0 };
+	if (I_Input.GetKey(VK_UP) == KEY_HOLD)
+	{
+		vPosMovement[2] += 30.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey(VK_DOWN) == KEY_HOLD)
+	{
+		vPosMovement[2] -= 30.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey(VK_LEFT) == KEY_HOLD)
+	{
+		vPosMovement[0] -= 30.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey(VK_RIGHT) == KEY_HOLD)
+	{
+		vPosMovement[0] += 30.0f * I_Timer.m_fElapseTimer;
+	}
+
+	if (I_Input.GetKey(VK_SPACE) == KEY_HOLD) {
+		vPosMovement *= 50.0f;
+	}
+
+	m_vPosition += vPosMovement;
+```
+6. 투영 행렬에서 창의 가로 세로 비율을 활용하므로, 창 크기가 바뀔 때 비율을 업데이트하기 위한 updateWindowSize()함수를 카메라 클래스에 추가하였고,
+7. WM_SIZE 윈도우 메시지가 들어왔을 때(창 크기가 바뀌었을 때) 호출되도록 하였습니다.
+```C++
+void JCamera::updateWindowSize()
+{
+	m_Aspect = (float)I_Window.m_rtClient.right / (float)I_Window.m_rtClient.bottom;
+}
+
+```
+
+### 9 1 문제점
+### 9 1 클래스 다이어그램
+### 9 1 실행 예시
+![result image9.1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image9.1.gif)
