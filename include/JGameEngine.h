@@ -3,7 +3,6 @@
 #include "JWriter.h"
 #include "JSoundManager.h"
 #include "JSpriteManager.h"
-#include "JDXState.h"
 #include "JCamera.h"
 
 class JGameEngine

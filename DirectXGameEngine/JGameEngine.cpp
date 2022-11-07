@@ -20,6 +20,7 @@ bool JGameEngine::engineInit()
     I_Camera.init();
 
     return init();
+
 }
 
 bool JGameEngine::engineFrame()

@@ -50,6 +50,8 @@ bool JBox::init()
 {
 	J3DObject::init();
 	m_cubeArea.Set(JVector<3>(0, 0, 0), JVector<3>(30, 30, 30));
+	m_wstrTextureName = L"_RAINBOW.bmp";
+	m_rtUV.Set({ 0, 0 }, { 1, 1 });
 	return true;
 }
 

@@ -145,6 +145,8 @@ void JBaseObject::updateVertexBuffer()
 
 bool JBaseObject::init()
 {
+	m_pIndexBuffer = nullptr;
+	m_pVertexBuffer = nullptr;
 	if (FAILED(createVertexBuffer())) {
 		return false;
 	}

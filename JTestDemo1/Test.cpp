@@ -27,8 +27,6 @@ int APIENTRY wWinMain(
 bool Test::init()
 {
 	m_pJBox = new JBox;
-	m_pJBox->m_wstrTextureName = L"_RAINBOW.bmp";
-	m_pJBox->m_rtUV.Set({ 0, 0 }, { 1, 1 });
 	m_pJBox->init();
 
 	m_pGunShots.resize(32);
@@ -39,6 +37,18 @@ bool Test::init()
 
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
+
+	if (m_FBXLoader.init())
+	{
+		m_FBXLoader.load("../data/fbx/SM_Rock.fbx");
+	}
+
+	for (int iObj = 0; iObj < m_FBXLoader.m_pDrawObjList.size(); iObj++)
+	{
+		JFbxObject* pObj = m_FBXLoader.m_pDrawObjList[iObj];
+		pObj->init();
+		pObj->m_cubeArea.m_vSize = { 1, 1, 1 };
+	}
 
 	return true;
 }
@@ -76,7 +86,20 @@ bool Test::frame()
 
 bool Test::render()
 {
-	m_pJBox->render();
+	if (I_Input.GetKey('V') == KEY_HOLD)
+	{
+		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSWireFrame);
+	}
+	else {
+		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
+	}
+
+	for (int iObj = 0; iObj < m_FBXLoader.m_pDrawObjList.size(); iObj++)
+	{
+		m_FBXLoader.m_pDrawObjList[iObj]->render();
+	}
+
+	//m_pJBox->render();
 	return true;
 }
 
