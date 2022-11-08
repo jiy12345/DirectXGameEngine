@@ -38,16 +38,45 @@ bool Test::init()
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
 
-	if (m_FBXLoader.init())
-	{
-		m_FBXLoader.load("../data/fbx/SM_Rock.fbx");
-	}
 
 	for (int iObj = 0; iObj < m_FBXLoader.m_pDrawObjList.size(); iObj++)
 	{
 		JFbxObject* pObj = m_FBXLoader.m_pDrawObjList[iObj];
 		pObj->init();
 		pObj->m_cubeArea.m_vSize = { 1, 1, 1 };
+	}
+	
+	W_STR szDefaultDir = L"../../data/fbx/"; L"../data/fbx/";
+	for (auto fbx : m_fbxList)
+	{
+		for (int iObj = 0; iObj < fbx->m_pDrawObjList.size(); iObj++)
+		{
+			JFbxObject* pObj = fbx->m_pDrawObjList[iObj];
+
+			if (pObj->vbDataList.size() == 0)
+			{
+				pObj->m_wstrTextureName = szDefaultDir + pObj->m_wstrTextureName;
+				pObj->init();
+				pObj->m_cubeArea.m_vSize = { 1, 1, 1 };
+			}
+			else
+			{
+				for (int iSubObj = 0; iSubObj < pObj->vbDataList.size(); iSubObj++)
+				{
+					JFbxObject* pSubObj = new JFbxObject;
+
+					if (pObj->vbDataList[iSubObj].size() != 0)
+					{
+						pSubObj->m_wstrTextureName = szDefaultDir +
+							pObj->vbTexList[iSubObj];
+						pSubObj->m_VertexList = pObj->vbDataList[iSubObj];
+						pSubObj->init();
+						pSubObj->m_cubeArea.m_vSize = { 1, 1, 1 };
+						pSubObj->m_pDrawChild.push_back(pSubObj);
+					}
+				}
+			}
+		}
 	}
 
 	return true;
@@ -94,9 +123,31 @@ bool Test::render()
 		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
 	}
 
-	for (int iObj = 0; iObj < m_FBXLoader.m_pDrawObjList.size(); iObj++)
+	for (int iModel = 0; iModel < m_fbxList.size(); iModel++)
 	{
-		m_FBXLoader.m_pDrawObjList[iObj]->render();
+		for (int iObj = 0; iObj < m_fbxList[iModel]->m_pDrawObjList.size(); iObj++)
+		{
+			JFbxObject* pObj = m_fbxList[iModel]->m_pDrawObjList[iObj];
+			if (pObj->m_pDrawChild.size() == 0)
+			{
+				JMatrix<4, 4> matWorld;
+				matWorld[3][0] = 100 * iModel;
+				pObj->m_matWorld = matWorld;
+				pObj->render();
+			}
+			else
+			{
+				for (int iSubObj = 0; iSubObj < pObj->m_pDrawChild.size(); iSubObj++)
+				{
+					JFbxObject* pSubObj = pObj->m_pDrawChild[iSubObj];
+					JMatrix<4, 4> matWorld;
+					matWorld[3][0] = 100 * iModel;
+					pSubObj->m_matWorld = matWorld;
+					pSubObj->render();
+				}
+			}
+
+		}
 	}
 
 	//m_pJBox->render();

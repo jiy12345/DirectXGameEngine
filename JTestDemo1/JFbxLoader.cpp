@@ -98,11 +98,19 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 		VertexColorSet = pFbxLayer->GetVertexColors();
 	}
 
-	W_STR szDefaultDir = L"../data/fbx/";
+	FbxLayerElementMaterial* MaterialSet = nullptr;
+	if (pFbxLayer->GetMaterials() != nullptr)
+	{
+		MaterialSet = pFbxLayer->GetMaterials();
+	}
 
 	std::string szFileName;
+	int iNumMtrl = pNode->GetMaterialCount();
+	std::vector<C_STR>   texList;
+	texList.resize(iNumMtrl);
+	for (int iMtrl = 0; iMtrl < iNumMtrl; iMtrl++)
 	{
-		FbxSurfaceMaterial* pSurface = pNode->GetMaterial(0);
+		FbxSurfaceMaterial* pSurface = pNode->GetMaterial(iMtrl);
 		if (pSurface)
 		{
 			auto property = pSurface->FindProperty(FbxSurfaceMaterial::sDiffuse);
@@ -110,21 +118,41 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 			{
 				const FbxFileTexture* tex = property.GetSrcObject<FbxFileTexture>(0);
 				szFileName = tex->GetFileName();
+				texList[iMtrl] = szFileName;
 			}
 		}
 	}
 	
-	pObject->m_wstrTextureName = L"../data/fbx/" + JUtil::getSplitName(to_mw(szFileName));
+	if (iNumMtrl == 1)
+	{
+		pObject->m_wstrTextureName = JUtil::getSplitName(to_mw(szFileName));
+	}
+	if (iNumMtrl > 1)
+	{
+		pObject->vbDataList.resize(iNumMtrl);
+		pObject->vbTexList.resize(iNumMtrl);
+		for (int iTex = 0; iTex < iNumMtrl; iTex++)
+		{
+			pObject->vbTexList[iTex] = JUtil::getSplitName(to_mw(texList[iTex]));
+		}
+	}
 
 	int iNumPolyCount = pFbxMesh->GetPolygonCount();
 	int iNumFace = 0;
 	int iBasePolyIndex = 0;
+	int iSubMtrl = 0;
 
 	FbxVector4* pVertexPositions = pFbxMesh->GetControlPoints();
 	for (int iPoly = 0; iPoly < iNumPolyCount; iPoly++)
 	{
 		int iPolySize = pFbxMesh->GetPolygonSize(iPoly);
 		iNumFace = iPolySize - 2;
+
+		if (MaterialSet)
+		{
+			iSubMtrl = getSubMaterialIndex(iPoly, MaterialSet);
+		}
+
 		for (int iFace = 0; iFace < iNumFace; iFace++)
 		{
 			int iCornerIndex[3];
@@ -159,6 +187,7 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 					tVertex.t[0] = t.mData[0];
 					tVertex.t[1] = 1.0f - t.mData[1];
 				}
+
 				tVertex.c = { 1,1,1,1 };
 				if (VertexColorSet)
 				{
@@ -173,7 +202,14 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 					tVertex.c[3] = 1.0f;
 				}
 
-				pObject->m_VertexList.push_back(tVertex);
+				if (iNumMtrl <= 1)
+				{
+					pObject->m_VertexList.push_back(tVertex);
+				}
+				else
+				{
+					pObject->vbDataList[iSubMtrl].push_back(tVertex);
+				}
 			}
 		}
 		iBasePolyIndex += iPolySize;
@@ -259,4 +295,34 @@ FbxColor JFbxLoader::ReadColor(FbxMesh* pFbxMesh, FbxLayerElementVertexColor* Ve
 	}break;
 	}
 	return c;
+}
+
+int JFbxLoader::getSubMaterialIndex(int iPoly, FbxLayerElementMaterial* pMaterialSetList)
+{
+	int iSubMtrl = 0;
+	if (pMaterialSetList != nullptr)
+	{
+		switch (pMaterialSetList->GetMappingMode())
+		{
+		case FbxLayerElement::eByPolygon:
+		{
+			switch (pMaterialSetList->GetReferenceMode())
+			{
+			case FbxLayerElement::eIndex:
+			{
+				iSubMtrl = iPoly;
+			}break;
+			case FbxLayerElement::eIndexToDirect:
+			{
+				iSubMtrl = pMaterialSetList->GetIndexArray().GetAt(iPoly);
+			}break;
+			}
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+	return iSubMtrl;
 }

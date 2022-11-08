@@ -34,5 +34,6 @@ public:
 		FbxLayerElementVertexColor* VertexColorSet, 
 		int vertexIndex, 
 		int colorIndex);
+	int getSubMaterialIndex(int iPoly, FbxLayerElementMaterial* pMaterialSetList);
 };
 

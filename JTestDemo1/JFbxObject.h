@@ -5,6 +5,10 @@
 class JFbxObject : public J3DObject
 {
 public:
+	std::vector<JFbxObject*> m_pDrawChild;
+	std::vector<std::vector<SimpleVertex>>   vbDataList;
+	std::vector<W_STR>   vbTexList;
+public:
 	void  CreateVertexData()
 	{
 	}
