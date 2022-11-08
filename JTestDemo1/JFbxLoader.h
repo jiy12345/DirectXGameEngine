@@ -30,5 +30,9 @@ public:
 		FbxLayerElementUV* pUVSet,
 		int vertexIndex,
 		int uvIndex);
+	FbxColor ReadColor(FbxMesh* pFbxMesh, 
+		FbxLayerElementVertexColor* VertexColorSet, 
+		int vertexIndex, 
+		int colorIndex);
 };
 
