@@ -288,7 +288,7 @@ FbxColor JFbxLoader::ReadColor(FbxMesh* pFbxMesh, FbxLayerElementVertexColor* Ve
 		}break;
 		case FbxLayerElementUV::eIndexToDirect:
 		{
-			int index = VertexColorSet->GetIndexArray().GetAt(vertexIndex);
+			int index = VertexColorSet->GetIndexArray().GetAt(colorIndex);
 			c = VertexColorSet->GetDirectArray().GetAt(index);
 		}break;
 		}
