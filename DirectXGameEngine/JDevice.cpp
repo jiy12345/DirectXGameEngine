@@ -180,6 +180,7 @@ bool JDevice::render()
     m_pImmediateContext->ClearDepthStencilView(m_pDSV,
         D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    m_pImmediateContext->PSSetSamplers(0, 1, &JDXState::g_pDefaultSSMirror);
 
 	return true;
 }
