@@ -38,15 +38,14 @@ bool Test::init()
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
 
-
-	for (int iObj = 0; iObj < m_FBXLoader.m_pDrawObjList.size(); iObj++)
+	JFbxLoader* pFbxLoaderC = new JFbxLoader;
+	if (pFbxLoaderC->init())
 	{
-		JFbxObject* pObj = m_FBXLoader.m_pDrawObjList[iObj];
-		pObj->init();
-		pObj->m_cubeArea.m_vSize = { 1, 1, 1 };
+		pFbxLoaderC->load("../data/fbx/MultiCameras.fbx");
 	}
+	m_fbxList.push_back(pFbxLoaderC);
 	
-	W_STR szDefaultDir = L"../../data/fbx/"; L"../data/fbx/";
+	W_STR szDefaultDir = L"../data/fbx/";
 	for (auto fbx : m_fbxList)
 	{
 		for (int iObj = 0; iObj < fbx->m_pDrawObjList.size(); iObj++)
@@ -67,12 +66,11 @@ bool Test::init()
 
 					if (pObj->vbDataList[iSubObj].size() != 0)
 					{
-						pSubObj->m_wstrTextureName = szDefaultDir +
-							pObj->vbTexList[iSubObj];
+						pSubObj->m_wstrTextureName = szDefaultDir + pObj->vbTexList[iSubObj];
 						pSubObj->m_VertexList = pObj->vbDataList[iSubObj];
 						pSubObj->init();
 						pSubObj->m_cubeArea.m_vSize = { 1, 1, 1 };
-						pSubObj->m_pDrawChild.push_back(pSubObj);
+						pObj->m_pDrawChild.push_back(pSubObj);
 					}
 				}
 			}
