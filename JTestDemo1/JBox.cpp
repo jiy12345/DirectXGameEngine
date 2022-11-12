@@ -102,7 +102,7 @@ bool JBox::frame()
 
 	m_cubeArea.m_vCenter += vPosMovement;
 
-	UpdateConstantBuffer();
+	updateConstantBuffer();
 
 	return true;
 }

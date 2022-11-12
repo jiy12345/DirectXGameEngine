@@ -9,6 +9,7 @@ Texture2D    g_txTex : register(t0);
 struct PS_input
 {
 	float4 p : SV_POSITION;
+    float4 n : NORMAL;
 	float4 c : COLOR0;
 	float2 t : TEXCOORD0;
 };

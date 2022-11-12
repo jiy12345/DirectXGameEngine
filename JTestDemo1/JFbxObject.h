@@ -5,23 +5,18 @@
 class JFbxObject : public J3DObject
 {
 public:
-	std::vector<JFbxObject*> m_pDrawChild;
-	std::vector<std::vector<SimpleVertex>>   vbDataList;
-	std::vector<W_STR>   vbTexList;
+	DWORD									m_dwFace;
 public:
-	void  CreateVertexData()
-	{
-	}
-	HRESULT CreateIndexBuffer()
-	{
-		return S_OK;
-	}
-
+	std::vector<ID3D11Buffer*>				m_pSubVB;
+	std::vector<std::vector<SimpleVertex>>	vbDataList;
+	std::vector<W_STR>						vbTexList;
 public:
-	void	setVertexData() override {};
-	void	setIndexData() override {};
-	HRESULT createIndexBuffer() override {
-		return S_OK;
-	};
+	void	setVertexData() override;
+	void	setIndexData() override;
+	HRESULT createVertexBuffer() override;
+	HRESULT createIndexBuffer() override;
+public:
+	bool postRender() override;
+	bool release();
 };
 

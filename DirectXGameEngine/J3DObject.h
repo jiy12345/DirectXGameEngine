@@ -28,14 +28,15 @@ public:
 public:
 	ID3D11Buffer*	m_pConstantBuffer;
 public:
-	virtual HRESULT	CreateConstantBuffer();
-	virtual void	UpdateConstantBuffer();
+	virtual HRESULT	createConstantBuffer();
+	virtual void	updateConstantBuffer();
 public:
 	virtual bool	init() override;
 	virtual bool	frame() override;
-	virtual bool	render() override;
+	virtual bool	preRender() override;
 	virtual bool	release() override;
 public:
 	virtual void	setVertexData() override;
+	virtual void	setIndexData() override;
 };
 

@@ -1,0 +1,1 @@
+#define FBX_LOCATION L"../data/fbx/"

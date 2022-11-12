@@ -7,7 +7,6 @@
 class Test : public JGameEngine
 {
 	std::vector<JFbxLoader*> m_fbxList;
-	JBox* m_pJBox;
 	JSoundChannel* m_pBGM;
 	std::vector<JSoundChannel*> m_pGunShots;
 

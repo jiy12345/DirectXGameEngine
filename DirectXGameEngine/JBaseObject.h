@@ -11,12 +11,19 @@
 struct SimpleVertex
 {
 	JVector<3> p;
+	JVector<3> n;
 	JVector<4> c;
 	JVector<2> t;
 public:
 	SimpleVertex() {};
 	SimpleVertex(JVector<3> p, JVector<4> c, JVector<2> t) {
 		this->p = p;
+		this->c = c;
+		this->t = t;
+	};
+	SimpleVertex(JVector<3> p, JVector<3> n, JVector<4> c, JVector<2> t) {
+		this->p = p;
+		this->n = n;
 		this->c = c;
 		this->t = t;
 	};
