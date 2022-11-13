@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Test.h"
+#include "JConversionMatrix.h"
 
 #define WINDOW_SIZE_X 1024
 #define WINDOW_SIZE_Y 768
@@ -90,8 +91,13 @@ bool Test::render()
 		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSWireFrame);
 	}
 	else {
-		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
+		//I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
 	}
+
+	JVector<4> vLight(0, 0, 1, 0);
+	JMatrix<4, 4> matRotation;
+	matRotation = JConversionMatrix<3>::RotationY(I_Timer.m_fGameTimer);
+	vLight = normalized(vLight * matRotation);
 
 	for (int iModel = 0; iModel < m_fbxList.size(); iModel++)
 	{
@@ -100,6 +106,7 @@ bool Test::render()
 			JFbxObject* pObj = m_fbxList[iModel]->m_pDrawObjList[iObj];
 			JMatrix<4, 4> matWorld;
 			matWorld[3][0] = 100 * iModel;
+			pObj->m_cbData.m_vLight = vLight;
 			pObj->render();
 		}
 	}

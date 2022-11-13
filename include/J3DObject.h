@@ -4,13 +4,10 @@
 
 struct VS_CONSTANT_BUFFER
 {
-	JMatrix<4, 4>  m_matWorld;
-	JMatrix<4, 4>  m_matView;
-	JMatrix<4, 4>  m_matProj;
-	float    x;
-	float    y;
-	float    fTimer = 0.0f;
-	float    d;
+	JMatrix<4, 4>	m_matWorld;
+	JMatrix<4, 4>	m_matView;
+	JMatrix<4, 4>	m_matProj;
+	JVector<4>		m_vLight;
 };
 
 class J3DObject: public JBaseObject
