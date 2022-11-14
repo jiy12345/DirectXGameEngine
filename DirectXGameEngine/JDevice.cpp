@@ -181,7 +181,8 @@ bool JDevice::render()
         D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     m_pImmediateContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     m_pImmediateContext->PSSetSamplers(0, 1, &JDXState::g_pDefaultSSMirror);
-
+    m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
+    m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
 	return true;
 }
 

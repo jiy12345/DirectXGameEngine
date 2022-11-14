@@ -6,6 +6,9 @@ bool JFbxLoader::init()
     m_pFbxManager = FbxManager::Create();
     m_pFbxImporter = FbxImporter::Create(m_pFbxManager, "");
     m_pFbxScene = FbxScene::Create(m_pFbxManager, "");
+
+	FbxSystemUnit::cm.ConvertScene(m_pFbxScene);
+	FbxAxisSystem::MayaZUp.ConvertScene(m_pFbxScene);
     return true;
 }
 
@@ -85,6 +88,35 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 	JFbxObject* pObject = new JFbxObject;
 	pObject->m_VertexList.clear();
 	pObject->m_IndexList.clear();
+
+	FbxAMatrix geom;
+	FbxVector4 trans = pNode->GetGeometricTranslation(FbxNode::eSourcePivot);
+	FbxVector4 rot = pNode->GetGeometricRotation(FbxNode::eSourcePivot);
+	FbxVector4 scale = pNode->GetGeometricScaling(FbxNode::eSourcePivot);
+	geom.SetT(trans);
+	geom.SetR(rot);
+	geom.SetS(scale);
+
+	FbxAMatrix normalLocalMatrix = geom;
+	normalLocalMatrix = normalLocalMatrix.Inverse();
+	normalLocalMatrix = normalLocalMatrix.Transpose();
+
+	FbxVector4 Translation;
+	if (pNode->LclTranslation.IsValid())
+		Translation = pNode->LclTranslation.Get();
+
+	FbxVector4 Rotation;
+	if (pNode->LclRotation.IsValid())
+		Rotation = pNode->LclRotation.Get();
+
+	FbxVector4 Scale;
+	if (pNode->LclScaling.IsValid())
+		Scale = pNode->LclScaling.Get();
+
+	FbxAMatrix matWorldTransform(Translation, Rotation, Scale);
+	FbxAMatrix normalWorldMatrix = matWorldTransform;
+	normalWorldMatrix = normalWorldMatrix.Inverse();
+	normalWorldMatrix = normalWorldMatrix.Transpose();
 
 	FbxLayerElementUV* VertexUVSet = nullptr;
 	FbxLayer* pFbxLayer = pFbxMesh->GetLayer(0);
@@ -176,11 +208,11 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 
 			for (int iIndex = 0; iIndex < 3; iIndex++)
 			{
-				SimpleVertex tVertex;
-
 				int vertexID = iCornerIndex[iIndex];
-				FbxVector4 v = pVertexPositions[vertexID];
-
+				FbxVector4 v2 = pVertexPositions[vertexID];
+				SimpleVertex tVertex;
+				FbxVector4 v = geom.MultT(v2);
+				v = matWorldTransform.MultT(v);
 				tVertex.p[0] = v.mData[0];
 				tVertex.p[1] = v.mData[2];
 				tVertex.p[2] = v.mData[1];
@@ -192,6 +224,8 @@ void JFbxLoader::parseMesh(FbxMesh* pFbxMesh)
 						VertexNormalSet,
 						iCornerIndex[iIndex],
 						iBasePolyIndex + VertexColor[iIndex]);
+					n = normalLocalMatrix.MultT(n);
+					n = normalWorldMatrix.MultT(n);
 					tVertex.n[0] = n.mData[0];
 					tVertex.n[1] = n.mData[2];
 					tVertex.n[2] = n.mData[1];

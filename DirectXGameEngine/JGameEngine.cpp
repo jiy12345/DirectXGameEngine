@@ -35,9 +35,8 @@ bool JGameEngine::engineFrame()
 bool JGameEngine::engineRender()
 {
     I_Device.render();
-    I_Device.m_pImmediateContext->OMSetBlendState(JDXState::g_pAlphaBlend, 0, -1);
-    render();
     I_Timer.render();
+    render();
     I_Input.render();
     I_Writer.render();
     I_Device.m_pSwapChain->Present(0, 0);

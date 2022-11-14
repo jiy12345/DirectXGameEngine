@@ -41,21 +41,29 @@ bool JCamera::frame()
 	}
 
 	JVector<3> vPosMovement = { 0,0,0 };
-	if (I_Input.GetKey(VK_UP) == KEY_HOLD)
+	if (I_Input.GetKey('W') == KEY_HOLD)
 	{
 		vPosMovement[2] += 30.0f * I_Timer.m_fElapseTimer;
 	}
-	if (I_Input.GetKey(VK_DOWN) == KEY_HOLD)
+	if (I_Input.GetKey('S') == KEY_HOLD)
 	{
 		vPosMovement[2] -= 30.0f * I_Timer.m_fElapseTimer;
 	}
-	if (I_Input.GetKey(VK_LEFT) == KEY_HOLD)
+	if (I_Input.GetKey('A') == KEY_HOLD)
 	{
 		vPosMovement[0] -= 30.0f * I_Timer.m_fElapseTimer;
 	}
-	if (I_Input.GetKey(VK_RIGHT) == KEY_HOLD)
+	if (I_Input.GetKey('D') == KEY_HOLD)
 	{
 		vPosMovement[0] += 30.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey('Q') == KEY_HOLD)
+	{
+		vPosMovement[1] -= 30.0f * I_Timer.m_fElapseTimer;
+	}
+	if (I_Input.GetKey('E') == KEY_HOLD)
+	{
+		vPosMovement[1] += 30.0f * I_Timer.m_fElapseTimer;
 	}
 
 	if (I_Input.GetKey(VK_SPACE) == KEY_HOLD) {

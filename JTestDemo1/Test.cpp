@@ -36,26 +36,26 @@ bool Test::init()
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
 
-	JFbxLoader* pFbxLoaderA = new JFbxLoader;
-	if (pFbxLoaderA->init())
-	{
-		pFbxLoaderA->load("../data/fbx/box.fbx");
-	}
-	m_fbxList.push_back(pFbxLoaderA);
-
-	JFbxLoader* pFbxLoaderB = new JFbxLoader;
-	if (pFbxLoaderB->init())
-	{
-		pFbxLoaderB->load("../data/fbx/sm_rock.fbx");
-	}
-	m_fbxList.push_back(pFbxLoaderB);
-
 	JFbxLoader* pFbxLoaderC = new JFbxLoader;
 	if (pFbxLoaderC->init())
 	{
 		pFbxLoaderC->load("../data/fbx/MultiCameras.fbx");
 	}
 	m_fbxList.push_back(pFbxLoaderC);
+
+	//JFbxLoader* pFbxLoaderA = new JFbxLoader;
+	//if (pFbxLoaderA->init())
+	//{
+	//	pFbxLoaderA->load("../data/fbx/box.fbx");
+	//}
+	//m_fbxList.push_back(pFbxLoaderA);
+
+	//JFbxLoader* pFbxLoaderB = new JFbxLoader;
+	//if (pFbxLoaderB->init())
+	//{
+	//	pFbxLoaderB->load("../data/fbx/sm_rock.fbx");
+	//}
+	//m_fbxList.push_back(pFbxLoaderB);
 	
 	for (auto fbx : m_fbxList)
 	{
@@ -104,9 +104,6 @@ bool Test::render()
 	{
 		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSWireFrame);
 	}
-	else {
-		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSSolid);
-	}
 
 	JVector<4> vLight(0, 0, 1, 0);
 	JMatrix<4, 4> matRotation;
@@ -118,8 +115,7 @@ bool Test::render()
 		for (int iObj = 0; iObj < m_fbxList[iModel]->m_pDrawObjList.size(); iObj++)
 		{
 			JFbxObject* pObj = m_fbxList[iModel]->m_pDrawObjList[iObj];
-			JMatrix<4, 4> matWorld;
-			matWorld[3][0] = 100 * iModel;
+			pObj->m_cubeArea.m_vCenter[0] = 100 * iModel;
 			pObj->m_cbData.m_vLight = vLight;
 			std::cout << vLight[0] << " ";
 			std::cout << vLight[1] << " ";
