@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Test.h"
+#include "JConversionMatrix.h"
 
 #define WINDOW_SIZE_X 1024
 #define WINDOW_SIZE_Y 768
@@ -26,11 +27,6 @@ int APIENTRY wWinMain(
 
 bool Test::init()
 {
-	m_pJBox = new JBox;
-	m_pJBox->m_wstrTextureName = L"_RAINBOW.bmp";
-	m_pJBox->m_rtUV.Set({ 0, 0 }, { 1, 1 });
-	m_pJBox->init();
-
 	m_pGunShots.resize(32);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
 		curGunshot = new JSoundChannel(L"Gun1.wav");
@@ -39,6 +35,36 @@ bool Test::init()
 
 	I_Camera.m_vPosition = { 0, 0, -300 };
 	I_Camera.m_vTarget = { 0, 0, 0 };
+
+	JFbxLoader* pFbxLoaderC = new JFbxLoader;
+	if (pFbxLoaderC->init())
+	{
+		pFbxLoaderC->load("../data/fbx/MultiCameras.fbx");
+	}
+	m_fbxList.push_back(pFbxLoaderC);
+
+	JFbxLoader* pFbxLoaderA = new JFbxLoader;
+	if (pFbxLoaderA->init())
+	{
+		pFbxLoaderA->load("../data/fbx/box.fbx");
+	}
+	m_fbxList.push_back(pFbxLoaderA);
+
+	JFbxLoader* pFbxLoaderB = new JFbxLoader;
+	if (pFbxLoaderB->init())
+	{
+		pFbxLoaderB->load("../data/fbx/sm_rock.fbx");
+	}
+	m_fbxList.push_back(pFbxLoaderB);
+	
+	for (auto fbx : m_fbxList)
+	{
+		for (int iObj = 0; iObj < fbx->m_pDrawObjList.size(); iObj++)
+		{
+			JFbxObject* pObj = fbx->m_pDrawObjList[iObj];
+			pObj->init();
+		}
+	}
 
 	return true;
 }
@@ -68,21 +94,41 @@ bool Test::frame()
 	{
 		I_Sound.resume(m_pBGM);
 	}
-	m_pJBox->frame();
-	I_Camera.setTarget(m_pJBox->m_cubeArea.m_vCenter);
 
 	return true;
 }
 
 bool Test::render()
 {
-	m_pJBox->render();
+	if (I_Input.GetKey('V') == KEY_HOLD)
+	{
+		I_Device.m_pImmediateContext->RSSetState(JDXState::g_pDefaultRSWireFrame);
+	}
+
+	JVector<4> vLight(0, 0, 1, 0);
+	JMatrix<4, 4> matRotation;
+	matRotation = JConversionMatrix<3>::RotationY(I_Timer.m_fGameTimer);
+	vLight = normalized(vLight * matRotation);
+
+	for (int iModel = 0; iModel < m_fbxList.size(); iModel++)
+	{
+		for (int iObj = 0; iObj < m_fbxList[iModel]->m_pDrawObjList.size(); iObj++)
+		{
+			JFbxObject* pObj = m_fbxList[iModel]->m_pDrawObjList[iObj];
+			pObj->m_cubeArea.m_vCenter[0] = 100 * iModel;
+			pObj->m_cbData.m_vLight = vLight;
+			std::cout << vLight[0] << " ";
+			std::cout << vLight[1] << " ";
+			std::cout << vLight[2] << '\n';
+			pObj->render();
+		}
+	}
+
 	return true;
 }
 
 bool Test::release()
 {
-	m_pJBox->release();
 	I_Sound.stop(m_pBGM);
 	for (JSoundChannel*& curGunshot : m_pGunShots) {
 		I_Sound.stop(curGunshot);

@@ -32,6 +32,8 @@ public:
 	virtual bool frame();
 	virtual bool render();
 	virtual bool release();
+public:
+	void		 clearD3D11DeviceContext();
 private:
 	JDevice() {};
 	~JDevice() = default;

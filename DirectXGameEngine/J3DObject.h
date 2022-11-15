@@ -4,13 +4,10 @@
 
 struct VS_CONSTANT_BUFFER
 {
-	JMatrix<4, 4>  m_matWorld;
-	JMatrix<4, 4>  m_matView;
-	JMatrix<4, 4>  m_matProj;
-	float    x;
-	float    y;
-	float    fTimer = 0.0f;
-	float    d;
+	JMatrix<4, 4>	m_matWorld;
+	JMatrix<4, 4>	m_matView;
+	JMatrix<4, 4>	m_matProj;
+	JVector<4>		m_vLight;
 };
 
 class J3DObject: public JBaseObject
@@ -28,14 +25,15 @@ public:
 public:
 	ID3D11Buffer*	m_pConstantBuffer;
 public:
-	virtual HRESULT	CreateConstantBuffer();
-	virtual void	UpdateConstantBuffer();
+	virtual HRESULT	createConstantBuffer();
+	virtual void	updateConstantBuffer();
 public:
 	virtual bool	init() override;
 	virtual bool	frame() override;
-	virtual bool	render() override;
+	virtual bool	preRender() override;
 	virtual bool	release() override;
 public:
 	virtual void	setVertexData() override;
+	virtual void	setIndexData() override;
 };
 

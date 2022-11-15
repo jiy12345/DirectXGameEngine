@@ -2,10 +2,11 @@
 #include "stdafx.h"
 #include "JGameEngine.h"
 #include "JBox.h"
+#include "JFbxLoader.h"
 
 class Test : public JGameEngine
 {
-	JBox* m_pJBox;
+	std::vector<JFbxLoader*> m_fbxList;
 	JSoundChannel* m_pBGM;
 	std::vector<JSoundChannel*> m_pGunShots;
 

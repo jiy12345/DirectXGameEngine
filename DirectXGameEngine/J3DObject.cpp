@@ -2,7 +2,7 @@
 #include "JCamera.cpp"
 #include "JConversionMatrix.h"
 
-HRESULT J3DObject::CreateConstantBuffer()
+HRESULT J3DObject::createConstantBuffer()
 {
     HRESULT hr;
     D3D11_BUFFER_DESC       bd;
@@ -21,7 +21,7 @@ HRESULT J3DObject::CreateConstantBuffer()
     return hr;
 }
 
-void J3DObject::UpdateConstantBuffer()
+void J3DObject::updateConstantBuffer()
 {
     JMatrix<4, 4> mScale = JConversionMatrix<3>::Scale(m_cubeArea.m_vSize / 2);
     JMatrix<4, 4> mRotation = JConversionMatrix<3>::RotationX(DegreeToRadian(m_fXAngle)) *
@@ -43,7 +43,10 @@ void J3DObject::UpdateConstantBuffer()
 bool J3DObject::init()
 {
     JBaseObject::init();
-    if (FAILED(CreateConstantBuffer()))
+
+    m_cubeArea.m_vSize = { 2, 2, 2 };
+    
+    if (FAILED(createConstantBuffer()))
     {
         return false;
     }
@@ -57,13 +60,11 @@ bool J3DObject::frame()
     return true;
 }
 
-bool J3DObject::render()
+bool J3DObject::preRender()
 {
-    UpdateConstantBuffer();
+    updateConstantBuffer();
     I_Device.m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
     JBaseObject::preRender();
-
-    JBaseObject::postRender();
     return true;
 }
 
@@ -75,4 +76,8 @@ bool J3DObject::release()
 void J3DObject::setVertexData()
 {
 
+}
+
+void J3DObject::setIndexData()
+{
 }

@@ -120,13 +120,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../include;../include/dxtk;../include/fmod;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../include/dxtk;../include/fmod;../include/fbxsdk;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>DirectXGameEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../lib/Debug/DirectXGameEngine;../lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../lib/Debug/DirectXGameEngine;../lib;../lib/fbxsdk;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,12 +149,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="JDataLocations.h" />
     <ClInclude Include="JBox.h" />
+    <ClInclude Include="JFbxLoader.h" />
+    <ClInclude Include="JFbxObject.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="JUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JBox.cpp" />
+    <ClCompile Include="JFbxLoader.cpp" />
+    <ClCompile Include="JFbxObject.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="JUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXGameEngine\DirectXGameEngine.vcxproj">

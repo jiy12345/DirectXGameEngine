@@ -18,6 +18,7 @@
 #include "JInput.h"
 #include "JTimer.h"
 #include "JVector.h"
+#include "JDXState.h"
 
 const double PI = acos(-1);
 

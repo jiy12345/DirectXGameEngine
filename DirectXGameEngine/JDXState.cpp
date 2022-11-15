@@ -29,7 +29,7 @@ bool JDXState::setState()
     ZeroMemory(&rd, sizeof(rd));
     rd.DepthClipEnable = TRUE;
     rd.FillMode = D3D11_FILL_WIREFRAME;
-    rd.CullMode = D3D11_CULL_NONE;
+    rd.CullMode = D3D11_CULL_BACK;
     hr = I_Device.m_pd3dDevice->CreateRasterizerState(&rd,
         &g_pDefaultRSWireFrame);
     if (FAILED(hr)) return false;
