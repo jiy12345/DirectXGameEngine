@@ -43,19 +43,19 @@ bool Test::init()
 	}
 	m_fbxList.push_back(pFbxLoaderC);
 
-	//JFbxLoader* pFbxLoaderA = new JFbxLoader;
-	//if (pFbxLoaderA->init())
-	//{
-	//	pFbxLoaderA->load("../data/fbx/box.fbx");
-	//}
-	//m_fbxList.push_back(pFbxLoaderA);
+	JFbxLoader* pFbxLoaderA = new JFbxLoader;
+	if (pFbxLoaderA->init())
+	{
+		pFbxLoaderA->load("../data/fbx/box.fbx");
+	}
+	m_fbxList.push_back(pFbxLoaderA);
 
-	//JFbxLoader* pFbxLoaderB = new JFbxLoader;
-	//if (pFbxLoaderB->init())
-	//{
-	//	pFbxLoaderB->load("../data/fbx/sm_rock.fbx");
-	//}
-	//m_fbxList.push_back(pFbxLoaderB);
+	JFbxLoader* pFbxLoaderB = new JFbxLoader;
+	if (pFbxLoaderB->init())
+	{
+		pFbxLoaderB->load("../data/fbx/sm_rock.fbx");
+	}
+	m_fbxList.push_back(pFbxLoaderB);
 	
 	for (auto fbx : m_fbxList)
 	{
