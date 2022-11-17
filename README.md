@@ -1348,10 +1348,10 @@ void JCamera::updateWindowSize()
 [소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/10.0)
 ### 10 0 주요 기능
 #### FBX 데이터 읽어오기
-- fbx란?
+- fbx란?  
  [fbx란?](https://www.notion.so/72bbdc0a70b747f4b8e7b72b33eed200?v=90a55a426f004387b63f5527648c14b7&p=f928acba99ff43169bd3a47230f7bced&pm=s)
 
-- 활용된 라이브러리
+- 활용된 라이브러리  
 fbx에 대한 여러 기능을 지원해주는
  [FBX sdk](http://docs.autodesk.com/FBX/2014/ENU/FBX-SDK-Documentation/) 라이브러리를 활용하였습니다.
 
@@ -1365,7 +1365,7 @@ fbx에 대한 여러 기능을 지원해주는
 따라서 다음 링크에서 직접 받아 사용해야 합니다.
 https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-2-1
 
-- 세부 코드에 대한 설명
+- 세부 코드에 대한 설명  
  현재는 FBX 파일에서 객체를 구성하는 정점의 텍스쳐 정보, 위치 정보, 노말, UV 좌표, 색상 정보를 받아오고 있으며, 세부적인 코드에 대한 설명은 아래 링크를 통해 확인할 수 있습니다.
 https://www.notion.so/fbx-658c601db1804842a990ee002fae309f
 
