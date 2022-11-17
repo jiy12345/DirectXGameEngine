@@ -125,6 +125,16 @@
     - [문제점](#9-1-문제점)
     - [클래스 다이어그램](#9-1-클래스-다이어그램)
     - [실행 예시](#9-1-실행-예시)
+- [v10 FBX](#v10-FBX)
+  - [v10.0](#v10-0) 
+    - [주요 기능](#10-0-주요-기능)
+      - [FBX 데이터 읽어오기](#FBX-데이터-읽어오기)
+      - [조명 기능 구현](#조명-기능-구현)  
+    - [수정 사항](#10-0-수정-사항)
+      - [상태 수정](#상태-수정)
+    - [문제점](#10-0-문제점)
+    - [클래스 다이어그램](#10-0-클래스-다이어그램)
+    - [실행 예시](#10-0-실행-예시)
 
 # v1 창 띄우기
 ## v1 0
@@ -1332,3 +1342,41 @@ void JCamera::updateWindowSize()
 ### 9 1 클래스 다이어그램
 ### 9 1 실행 예시
 ![result image9.1](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image9.1.gif)
+
+# v10 FBX
+## v10 0
+[소스 코드](https://github.com/jiy12345/DirectXGameEngine/tree/10.0)
+### 10 0 주요 기능
+#### FBX 데이터 읽어오기
+- fbx란?
+ [fbx란?](https://www.notion.so/72bbdc0a70b747f4b8e7b72b33eed200?v=90a55a426f004387b63f5527648c14b7&p=f928acba99ff43169bd3a47230f7bced&pm=s)
+
+- 활용된 라이브러리
+fbx에 대한 여러 기능을 지원해주는
+ [FBX sdk](http://docs.autodesk.com/FBX/2014/ENU/FBX-SDK-Documentation/) 라이브러리를 활용하였습니다.
+
+필요한 라이브러리 파일은 다음과 같습니다. 
+```C++
+#pragma comment(lib, "libfbxsdk-md.lib")
+#pragma comment(lib, "libxml2-md.lib")
+#pragma comment(lib, "zlib-md.lib")
+```
+라이브러리 파일이 100mb가 넘으므로 깃허브에 올리지 못하므로, 올리지 않았습니다.
+따라서 다음 링크에서 직접 받아 사용해야 합니다.
+https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-2-1
+
+- 세부 코드에 대한 설명
+ 현재는 FBX 파일에서 객체를 구성하는 정점의 텍스쳐 정보, 위치 정보, 노말, UV 좌표, 색상 정보를 받아오고 있으며, 세부적인 코드에 대한 설명은 아래 링크를 통해 확인할 수 있습니다.
+https://www.notion.so/fbx-658c601db1804842a990ee002fae309f
+
+#### 조명 기능 구현
+ FBX 파일에서 받아온 Normal 정보를 바탕으로, 그림자는 구현되지 않은 간단한 조명 기능을 구현하였습니다.
+
+### 10 0 수정 사항
+- 한 면에 텍스쳐를 반복적으로 사용하기 위해 렌더링 파이프라인에 적용되는 텍스쳐 관련 상태인 ID3D11SamplerState 상태를 D3D11_TEXTURE_ADDRESS_MIRROR적용한 상태로 변경하였습니다.
+- 다각형의 뒷면(평면의 뒷면)은 출력되지 않도록(backface culling이 이루어지도록) 레스터라이저 관련 상태인 ID3D11RasterizerState 의 cullMode를 D3D11_CULL_BACK으로 수정하였습니다.
+### 10 0 문제점
+### 10 0 클래스 다이어그램
+ FBX에 대한 내용이 아직 완성되지 않아 라이브러리에 넣지 않았습니다. 따라서 라이브러리 상의 변경사항은 없습니다.
+### 10 0 실행 예시
+![result image10.0](https://github.com/jiy12345/DirectXGameEngine/blob/master/images/result%20images/result%20image10.0.gif)
